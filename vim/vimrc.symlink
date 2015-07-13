@@ -649,7 +649,7 @@ NeoBundle 'ivanov/vim-ipython'
 " nmap <script> <silent> <leader>e :call ToggleQuickfixList()<CR>
 
 " switch tmux and vim seamlessly
-NeoBundle 'christoomey/vim-tmux-navigator'
+" NeoBundle 'christoomey/vim-tmux-navigator'
 
 " syntax check
 NeoBundle 'scrooloose/syntastic'
@@ -1066,4 +1066,8 @@ nnoremap <leader>r : YcmRestartServer<cr>
 let NERDTreeIgnore=['\.pyc$']
 
 silent! call repeat#set("\<Plug>(easymotion-repeat)", 1)
+
+if exists('$TMUX')
+  set term=screen-256color
+endif
 

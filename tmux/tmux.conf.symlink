@@ -3,31 +3,19 @@ set -g prefix C-a
 unbind C-b
 bind C-w send-prefix
 
-# reload tmux config file
-unbind r
-bind r source-file ~/.tmux.conf
-
 # quick pane cycling
 unbind ^A
 bind ^A select-pane -t :.+
 
+# for command (prefix + :) using emacs
+set -g status-keys emacs
+
 # vim binding
-set -g status-keys vi
 setw -g mode-keys vi
 
 # Rename your terminals
 set -g set-titles on
 set -g set-titles-string '#(whoami)::#h::#(curl ipecho.net/plain;echo)'
-
-# Remap window navigation to vim 
-unbind-key j 
-bind-key j select-pane -D 
-unbind-key k
-bind-key k select-pane -U 
-unbind-key h 
-bind-key h select-pane -L 
-unbind-key l
-bind-key l select-pane -R
 
 # Status bar customization
 set -g status-utf8 on
@@ -42,15 +30,22 @@ set -g status-justify left
 set -g status-right '#[fg=Cyan]#S #[fg=white]%a %d %b %R' 
 
 # mouse select
+setw -g mode-mouse on
 set-option -g mouse-select-pane on
+set-option -g mouse-select-window on
+set-window-option -g mode-mouse on
 
 # Smart pane switching with awareness of vim splits
-is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
-bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
-bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
-bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
-bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
-bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+unbind -n C-h
+unbind -n C-j
+unbind -n C-k
+unbind -n C-l
+# is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
+# bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+# bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+# bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+# bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+# bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
 # highlight window has message
 setw -g monitor-activity on
@@ -59,3 +54,61 @@ set -g visual-activity on
 # highlight window color
 set-window-option -g window-status-current-bg yellow
 set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
+
+# start selecting text typing 'v' key (once you are in copy mode)
+bind-key -t vi-copy v begin-selection
+# copy selected text to the system's clipboard
+bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+
+# set window and pane index to 1 (0 by default)
+set-option -g base-index 1
+setw -g pane-base-index 1
+
+# automatic rename
+set-window-option -g automatic-rename on
+
+# [tpm](https://github.com/tmux-plugins/tpm)
+set -g @tpm_plugins "               \
+  tmux-plugins/tpm                  \
+  tmux-plugins/tmux-pain-control    \
+  tmux-plugins/tmux-sensible        \
+  tmux-plugins/vim-tmux             \
+  tmux-plugins/tmux-resurrect       \
+  tmux-plugins/tmux-sessionist      \
+  tmux-plugins/tmux-copycat         \
+"
+
+# Remap window navigation to vim (defined in tpm-plain-control)
+# unbind-key j 
+# bind-key j select-pane -D 
+# unbind-key k
+# bind-key k select-pane -U 
+# unbind-key h 
+# bind-key h select-pane -L 
+# unbind-key l
+# bind-key l select-pane -R
+
+# resize panes using PREFIX H, J, K, L (defined in tpm-plain-control)
+# bind H resize-pane -L 5
+# bind J resize-pane -D 5
+# bind K resize-pane -U 5
+# bind L resize-pane -R 5
+
+# make tmux display things in 256 colors (defined in tmux-sensible)
+# set -g default-terminal "screen-256color"
+
+# set scrollback history to 10000 (10k) (defined in tmux-sensible)
+# set -g history-limit 10000
+
+# invoke reattach-to-user-namespace every time a new window/pane opens (defined in tmux-sensible)
+# set-option -g default-command "reattach-to-user-namespace -l zsh"
+
+# reload tmux config file (defined in tmux-sensible)
+# bind R source-file ~/.tmux.conf
+
+# set tpm-plain-control default size
+set-option -g @pane_resize "10"
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
+

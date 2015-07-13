@@ -217,20 +217,25 @@ alias inmongo='mongo -u h9admin -p h9mongopw 127.0.0.1:30000/admin'
 # using vim biding in conf
 # [set vi mode]()
 # [set vi key binding in zsh](http://stackoverflow.com/questions/6839006/map-jj-to-esc-in-inputrc-readline)
-bindkey -v
+# bindkey -v
 set bell-style none
 
 # using jj as esc 
-bindkey -M viins 'jj' vi-cmd-mode
+# bindkey -M viins 'jj' vi-cmd-mode
 
 # using ctrl-r in vi mode
-bindkey '^R' history-incremental-search-backward
+# bindkey '^R' history-incremental-search-backward
 
 # bindkey 'gg' beginning-of-history
 # bindkey 'G' end-of-history
 
-bindkey '\C-w' backward-kill-word
-bindkey '\C-p' history-search-backward
-bindkey '\C-n' history-search-forward
+# bindkey '\C-w' backward-kill-word
+# bindkey '\C-p' history-search-backward
+# bindkey '\C-n' history-search-forward
 
-bindkey -M vicmd '|' beginning-of-line
+# bindkey -M vicmd '|' beginning-of-line
+
+# change iterm2 title
+function title {
+    echo -ne "\033]0;"$*"\007"
+}
