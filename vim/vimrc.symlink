@@ -1,4 +1,1069 @@
+" Environment {{{1
+set nocompatible
+
+function! MySys()
+    if(has("win32") || has("win95") || has("win64") || has("win16"))
+        return "windows"
+    else
+        return "linux"
+    endif
+endfunction
+
+if MySys() == "windows"
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
+endif
+
+if MySys() == "windows"
+    let $VIMFILES = $VIM.'\vimfiles'
+    let $V = $HOME.'/.vimrc'
+else
+    let $VIMFILES = $HOME.'/.vim'
+    let $V = $HOME.'/.vimrc'
+endif
+" }}}
+" Files, backups and undo {{{1
+" Turn backup off, since most stuff is in SVN, git anyway...
+set nobackup
+set nowb
+set noswapfile
+
+" Persistent undo
+try
+    if MySys() == "windows"
+        set undodir=$VIM.'\vim_undo_dir'
+    else
+        set undodir=~/.vim_runtime/undodir
+    endif
+    set undofile
+    set undolevel=1000
+catch
+endtry
+" }}}
+" General {{{1
+" colorscheme neon
+" colorscheme moria
+" colorscheme molokai
+set background=dark
+
+if has('gui_running')
+    " colorscheme delek
+    " set background=light
+    set background=dark
+    " set background=light
+    colorscheme solarized
+endif
+
+" Fold method
+set fdm=marker
+
+" Sets how many lines of history VIM has to remember
+set history=1000
+ 
+" Enable filetype plugin
+filetype plugin indent on
+
+" Set to auto read when a file is changed from the outside
+if exists("&autoread")
+    set autoread
+endif
+
+" With a map leader it's possible to do extra key combinations
+let mapleader = ","
+let g:mapleader = ","
+
+"Make Open vimrc file in a new tab window
+function! SwitchToBuf(filename)
+    " find in current tab
+    let bufwinnr = bufwinnr(a:filename)
+    if bufwinnr != -1
+        exec bufwinnr . "wincmd w"
+        return
+    else
+        " find in each tab
+        tabfirst
+        let tab = 1
+        while tab <= tabpagenr("$")
+            let bufwinnr = bufwinnr(a:filename)
+            if bufwinnr != -1
+                exec "normal " . tab . "gt"
+                exec bufwinnr . "wincmd w"
+                return
+            endif
+            tabnext
+            let tab = tab + 1
+        endwhile
+        " not exist, new tab
+        exec "tabnew " . a:filename
+    endif
+endfunction
+
+"Fast reloading of the .vimrc
+map <silent> <leader>ss :source $V<cr>
+"Fast editing of .vimrc
+map <silent> <leader>ee :call SwitchToBuf($V)<cr>
+
+if MySys() == "windows"
+    " When _vimrc is edited, reload it
+    autocmd! bufwritepost vimrc source $V
+else
+    "When .vimrc is edited, reload it
+    autocmd! bufwritepost .vimrc source ~/.vimrc 
+end
+
+" 显示状态栏
+set ruler
+
+" 允许使用空格
+set backspace=indent,eol,start whichwrap+=<,>,[,] 
+
+" Set 7 lines to the curors - when moving vertical..
+set so=7
+
+" Turn on WiLd menu
+set wildmenu
+
+" The commandbar is 2 high
+set cmdheight=2
+
+" Show line number
+set nu
+
+" Do not redraw, when running macros.. lazyredraw
+set lz
+
+" Change buffer - without saving
+set hid
+
+" Search
+set ignorecase
+set incsearch
+set hlsearch
+
+" Set magic on
+set magic
+
+" No sound on errors.
+set noerrorbells
+set novisualbell
+set t_vb=
+
+" Show matching bracet
+set showmatch
+
+" How many tenths of a second to blink
+set mat=4
+
+" set vim has default clipboard with the system
+" set go+=a
+
+" Session options
+set sessionoptions-=curdir
+set sessionoptions+=sesdir
+set sessionoptions+=resize
+set sessionoptions+=winpos
+
+" auto change current directory
+" set autochdir
+
+" set tags file
+set tags=tags
+set tags+=./tags    
+
+" set path file
+" set path+=$BOOST_ROOT
+
+" 交换 g<c-]> 和 <c-]>
+" nnoremap <c-]> g<c-]>
+" vnoremap <c-]> g<c-]>
+" nnoremap g<c-]> <c-]>
+" vnoremap g<c-]> <c-]>
+
+" always use English menu
+" set langmenu=none 
+
+" always use english for anaything in vim-editor. 
+" if has ("win32")
+    " silent exec "language english" 
+" elseif has ("mac")
+    " silent exec "language en_US.utf8" 
+" else
+    " silent exec "language en_US.utf8" 
+" endif
+
+" [switch tabs in macvim](http://superuser.com/questions/382060/shortcut-to-switch-tabs-in-macvim)
+if has("gui_macvim")
+  " Press Ctrl-Tab to switch between open tabs (like browser tabs) to 
+  " the right side. Ctrl-Shift-Tab goes the other way.
+  noremap <C-Tab> :tabnext<CR>
+  noremap <C-S-Tab> :tabprev<CR>
+
+  " Switch to specific tab numbers with Command-number
+  noremap <D-1> :tabn 1<CR>
+  noremap <D-2> :tabn 2<CR>
+  noremap <D-3> :tabn 3<CR>
+  noremap <D-4> :tabn 4<CR>
+  noremap <D-5> :tabn 5<CR>
+  noremap <D-6> :tabn 6<CR>
+  noremap <D-7> :tabn 7<CR>
+  noremap <D-8> :tabn 8<CR>
+  noremap <D-9> :tabn 9<CR>
+  " Command-0 goes to the last tab
+  noremap <D-0> :tablast<CR>
+
+  noremap <D-j> :cn<CR>
+  noremap <D-k> :cp<CR>
+
+endif
+
+" }}}
+" Colors and Font {{{1
+" enable syntax
 syntax on
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+" Just Use Utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set encoding=utf-8
+set langmenu=zh_CN.UTF-8
+set termencoding=utf-8
+
+if MySys() == "windows"
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+    language messages zh_CN.utf-8
+endif
+
+" gui option
+if has("gui_running")
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=l
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=R
+
+    " highlight current line
+    if exists("&cursorline")
+        set cursorline
+    endif
+endif
+
+" Fonts
+" set guifont=Microsoft_YaHei_Mono:h10:cANSI
+" set guifont=Microsoft_YaHei_Mono:h11:cANSI
+" set guifont=Inconsolata:h13
+" set guifont=Monaco:h11
+" set guifont=Comic\ Sans\ MS:h11
+set guifont=Monaco\ for\ Powerline:h12
+
+" Set the default vim size
+" winpos 0 0 
+
+" set gvim startup size, remember to put this after set font
+" if has("gui_running")
+    " winpos 0 0
+    " set lines=99999 columns=99999
+    " autocmd guienter * let &columns = 999 | let &columns = &columns/2 
+    " autocmd guienter * set lines=9999 columns=9999
+    " " automatically call this method after loading vimrc
+    " " autocmd vimenter * fullscreen
+" endif
+
+" }}}
+" Statusline {{{1
+set laststatus=2
+" Format the statusline
+set statusline=
+set statusline +=%4*\ %<%F%*            " full path
+set statusline +=%3*\ [%{getcwd()}]     " current dir
+" set statusline +=%1*\ %n\ %*            " buffer number
+set statusline +=%5*\ %{&ff}%*            " file format
+set statusline +=%3*\ %y%*                " file type
+set statusline +=%2*%m%*                " modified flag
+set statusline +=%1*%=%5l%*             " current line
+set statusline +=%2*/%L%*               " total lines
+set statusline +=%1*%4v\ %*             " virtual column number
+set statusline +=%2*0x%04B\ %*          " character under cursor
+" }}}
+" Text tab and indent related {{{1
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set expandtab
+set smarttab
+set tw=0
+set nowrap
+
+set autoindent "Auto indent
+set smartindent "Smart indet
+" set wrap "Wrap lines
+ " }}}
+" My Definition {{{
+" move line up and down {{{
+nnoremap <A-j> :m+<CR>==
+nnoremap <A-k> :m-2<CR>==
+inoremap <A-j> <Esc>:m+<CR>==gi
+inoremap <A-k> <Esc>:m-2<CR>==gi
+vnoremap <A-j> :m'>+<CR>gv=gv
+vnoremap <A-k> :m-2<CR>gv=gv
+" }}}
+" window and tab operation {{{
+" Smart way to move btw. window
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" Tab configuration
+map <leader>tn :tabnew %<cr>
+map <leader>tc :tabclose<cr>
+" }}}
+" map for plugins {{{
+" GundoToggle
+nnoremap <leader>gu :GundoToggle<cr>
+
+" mark browser
+nnoremap <silent> <leader>mb :MarksBrowser<cr> 
+
+" change .h and .cpp
+inoremap <silent> <F4> :A<CR>
+nnoremap <silent> <F4> :A<CR>
+
+" yank ring
+nnoremap <leader>yr :YRGetElem<cr>     
+
+" Unite
+nnoremap <leader>. :Unite buffer<cr>
+nnoremap <leader>ro :Unite file_mru<cr>
+nnoremap <leader>rr :Unite file_rec<cr>
+nnoremap <leader>ra :Unite file buffer<cr>
+nnoremap <leader>rs :Unite source<cr>
+nnoremap <leader>rf :Unite file<cr>
+
+" vim-shell
+nnoremap <F11> :Fullscreen<cr>
+nnoremap <leader>ll :Open<cr>
+
+" txt browser
+nnoremap <leader>g :TGoto<cr>
+au BufRead,BufNewFile *.txt let  Tlist_Sort_Type = "order" "make the tlist type to order when txt fileformat"
+
+"buf explorer
+nnoremap <leader>be :BufExplorer<cr>
+
+" set md as markdown file
+au BufRead,BufNewFile,BufEnter *.md set ft=markdown
+
+" autoformat option for source files
+" nnoremap <leader>fo :Autoformat<cr>
+
+nnoremap <leader>gp :ConqueTermVSplit powershell.exe<cr>
+nnoremap <leader>gi :ConqueTermVSplit ipython<cr>
+nnoremap <leader>gb :ConqueTermVSplit bash<cr>
+
+nnoremap <leader>tb :TagbarToggle<cr>
+
+" tComment extra mappings:
+" yank visual before toggle comment
+vmap gy ygvgc
+" yank and past visual before toggle comment
+vmap gyy ygvgc'>gp'.
+" yank line before toggle comment
+nmap gy yygcc
+" yank and paste line before toggle comment and remember position
+" it works both in normal and insert mode
+" Use :t-1 instead of yyP to preserve registers
+nmap gyy mz:t-1<cr>gCc`zmz
+imap gyy <esc>:t-1<cr>gCcgi
+" And one more mapping for consistency: gcc toggle comment line but gc toggle
+" comment visual, so let's make it more consistent:
+vmap gcc gc
+
+" nerd tree
+nnoremap <leader>t :NERDTree<CR>
+nnoremap <leader>tf :NERDTreeFind<CR>
+
+" doxygen
+nnoremap <F3>a :DoxAuthor
+nnoremap <F3>f :Dox
+nnoremap <F3>b :DoxBlock
+nnoremap <F3>c A<tab>/**< */<Left><Left>
+
+"}}}
+" others {{{2
+
+" total definition as <esc>
+imap jj <esc>
+
+" window operation
+nnoremap <leader>v :vsplit<cr>
+nnoremap <leader>s :split<cr>
+nmap <leader>o :ZoomWin<cr>
+
+" force operation
+nnoremap <leader>w :w! <cr>
+nnoremap <leader>q :q!<cr>
+
+" normal mode operation for modify
+nnoremap <space> i<space><esc> 
+nnoremap <cr> A<cr><esc>
+nnoremap <bs> x<esc>
+
+" get to the first word and last word
+inoremap <c-a> <esc>^i
+inoremap <c-e> <esc>$a
+
+" some easy task for input
+map! <c-b> \
+
+" build ctags
+map <silent> <leader>ct :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+" 连续的进行visual模式移动
+vnoremap < <gv
+vnoremap > >gv
+
+" change word case
+inoremap <leader>u <esc>gUiwea
+nnoremap <leader>u <esc>gUiwe
+
+" easy way to use surrounder
+imap <leader>c" <esc>ysiW"f"a
+nmap <leader>c" <esc>ysiW"f"
+
+imap <leader>c( <esc>ysiWbf)a
+nmap <leader>c( <esc>ysiWbf)
+
+imap <leader>c{ <esc>ysiWBf}a
+nmap <leader>c{ <esc>ysiWBf}
+
+" easy way to set filetype as markdown
+nnoremap <leader>md :set ft=markdown<cr>
+
+" run current file with python
+nnoremap <Leader>rp :!python %<cr>
+
+" Switch To Current Dir
+map <leader>cd :cd %:p:h<cr>
+
+" open file into vertical window
+map <F8> :vertical wincmd f<CR>
+
+" easy for markdown header
+inoremap <leader>8 <esc>80i=<esc>o<enter>
+
+" }}}
+" cmake config {{{2
+"<buffer> means just take affect in this buffer file
+"<silent> means don't put the command info
+"<unique> means in later command never changes this key binding
+"autocmd FileType cmake nmap <buffer> <silent> <unique> K <Plug>CMakeCompleteHelp
+au BufEnter *.cmake,CMakeLists.txt setf cmake
+au BufRead,BufNewFile *.cmake,CMakeLists.txt,*.cmake.in runtime! indent/cmake.vim 
+au BufRead,BufNewFile *.cmake,CMakeLists.txt,*.cmake.in setf cmake
+au BufRead,BufNewFile *.ctest,*.ctest.in setf cmake
+au FileType cmake set omnifunc=cmakecomplete#Complete
+"}}}
+" quick fix {{{2
+map <leader>cc :botright cope<cr>
+map <leader>n :cn<cr>
+map <leader>p :cp<cr>
+" }}}
+" automaic hightlight line over specifc width "{{{2
+" augroup vimrc_autocmds
+"   autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
+"   autocmd BufEnter * match OverLength /\%100v.*/
+" augroup END
+"}}}2
+" add colum indicator "{{{2
+"if exists('+colorcolumn')
+    "set colorcolumn=80
+"else
+    "au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+"endif
+"}}}2
+" add python header info {{{
+let g:python_author = 'whiledoing'
+let g:python_email = 'lovingwhile@gmail.com'
+
+function! InsertPythonComment()
+    exe 'normal'.1.'G'
+    let line = getline('.')
+    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
+        return
+    endif
+    normal O
+    call setline('.', '#!/usr/bin/env python')
+    normal o
+    call setline('.', '# -*- coding:utf-8 -*-')
+    normal o
+    call setline('.', '"""')
+    normal o
+    call setline('.', 'Author   :   '.g:python_author)
+    normal o
+    call setline('.', 'E-mail   :   '.g:python_email)
+    normal o
+    call setline('.', 'Create   :   '.strftime("%y/%m/%d %H:%M:%S"))
+    normal o
+    call setline('.', 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
+    normal o
+    call setline('.', 'Desc     :   ')
+    normal o
+    call setline('.', '"""')
+    normal o
+    call cursor(8, 17)
+endfunction
+function! InsertCommentWhenOpen()
+    if a:lastline == 1 && !getline('.')
+        call InsertPythonComment()
+    end
+endfunc
+
+function! DateInsert()
+call cursor(7,1)
+if search('Modified') != 0
+	let line = line('.')
+	call setline(line, 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
+endif
+endfunction
+
+au FileType python :%call InsertCommentWhenOpen()
+au FileType python map <F4> :call InsertPythonComment()<cr>
+autocmd FileWritePre,BufWritePre *.py ks|call DateInsert()|'s
+" }}}
+" quick write file with sudo {{{
+" [quick method](http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
+cmap w!! w !sudo tee % > /dev/null
+" }}}
+" toggle paste mode {{{
+" [ref](http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste)
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+" }}}
+" }}}
+" NeoBundle {{{
+" settings {{{
+
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
+
+if has('vim_starting')
+   set nocompatible               " Be iMproved
+
+   " Required:
+   set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+"My Bundles here:
+" Refer to |:NeoBundle-examples|.
+" Note: You don't set neobundle setting in .gvimrc!
+
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+
+" }}}
+" plugins managed by neobundle {{{
+
+" change .h and .cpp
+NeoBundle 'a.vim'
+
+" add author info in the source code
+NeoBundle 'AuthorInfo'
+
+" yankring of the recent used yank
+" NeoBundle 'YankRing.vim'
+
+" doxygen toolkit
+" NeoBundle 'DoxygenToolkit.vim'
+" NeoBundle 'doxygen-support.vim'
+
+" add the zoom window ability
+NeoBundle 'ZoomWin'
+
+" auto get the file encoding
+NeoBundle 'FencView.vim'
+
+" auto generate dir when using :w foo/a/test.txt"
+NeoBundle 'auto_mkdir'
+
+" add the foldmarker based outliner
+" NeoBundle 'VOoM'
+
+" make the completion of cmake files in neocomplete
+NeoBundle 'jansenm/vim-cmake'
+NeoBundle 'thinca/vim-ref'
+
+" manager the session file
+NeoBundle 'xolox/vim-misc'
+
+" add fullscree and :Open Command in vim
+NeoBundle 'xolox/vim-shell'
+
+" powerline
+NeoBundle 'Lokaltog/vim-powerline'
+
+" better tag list plugin
+NeoBundle 'majutsushi/tagbar'
+
+" NeoBundle 'klen/python-mode'
+
+" enhance syntax for python
+NeoBundle 'python.vim--Vasiliev'
+
+" easy move
+NeoBundle 'Lokaltog/vim-easymotion'
+
+" automatically add bracket
+" NeoBundle 'Raimondi/delimitMate'
+
+" NeoBundle 'Townk/vim-autoclose'
+
+" NeoBundle 'Valloric/MatchTagAlways'
+
+NeoBundle "rizzatti/dash.vim"
+nmap <silent> <leader>d <Plug>DashSearch
+
+" ipython
+NeoBundle 'ivanov/vim-ipython'
+
+" [open quicklist in tab/split mood](https://github.com/yssl/QFEnter)
+" NeoBundle 'yssl/QFEnter'
+
+" [toggle quick fix list](https://github.com/milkypostman/vim-togglelist)
+" NeoBundle 'milkypostman/vim-togglelist'
+" nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
+" nmap <script> <silent> <leader>e :call ToggleQuickfixList()<CR>
+
+" switch tmux and vim seamlessly
+NeoBundle 'christoomey/vim-tmux-navigator'
+
+" syntax check
+NeoBundle 'scrooloose/syntastic'
+
+" omni auto complete
+NeoBundle 'Valloric/YouCompleteMe'
+
+" search file
+NeoBundle 'ctrlp'
+
+" undo history
+NeoBundle 'sjl/gundo.vim'
+
+" surround
+NeoBundle 'tpope/vim-surround'
+
+" repeat for surround
+NeoBundle 'tpope/vim-repeat'
+
+" add some common key short
+NeoBundle 'tpope/vim-unimpaired'
+
+" help to make commenter
+NeoBundle 'scrooloose/nerdcommenter'
+
+" the nerd file exploreer
+NeoBundle 'scrooloose/nerdtree'
+
+" imporved tab for nerd tree
+" NeoBundle 'jistr/vim-nerdtree-tabs'
+
+" NeoBundle 'bling/vim-airline'
+
+NeoBundle 'mhinz/vim-startify'
+
+NeoBundle 'terryma/vim-multiple-cursors'
+
+" }}}
+" }}}
+" Plugins Settings {{{1
+" AuthorInfo {{{2
+let g:vimrc_author='whiledoing' 
+let g:vimrc_email='whiledoing@sina.com'
+let g:vimrc_homepage=''
+"}}}
+" DoxygenToolkit {{{2
+let g:load_doxygen_syntax=1
+let g:DoxygenToolkit_paramTag_pre="@param " 
+let g:DoxygenToolkit_returnTag="@return " 
+let g:DoxygenToolkit_briefTag_funcName="yes"
+"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
+"let g:DoxygenToolkit_blockFooter="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="whiledoing (lovingwhile@gmail.com)"
+"}}}
+" Echofunc {{{2
+let g:EchoFuncAutoStartBalloonDeclaration=1 "automatic show the ballon
+let g:EchoFuncKeyNext='<ctrl>j'
+let g:EchoFuncKeyPrev='<ctrl>k'
+" }}}
+" Gundo {{{2
+" automatic preview
+let g:gundo_auto_preview=1
+" show the help info
+let g:gundo_help=0 
+" let preview in the bottom
+let g:gundo_preview_bottom=1
+let g:gundo_width=45
+let g:gundo_preview_height=30
+"}}}
+" Mark Browser setting {{{2
+" close the MarkBrowser when selected 
+let marksCloseWhenSelected = 1 
+" }}}
+" NerdComment {{{2
+" add space after comment
+let NERDSpaceDelims = 1
+" }}}
+" Showmarks Setting {{{2
+" ShowMarks {
+let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+" Don't leave on by default, use :ShowMarksOn to enable
+let g:showmarks_enable = 0
+" For marks a-z
+highlight ShowMarksHLl gui=bold guibg=LightBlue guifg=Blue
+" For marks A-Z
+highlight ShowMarksHLu gui=bold guibg=LightRed guifg=DarkRed
+" For all other marks
+highlight ShowMarksHLo gui=bold guibg=LightYellow guifg=DarkYellow
+" For multiple marks on the same line.
+highlight ShowMarksHLm gui=bold guibg=LightGreen guifg=DarkGreen
+
+" Show which marks
+let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+" Ignore help, quickfix, non-modifiable buffers
+"let showmarks_ignore_type = "hqm"
+
+" Hilight lower & upper marks
+let showmarks_hlline_lower = 1
+let showmarks_hlline_upper = 1 
+
+" Ignore help, quickfix, non-modifiable buffers
+let showmarks_ignore_type = "hqm"
+" }}}
+" tagbar {{{2
+let g:tagbar_left = 1
+let g:tagbar_width = 40
+let g:tagbar_autofocus = 1
+let g:tagbar_autoshowtag = 1
+
+noremap <leader>b :Tagbar<cr>
+" }}}
+" Unite {{{2
+" start insert when open
+let g:unite_enable_start_insert=1
+
+" delayed time before showing the narrowed options
+let g:unite_update_time=1
+
+" enable yank_file
+let g:unite_source_history_yank_file=1
+let g:unite_source_find_max_candidates=500
+let g:unite_source_file_mru_limit=500
+let g:unite_enable_short_source_names = 1
+
+"set the splite dircection
+let g:unite_split_rule='topleft'
+
+"  }}}
+" VOom {{{2
+let g:voom_tree_width=40 
+let g:voom_return_key='<Return>'
+let g:voom_tab_key='<Tab>'
+"}}}
+ " nerdtree  {{{2
+let g:netrw_winsize = 40
+let NERDTreeMapOpenVSplit = "v"
+let NERDTreeMapOpenSplit = "s"
+let NERDTreeShowBookmarks = 1
+let NERDTreeShowBookmarks = 1
+let NERDTreeWinPos = "left"
+let NERDTreeWinSize = 30
+let NERDTreeQuitOnOpen =  0
+" }}}
+" yank_ring {{{2
+let g:yankring_window_height=20 
+let g:yankring_min_element_length = 2
+let g:yankring_max_history=500 
+" }}}
+" fencview {{{2
+let g:fencview_autodetect=0
+let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.ini'
+"}}}
+" session.vim {{{2
+" save the session files
+let g:session_directory='~/sessions'
+
+"default action when start vim 'prompt' 'yes' 'no'
+let g:session_autoload='no'
+
+"default action when close vim when a session has been specific
+let g:session_autosave='no'
+
+"default load the last session file instead of default session
+let g:session_default_to_last=1
+
+"add SessionSave etc alias as SaveSession
+let g:session_command_aliases=1
+"}}}
+" python-mode"{{{
+let g:pymode_lint = 1
+" Skip errors and warnings
+" E.g. 'E501,W002', 'E2,W' (Skip all Warnings and Errors startswith E2) and etc
+" E501 : too long line over 79 character
+" E225 : missing space between operator
+" W404 : using from xx import *
+let g:pymode_lint_ignore = "E501,E225,W404"
+
+" disable breakpoint ability with `<leader>b`
+let g:pymode_breakpoint_key = 0
+
+" disable virtual env
+let g:pymode_virtualenv = 0
+
+" jump on the first error
+let g:pymode_lint_jump = 1
+
+" show the lint window
+let g:pymode_lint_cwindow = 0
+" }}}
+" powerline{{{
+let g:Powerline_symbols = 'fancy'
+"}}}
+" Conque {{{
+" fast mode : disable color display
+let g:ConqueTerm_FastMode = 0
+
+" update even when buffer is not focused
+let g:ConqueTerm_ReadUnfocused = 1
+
+" insert mode when enter
+let g:ConqueTerm_InsertOnEnter = 0
+
+" pasue terminal input and output display.
+let g:ConqueTerm_ToggleKey = ''
+
+" 0 : set ctrl+w to the console itself 
+" 1 : set ctrl+w to be normal gvim cmd
+let g:ConqueTerm_CWInsert = 0
+
+" running current file in the buffer
+" equal ConqueTermVSplit current_file
+let g:ConqueTerm_ExecFileKey = ''
+
+" running most recnently opened buffer to keyboard input
+let g:ConqueTerm_SendFileKey = ''
+
+" running current selected line
+let g:ConqueTerm_SendVisKey = ''
+
+" set python path
+let g:ConqueTerm_PyExe = 'E:\pro_soft\python27\python.exe'
+"}}}
+" ycm {{{
+" 自动补全配置
+" 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+set completeopt=longest,menu	
+
+"离开插入模式后自动关闭预览窗口
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif	
+
+"回车即选中当前项
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	
+
+"上下左右键的行为 会显示其他信息
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+
+"youcompleteme  默认tab  s-tab 和自动补全冲突
+"let g:ycm_key_list_select_completion=['<c-n>']
+" let g:ycm_key_list_select_completion = ['<Down>']
+"let g:ycm_key_list_previous_completion=['<c-p>']
+"let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
+
+" 开启 YCM 基于标签引擎
+let g:ycm_collect_identifiers_from_tags_files=1	
+
+" 从第3个键入字符就开始罗列匹配项
+let g:ycm_min_num_of_chars_for_completion=3	
+
+" 禁止缓存匹配项,每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0	
+
+"开启语义补全  
+let g:ycm_seed_identifiers_with_syntax = 1  
+
+"force recomile with syntastic
+" nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>	
+
+"nnoremap <leader>lo :lopen<CR>	"open locationlist
+"nnoremap <leader>lc :lclose<CR>	"close locationlist
+" inoremap <leader><leader> <C-x><C-o>
+
+"注释输入中也能补全
+let g:ycm_complete_in_comments = 1
+
+"在字符串输入中也能补全
+let g:ycm_complete_in_strings = 1
+
+"注释和字符串中的文字也会被收入补全
+let g:ycm_collect_identifiers_from_comments_and_strings = 0
+
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" let g:ycm_error_symbol = '>>'
+" let g:ycm_warning_symbol = '>*'
+
+" nmap <F4> :YcmDiags<CR>
+
+" }}}
+" CtrlP {{{
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_map='<Leader>f'
+let g:ctrlp_match_window_bottom = 1
+let g:ctrlp_working_path_mode = 0
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " Linux/MacOSX
+let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|pyc)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py|\.pyc'
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>:set modifiable<CR>
+
+" bind \ (backward slash) to grep shortcut
+" command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+" nnoremap \ :Ag<SPACE>
+
+" }}}
+" easy motion {{{
+" let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+" nmap s <Plug>(easymotion-s)
+
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
+
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
+" Gif config
+" map  / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+" map  n <Plug>(easymotion-next)
+" map  N <Plug>(easymotion-prev)
+
+" }}}
+" syntastic {{{
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+" let g:syntastic_python_checkers = ["python", "pyflakes", "pylint"]
+" let g:syntastic_python_checkers = ["python", "pylint"]
+let g:syntastic_python_checkers = ["pylint"]
+
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "active_filetypes": ["ruby", "php"],
+    \ "passive_filetypes": ["python"]
+\}
+
+" }}}
+" startify {{{
+let g:startify_custom_footer =
+      \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
+
+function! s:filter_header(lines) abort
+    let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
+    let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
+    return centered_lines
+endfunction
+
+let g:startify_custom_header = s:filter_header(
+    \ map(split(system('cowthink -f default "Now is better than never. Although never is often better than *right* now."' ), '\n'), '"   ". v:val') + ['']
+\)
+
+let g:startify_list_order = [
+        \ ['   These are my sessions:'],
+        \ 'sessions',
+        \ ['   My most recently', '   used files'],
+        \ 'files',
+        \ ['   My most recently used files in the current directory:'],
+        \ 'dir',
+        \ ['   These are my bookmarks:'],
+        \ 'bookmarks',
+        \ ]
+
+" }}}
+" startify {{{
+let g:startify_bookmarks = ['~/.vimrc']
+
+" }}}
+"}}}
+
+set tw=0
+
+" [search current word under current directory](http://vim.wikia.com/wiki/Find_in_files_within_Vim?cb=439)
+map <F4> :execute "vimgrep /" . expand("<cword>") . "/gj **" <Bar> cw<CR>
+
+" [open quicklist int tab/split mood shortcut](https://github.com/yssl/QFEnter)
+let g:qfenter_vopen_map = ['<C-v>']
+let g:qfenter_hopen_map = ['<C-CR>', '<C-s>', '<C-x>']
+let g:qfenter_topen_map = ['<C-t>']
+
+nnoremap <leader>q :q!<cr>
+nnoremap <leader>e :ccl<cr>
+
+nnoremap <leader>r : YcmRestartServer<cr>
+
+" nerdtree filter
+let NERDTreeIgnore=['\.pyc$']
+
+silent! call repeat#set("\<Plug>(easymotion-repeat)", 1)
+
