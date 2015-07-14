@@ -1,17 +1,15 @@
 # remap prefix to ctrl-a
-set -g prefix C-a
 unbind C-b
-bind C-w send-prefix
+set -g prefix C-a
+bind C-a send-prefix
 
 # quick pane cycling
-unbind ^A
-bind ^A select-pane -t :.+
+# unbind ^A
+# bind ^A select-pane -t :.+
+bind ^A last-window
 
 # for command (prefix + :) using emacs
 set -g status-keys emacs
-
-# vim binding
-setw -g mode-keys vi
 
 # Rename your terminals
 set -g set-titles on
@@ -20,32 +18,81 @@ set -g set-titles-string '#(whoami)::#h::#(curl ipecho.net/plain;echo)'
 # Status bar customization
 set -g status-utf8 on
 set -g status-bg black
-set -g status-fg white
+set -g status-fg whiteR
 set -g status-interval 5
 set -g status-left-length 90
 set -g status-right-length 60
 set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=blue]#(hostname)#[fg=white]::##[fg=yellow]#(curl ipecho.net/plain;echo)"
-
 set -g status-justify left
 set -g status-right '#[fg=Cyan]#S #[fg=white]%a %d %b %R' 
 
-# mouse select
-setw -g mode-mouse on
-set-option -g mouse-select-pane on
-set-option -g mouse-select-window on
-set-window-option -g mode-mouse on
+# Bad Wolf by Steve Losh
+# # # =====================
+# set -g status-fg white
+# set -g status-bg colour234
+# # set -g status-bg default #set for transparent background
+set -g window-status-activity-attr bold
+set -g pane-border-fg colour245
+set -g pane-active-border-fg colour39
+set -g message-fg colour16
+set -g message-bg colour221
+set -g message-attr bold
+# # Custom status bar
+# # Powerline
+# set -g status-left-length 32
+# set -g status-right-length 150
+# set -g status-interval 5
+# # Lets add the current weather to our status bar—why? Well Why the french-toast not?
+# set -g status-left '#[fg=colour16,bg=colour254,bold] #S #[fg=colour254,bg=colour238,nobold]#[fg=colour15,bg=colour238,bold] #(weathermajig boulder --short) #[fg=colour238,bg=colour234,nobold]'
+# set -g status-right '#[fg=colour245]❬ %R ❬ %d %b #[fg=colour254,bg=colour234,nobold]#(rdio-current-track-tmux)#[fg=colour16,bg=colour254,bold] #h '
+set -g window-status-format "#[fg=white,bg=colour234] #I #W "
+set -g window-status-current-format "#[fg=colour234,bg=colour39]#[fg=colour16,bg=colour39,noreverse,bold] #I ❭ #W #[fg=colour39,bg=colour234,nobold]"
+
+# status bar from tmux-powerline (https://github.com/erikw/tmux-powerline)
+# set-option -g status on
+# set-option -g status-interval 2
+# set-option -g status-utf8 on
+# set-option -g status-justify "centre"
+# set-option -g status-left-length 60
+# set-option -g status-right-length 90
+# set-option -g status-left "#(~/work/github-proj/tmux-powerline/powerline.sh left)"
+# set-option -g status-right "#(~/work/github-proj/tmux-powerline/powerline.sh right)"
+# set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
+
+# bind C-[ run '~/work/github-proj/tmux-powerline/mute_powerline.sh left'      # Mute left statusbar.
+# bind C-] run '~/work/github-proj/tmux-powerline/mute_powerline.sh right'     # Mute right statusbar.
 
 # Smart pane switching with awareness of vim splits
-unbind -n C-h
-unbind -n C-j
-unbind -n C-k
-unbind -n C-l
 # is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
 # bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
 # bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
 # bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
 # bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
 # bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+
+###########################################################################
+# Mouse mode
+
+set -g mode-mouse on
+set -g mouse-resize-pane on
+set -g mouse-select-pane on
+set -g mouse-select-window on
+
+# Toggle mouse on
+bind m \
+    set -g mode-mouse on \;\
+    set -g mouse-resize-pane on \;\
+    set -g mouse-select-pane on \;\
+    set -g mouse-select-window on \;\
+    display 'Mouse: ON'
+
+# Toggle mouse off
+bind M \
+    set -g mode-mouse off \;\
+    set -g mouse-resize-pane off \;\
+    set -g mouse-select-pane off \;\
+    set -g mouse-select-window off \;\
+    display 'Mouse: OFF'
 
 # highlight window has message
 setw -g monitor-activity on
@@ -55,8 +102,12 @@ set -g visual-activity on
 set-window-option -g window-status-current-bg yellow
 set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
 
+# vim binding
+setw -g mode-keys vi
+
 # start selecting text typing 'v' key (once you are in copy mode)
 bind-key -t vi-copy v begin-selection
+
 # copy selected text to the system's clipboard
 bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 
@@ -65,7 +116,8 @@ set-option -g base-index 1
 setw -g pane-base-index 1
 
 # automatic rename
-set-window-option -g automatic-rename on
+set-window-option -g automatic-rename off
+set-option -g allow-rename off
 
 # [tpm](https://github.com/tmux-plugins/tpm)
 set -g @tpm_plugins "               \
@@ -112,3 +164,108 @@ set-option -g @pane_resize "10"
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
 
+##########################################################################
+# Color scheme (Solarized light)
+
+### default statusbar colors
+##set-option -g status-bg colour231 #base2
+##set-option -g status-fg colour130 #yellow
+##set-option -g status-attr default
+##
+### default window title colors
+##set-window-option -g window-status-fg colour180 #base00
+##set-window-option -g window-status-bg default
+##
+### active window title colors
+##set-window-option -g window-status-current-fg colour196 #orange
+##set-window-option -g window-status-current-bg default
+##
+### pane border
+##set-option -g pane-active-border-fg black
+##set-option -g pane-active-border-bg white
+##set-option -g pane-border-fg brightcyan
+##set-option -g pane-border-bg default
+##
+### message text
+##set-option -g message-bg colour231 #base2
+##set-option -g message-fg colour196 #orange
+##
+### pane number display
+##set-option -g display-panes-active-colour colour20 #blue
+##set-option -g display-panes-colour colour196 #orange
+##
+### clock
+##set-window-option -g clock-mode-colour colour40 #green
+
+###########################################################################
+# Color scheme (Solarized Dark)
+
+### default statusbar colors
+# set-option -g status-bg blue
+# set-option -g status-fg white
+# set-option -g status-attr default
+
+# # default window title colors
+# set-window-option -g window-status-fg brightcyan
+# set-window-option -g window-status-bg default
+# #set-window-option -g window-status-attr dim
+
+# # active window title colors
+# set-window-option -g window-status-current-fg white
+# set-window-option -g window-status-current-bg blue
+# #set-window-option -g window-status-current-attr bright
+
+# # pane border
+# set-option -g pane-border-fg brightgreen
+# set-option -g pane-active-border-fg red
+
+# # message text
+# set-option -g message-bg black
+# set-option -g message-fg red
+
+# # pane number display
+# set-option -g display-panes-active-colour red
+# set-option -g display-panes-colour white
+
+# # clock
+# set-window-option -g clock-mode-colour cyan
+
+###########################################################################
+# Color scheme (Tango Dark)
+
+## default statusbar colors
+# set-option -g status-bg blue
+# set-option -g status-fg white
+
+# # active window title colors
+# set-window-option -g window-status-current-fg yellow
+# set-window-option -g window-status-current-bg black
+
+# # pane border
+# set-option -g pane-border-fg blue
+# set-option -g pane-active-border-fg red
+
+# # pane number display
+# set-option -g display-panes-active-colour red
+# set-option -g display-panes-colour blue
+
+###########################################################################
+# Color scheme (Cobalt)
+
+# default statusbar colors
+# set-option -g status-fg white
+# set-option -g status-bg cyan
+
+# # active window title colors
+# set-window-option -g window-status-current-fg red
+# set-window-option -g window-status-current-bg white
+
+# # pane border
+# set-option -g pane-border-fg cyan
+# set-option -g pane-active-border-fg red
+
+# # pane number display
+# set-option -g display-panes-active-colour red
+# set-option -g display-panes-colour cyan
+
+###########################################################################

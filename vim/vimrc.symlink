@@ -314,6 +314,12 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+map <C-A>j  <C-W>j
+map <C-A>k <C-W>k
+map <C-A>h <C-W>h
+map <C-A>l <C-W>l
+
 " Tab configuration
 map <leader>tn :tabnew %<cr>
 map <leader>tc :tabclose<cr>
@@ -1071,3 +1077,5 @@ if exists('$TMUX')
   set term=screen-256color
 endif
 
+" clipbord as system 
+set clipboard=unnamed
