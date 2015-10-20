@@ -493,6 +493,7 @@ let g:python_author = 'whiledoing'
 let g:python_email = 'lovingwhile@gmail.com'
 
 function! InsertPythonComment()
+    return
     exe 'normal'.1.'G'
     let line = getline('.')
     if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
@@ -525,17 +526,17 @@ function! InsertCommentWhenOpen()
     end
 endfunc
 
-function! DateInsert()
-call cursor(7,1)
-if search('Modified') != 0
-	let line = line('.')
-	call setline(line, 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
-endif
-endfunction
+" function! DateInsert()
+" call cursor(7,1)
+" if search('Modified') != 0
+	" let line = line('.')
+	" call setline(line, 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
+" endif
+" endfunction
 
 au FileType python :%call InsertCommentWhenOpen()
 au FileType python map <F4> :call InsertPythonComment()<cr>
-autocmd FileWritePre,BufWritePre *.py ks|call DateInsert()|'s
+" autocmd FileWritePre,BufWritePre *.py ks|call DateInsert()|'s
 " }}}
 " quick write file with sudo {{{
 " [quick method](http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
@@ -1000,6 +1001,7 @@ map <Leader>k <Plug>(easymotion-k)
 
 " }}}
 " syntastic {{{
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -1045,11 +1047,7 @@ let g:startify_list_order = [
         \ ['   These are my bookmarks:'],
         \ 'bookmarks',
         \ ]
-
-" }}}
-" startify {{{
 let g:startify_bookmarks = ['~/.vimrc']
-
 " }}}
 "}}}
 
@@ -1078,4 +1076,4 @@ if exists('$TMUX')
 endif
 
 " clipbord as system 
-set clipboard=unnamed
+" set clipboard=unnamed

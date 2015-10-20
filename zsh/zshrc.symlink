@@ -120,7 +120,7 @@ alias sci='svn ci -m '
 export VIM_APP_DIR=~/program/macvim
 
 # alis for ssh
-alias h9='ssh -p 32200 h9@10.246.13.162'
+alias h9='ssh -p 32200 h9@h9'
 
 # alias for h9
 
@@ -131,7 +131,11 @@ alias tailf='tail -f'
 
 alias ip='ifconfig | grep inet'
 
-alias sshvip='ssh -p 32200 hzjiangjinzheng@vip'
+alias sshtest='ssh -p 32200 hzzoujiaxin@test'
+alias sshnewtest='ssh -p 32200 hzjiangjinzheng@newtest'
+alias sshdev='ssh -p 32200 hzjiangjinzheng@dev'
+alias sshvoice='ssh -p 32200 hzjiangjinzheng@voice'
+alias sshh9='ssh -p 32200 hzjiangjinzheng@h9'
 
 # some segments e.g. cwd and cvs_branch needs to find the current working
 # directory of the active pane. To achieve this we let tmux save the path each

@@ -8,14 +8,16 @@ bind C-a send-prefix
 # bind ^A select-pane -t :.+
 bind ^A last-window
 
-# for command (prefix + :) using emacs
-set -g status-keys emacs
-
 # Rename your terminals
 set -g set-titles on
 set -g set-titles-string '#(whoami)::#h::#(curl ipecho.net/plain;echo)'
 
-# Status bar customization
+# swap window (http://superuser.com/questions/343572/how-do-i-reorder-tmux-windows)
+bind-key m command-prompt -p "move window to:"  "swap-window -t '%%'"#  
+bind-key < swap-window -t -1
+bind-key > swap-window -t +1
+
+# status bar customization
 set -g status-utf8 on
 set -g status-bg black
 set -g status-fg whiteR
@@ -79,20 +81,20 @@ set -g mouse-select-pane on
 set -g mouse-select-window on
 
 # Toggle mouse on
-bind m \
-    set -g mode-mouse on \;\
-    set -g mouse-resize-pane on \;\
-    set -g mouse-select-pane on \;\
-    set -g mouse-select-window on \;\
-    display 'Mouse: ON'
+# bind m \
+    # set -g mode-mouse on \;\
+    # set -g mouse-resize-pane on \;\
+    # set -g mouse-select-pane on \;\
+    # set -g mouse-select-window on \;\
+    # display 'Mouse: ON'
 
 # Toggle mouse off
-bind M \
-    set -g mode-mouse off \;\
-    set -g mouse-resize-pane off \;\
-    set -g mouse-select-pane off \;\
-    set -g mouse-select-window off \;\
-    display 'Mouse: OFF'
+# bind M \
+    # set -g mode-mouse off \;\
+    # set -g mouse-resize-pane off \;\
+    # set -g mouse-select-pane off \;\
+    # set -g mouse-select-window off \;\
+    # display 'Mouse: OFF'
 
 # highlight window has message
 setw -g monitor-activity on
@@ -105,8 +107,14 @@ set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]â
 # vim binding
 setw -g mode-keys vi
 
+# for command (prefix + :) using vi
+set -g status-keys vi
+
 # start selecting text typing 'v' key (once you are in copy mode)
 bind-key -t vi-copy v begin-selection
+
+# Begin selection in copy mode.
+bind-key -t vi-copy 'C-v' rectangle-toggle
 
 # copy selected text to the system's clipboard
 bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
