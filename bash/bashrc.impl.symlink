@@ -1,0 +1,179 @@
+# user specific bashrc config
+# can be used in any bash env
+# whiledoing@163.com
+
+# env
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# some segments e.g. cwd and cvs_branch needs to find the current working
+# directory of the active pane. To achieve this we let tmux save the path each
+# time the shell prompt is displayed. Put the line below in your ~/.bashrc or
+# where you define you PS1 variable. zsh users can put it in e.g. ~/.zshrc and
+# may change PS1 to PROMPT (but that's not necessary).
+# [refs](https://github.com/erikw/tmux-powerline)
+PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    export EDITOR='vim'
+fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+#
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# my part
+alias cls='clear'
+alias ls='ls -h'
+alias ll='ls -lh'
+alias la='ls -Alh'
+alias lt='ls -Alhtr'
+alias javac="javac -J-Dfile.encoding=utf8"
+alias grep="grep --color=auto"
+alias -s html=mate   # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开
+alias -s rb=mate     # 在命令行直接输入 ruby 文件，会在 TextMate 中打开
+alias -s py=vi       # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似
+alias -s js=vi
+alias -s c=vi
+alias -s java=vi
+alias -s txt=vi
+alias -s gz='tar -xzvf'
+alias -s tgz='tar -xzvf'
+alias -s zip='unzip'
+alias -s bz2='tar -xjvf'
+
+# svn alias
+alias ss='svn st'
+alias ssq='svn st -q'
+alias ssm='svn st | grep M'
+alias slast='svn log -l 1'
+alias sci='svn ci -m '
+
+# alis for ssh
+alias h9='ssh -p 32200 h9@h9'
+alias sshtest='ssh -p 32200 hzzoujiaxin@test'
+alias sshnewtest='ssh -p 32200 hzjiangjinzheng@newtest'
+alias sshdev='ssh -p 32200 hzjiangjinzheng@dev'
+alias ssh3rd='ssh -p 32200 3rd@dev'
+alias sshvoice='ssh -p 32200 hzjiangjinzheng@voice'
+alias sshh9='ssh -p 32200 hzjiangjinzheng@h9'
+
+## a quick way to get out of current directory ##
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+
+# misc
+alias zshconf='vim ~/.zshrc'
+alias tailf='tail -f'
+alias ip='ifconfig | grep inet'
+alias 'ps?'='ps aux | grep '
+
+# with math suport
+alias bc='bc -l'
+
+# make parent directory
+alias mkdir='mkdir -pv'
+
+# show path in seperator lines
+alias path='echo -e ${PATH//:/\\n}'
+
+# for time
+alias now='date +"%T"'
+alias nowdate='date +"%Y-%d-%m"'
+
+# for vim
+alias vi='vim'
+alias svi='sudo vi'
+alias edit='vim'
+
+# stop after sending count ECHO_REQUEST packets #
+alias ping='ping -c 5'
+
+# show file without comment
+alias nocomment='grep -Ev '\''^(#|$)'\'''
+
+# editor zshrc then reload it
+alias zshrc='vim ~/.zshrc && echo "source zshrc ing........." && source ~/.zshrc && echo "source finish"'
+
+# funny things : [digit matrix](http://www.commandlinefu.com/commands/view/2531/matrix-style)
+alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
+
+# dirs show dir in one line with number
+alias dirs='dirs -p'
+
+# into mongo
+alias inmongo='mongo -u h9admin -p h9mongopw 127.0.0.1:30000/admin'
+
+# run specifc times of command : [refs](http://serverfault.com/questions/273238/how-to-run-a-command-multiple-times) 
+run() {
+    number=$1
+    shift
+
+    for i in `seq $number`; do
+        $@
+    done
+}
+
+# cd and ls it immediately
+# [refs](http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html)
+cdl() {
+    cd "$@";
+    ls -al;
+}
+
+# using vim biding in conf
+# [set vi key binding in zsh](http://stackoverflow.com/questions/6839006/map-jj-to-esc-in-inputrc-readline)
+bindkey -v
+set bell-style none
+
+# using jj as esc 
+bindkey -M viins 'jj' vi-cmd-mode
+
+# using ctrl-r in vi mode
+bindkey '^R' history-incremental-search-backward
+
+# bindkey 'gg' beginning-of-history
+# bindkey 'G' end-of-history
+
+bindkey '\C-w' backward-kill-word
+bindkey '\C-p' history-search-backward
+bindkey '\C-n' history-search-forward
+bindkey -M vicmd '|' beginning-of-line
+
+
+# send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
+function ts {
+    args=$@
+    tmux send-keys -t right "$args" C-m
+}
+
+function tsl {
+    args=$@
+    tmux send-keys -t left "$args" C-m
+}
