@@ -41,16 +41,18 @@ catch
 endtry
 " }}}
 " General {{{1
-" colorscheme neon
-" colorscheme moria
-" colorscheme molokai
-set background=dark
 
 if has('gui_running')
+    " set background=light
     " colorscheme delek
+
+    " set background=dark
+    " colorscheme delek
+
     " set background=light
+    " colorscheme solarized
+
     set background=dark
-    " set background=light
     colorscheme solarized
 endif
 
@@ -191,29 +193,42 @@ set tags+=./tags
     " silent exec "language en_US.utf8" 
 " endif
 
+if exists('$TMUX')
+    set term=screen-256color
+endif
+
+" clipbord as system
+" set clipboard=unnamed
+
+" }}}
+" Mac Specific {{{1
+
 " [switch tabs in macvim](http://superuser.com/questions/382060/shortcut-to-switch-tabs-in-macvim)
 if has("gui_macvim")
-  " Press Ctrl-Tab to switch between open tabs (like browser tabs) to 
-  " the right side. Ctrl-Shift-Tab goes the other way.
-  noremap <C-Tab> :tabnext<CR>
-  noremap <C-S-Tab> :tabprev<CR>
+    " Press Ctrl-Tab to switch between open tabs (like browser tabs) to 
+    " the right side. Ctrl-Shift-Tab goes the other way.
+    noremap <C-Tab> :tabnext<CR>
+    noremap <C-S-Tab> :tabprev<CR>
 
-  " Switch to specific tab numbers with Command-number
-  noremap <D-1> :tabn 1<CR>
-  noremap <D-2> :tabn 2<CR>
-  noremap <D-3> :tabn 3<CR>
-  noremap <D-4> :tabn 4<CR>
-  noremap <D-5> :tabn 5<CR>
-  noremap <D-6> :tabn 6<CR>
-  noremap <D-7> :tabn 7<CR>
-  noremap <D-8> :tabn 8<CR>
-  noremap <D-9> :tabn 9<CR>
-  " Command-0 goes to the last tab
-  noremap <D-0> :tablast<CR>
+    " Switch to specific tab numbers with Command-number
+    noremap <D-1> :tabn 1<CR>
+    noremap <D-2> :tabn 2<CR>
+    noremap <D-3> :tabn 3<CR>
+    noremap <D-4> :tabn 4<CR>
+    noremap <D-5> :tabn 5<CR>
+    noremap <D-6> :tabn 6<CR>
+    noremap <D-7> :tabn 7<CR>
+    noremap <D-8> :tabn 8<CR>
+    noremap <D-9> :tabn 9<CR>
 
-  noremap <D-j> :cn<CR>
-  noremap <D-k> :cp<CR>
+    " Command-0 goes to the last tab
+    noremap <D-0> :tablast<CR>
+endif
 
+" get error
+if has("gui_macvim")
+    noremap <D-j> :cn<CR>
+    noremap <D-k> :cp<CR>
 endif
 
 " }}}
@@ -257,18 +272,19 @@ endif
 " set guifont=Comic\ Sans\ MS:h11
 set guifont=Monaco\ for\ Powerline:h12
 
-" Set the default vim size
-" winpos 0 0 
-
 " set gvim startup size, remember to put this after set font
-" if has("gui_running")
-    " winpos 0 0
-    " set lines=99999 columns=99999
-    " autocmd guienter * let &columns = 999 | let &columns = &columns/2 
-    " autocmd guienter * set lines=9999 columns=9999
-    " " automatically call this method after loading vimrc
-    " " autocmd vimenter * fullscreen
-" endif
+if has("gui_running")
+    " set the default vim size
+    winpos 0 0
+
+    " set max size
+    set lines=99999 columns=99999
+    autocmd guienter * let &columns = 999 | let &columns = &columns/2 
+    autocmd guienter * set lines=9999 columns=9999
+
+    " automatically call this method after loading vimrc
+    " autocmd vimenter * fullscreen
+endif
 
 " }}}
 " Statusline {{{1
@@ -367,8 +383,6 @@ nnoremap <leader>gp :ConqueTermVSplit powershell.exe<cr>
 nnoremap <leader>gi :ConqueTermVSplit ipython<cr>
 nnoremap <leader>gb :ConqueTermVSplit bash<cr>
 
-nnoremap <leader>tb :TagbarToggle<cr>
-
 " tComment extra mappings:
 " yank visual before toggle comment
 vmap gy ygvgc
@@ -443,6 +457,10 @@ nmap <leader>c( <esc>ysiWbf)
 imap <leader>c{ <esc>ysiWBf}a
 nmap <leader>c{ <esc>ysiWBf}
 
+" very useful for markdown writing
+imap <D-k> <esc>ysiW`f`a
+nmap <D-k> <esc>ysiW`f`
+
 " easy way to set filetype as markdown
 nnoremap <leader>md :set ft=markdown<cr>
 
@@ -457,6 +475,9 @@ map <F8> :vertical wincmd f<CR>
 
 " easy for markdown header
 inoremap <leader>8 <esc>80i=<esc>o<enter>
+
+" [search current word under current directory](http://vim.wikia.com/wiki/Find_in_files_within_Vim?cb=439)
+map <F4> :execute "vimgrep /" . expand("<cword>") . "/gj **" <Bar> cw<CR>
 
 " }}}
 " cmake config {{{2
@@ -474,6 +495,7 @@ au FileType cmake set omnifunc=cmakecomplete#Complete
 map <leader>cc :botright cope<cr>
 map <leader>n :cn<cr>
 map <leader>p :cp<cr>
+nnoremap <leader>e :ccl<cr>
 " }}}
 " automaic hightlight line over specifc width "{{{2
 " augroup vimrc_autocmds
@@ -585,19 +607,6 @@ NeoBundleCheck
 " }}}
 " plugins managed by neobundle {{{
 
-" change .h and .cpp
-NeoBundle 'a.vim'
-
-" add author info in the source code
-NeoBundle 'AuthorInfo'
-
-" yankring of the recent used yank
-" NeoBundle 'YankRing.vim'
-
-" doxygen toolkit
-" NeoBundle 'DoxygenToolkit.vim'
-" NeoBundle 'doxygen-support.vim'
-
 " add the zoom window ability
 NeoBundle 'ZoomWin'
 
@@ -606,13 +615,6 @@ NeoBundle 'FencView.vim'
 
 " auto generate dir when using :w foo/a/test.txt"
 NeoBundle 'auto_mkdir'
-
-" add the foldmarker based outliner
-" NeoBundle 'VOoM'
-
-" make the completion of cmake files in neocomplete
-NeoBundle 'jansenm/vim-cmake'
-NeoBundle 'thinca/vim-ref'
 
 " manager the session file
 NeoBundle 'xolox/vim-misc'
@@ -626,37 +628,11 @@ NeoBundle 'Lokaltog/vim-powerline'
 " better tag list plugin
 NeoBundle 'majutsushi/tagbar'
 
-" NeoBundle 'klen/python-mode'
-
-" enhance syntax for python
-NeoBundle 'python.vim--Vasiliev'
-
 " easy move
 NeoBundle 'Lokaltog/vim-easymotion'
 
-" automatically add bracket
-" NeoBundle 'Raimondi/delimitMate'
-
-" NeoBundle 'Townk/vim-autoclose'
-
-" NeoBundle 'Valloric/MatchTagAlways'
-
 NeoBundle "rizzatti/dash.vim"
 nmap <silent> <leader>d <Plug>DashSearch
-
-" ipython
-NeoBundle 'ivanov/vim-ipython'
-
-" [open quicklist in tab/split mood](https://github.com/yssl/QFEnter)
-" NeoBundle 'yssl/QFEnter'
-
-" [toggle quick fix list](https://github.com/milkypostman/vim-togglelist)
-" NeoBundle 'milkypostman/vim-togglelist'
-" nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
-" nmap <script> <silent> <leader>e :call ToggleQuickfixList()<CR>
-
-" switch tmux and vim seamlessly
-" NeoBundle 'christoomey/vim-tmux-navigator'
 
 " syntax check
 NeoBundle 'scrooloose/syntastic'
@@ -685,14 +661,57 @@ NeoBundle 'scrooloose/nerdcommenter'
 " the nerd file exploreer
 NeoBundle 'scrooloose/nerdtree'
 
-" imporved tab for nerd tree
-" NeoBundle 'jistr/vim-nerdtree-tabs'
-
-" NeoBundle 'bling/vim-airline'
-
+" fucking great start-up sceen
 NeoBundle 'mhinz/vim-startify'
 
+" multiple curors 
 NeoBundle 'terryma/vim-multiple-cursors'
+
+" change .h and .cpp
+" NeoBundle 'a.vim'
+
+" add author info in the source code
+" NeoBundle 'AuthorInfo'
+
+" yankring of the recent used yank
+" NeoBundle 'YankRing.vim'
+
+" doxygen toolkit
+" NeoBundle 'DoxygenToolkit.vim'
+" NeoBundle 'doxygen-support.vim'
+
+" add the foldmarker based outliner
+" NeoBundle 'VOoM'
+
+" make the completion of cmake files in neocomplete
+" NeoBundle 'jansenm/vim-cmake'
+" NeoBundle 'thinca/vim-ref'
+
+" NeoBundle 'klen/python-mode'
+
+" enhance syntax for python
+" NeoBundle 'python.vim--Vasiliev'
+
+" automatically add bracket
+" NeoBundle 'Raimondi/delimitMate'
+
+" NeoBundle 'Townk/vim-autoclose'
+
+" NeoBundle 'Valloric/MatchTagAlways'
+
+" ipython
+" NeoBundle 'ivanov/vim-ipython'
+
+" [open quicklist in tab/split mood](https://github.com/yssl/QFEnter)
+" NeoBundle 'yssl/QFEnter'
+
+" [toggle quick fix list](https://github.com/milkypostman/vim-togglelist)
+" NeoBundle 'milkypostman/vim-togglelist'
+" nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
+" nmap <script> <silent> <leader>e :call ToggleQuickfixList()<CR>
+
+" switch tmux and vim seamlessly
+" NeoBundle 'christoomey/vim-tmux-navigator'
 
 " }}}
 " }}}
@@ -799,6 +818,10 @@ let NERDTreeShowBookmarks = 1
 let NERDTreeWinPos = "left"
 let NERDTreeWinSize = 30
 let NERDTreeQuitOnOpen =  0
+
+" nerdtree filter
+let NERDTreeIgnore=['\.pyc$']
+
 " }}}
 " yank_ring {{{2
 let g:yankring_window_height=20 
@@ -940,6 +963,9 @@ nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " nmap <F4> :YcmDiags<CR>
 
+" restart
+nnoremap <leader>r : YcmRestartServer<cr>
+
 " }}}
 " CtrlP {{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -999,6 +1025,8 @@ map <Leader>k <Plug>(easymotion-k)
 " map  n <Plug>(easymotion-next)
 " map  N <Plug>(easymotion-prev)
 
+silent! call repeat#set("\<Plug>(easymotion-repeat)", 1)
+
 " }}}
 " syntastic {{{
 
@@ -1049,31 +1077,11 @@ let g:startify_list_order = [
         \ ]
 let g:startify_bookmarks = ['~/.vimrc']
 " }}}
-"}}}
-
-set tw=0
-
-" [search current word under current directory](http://vim.wikia.com/wiki/Find_in_files_within_Vim?cb=439)
-map <F4> :execute "vimgrep /" . expand("<cword>") . "/gj **" <Bar> cw<CR>
-
+" QFEnter {{{
 " [open quicklist int tab/split mood shortcut](https://github.com/yssl/QFEnter)
 let g:qfenter_vopen_map = ['<C-v>']
 let g:qfenter_hopen_map = ['<C-CR>', '<C-s>', '<C-x>']
 let g:qfenter_topen_map = ['<C-t>']
+" }}}
+"}}}
 
-nnoremap <leader>q :q!<cr>
-nnoremap <leader>e :ccl<cr>
-
-nnoremap <leader>r : YcmRestartServer<cr>
-
-" nerdtree filter
-let NERDTreeIgnore=['\.pyc$']
-
-silent! call repeat#set("\<Plug>(easymotion-repeat)", 1)
-
-if exists('$TMUX')
-  set term=screen-256color
-endif
-
-" clipbord as system 
-" set clipboard=unnamed
