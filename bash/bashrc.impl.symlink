@@ -111,6 +111,9 @@ alias nowdate='date +"%Y-%d-%m"'
 alias vi='vim'
 alias svi='sudo vi'
 alias edit='vim'
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias vim='mvim -v'
+fi
 
 # stop after sending count ECHO_REQUEST packets #
 alias ping='ping -c 5'
@@ -119,7 +122,7 @@ alias ping='ping -c 5'
 alias nocomment='grep -Ev '\''^(#|$)'\'''
 
 # editor zshrc then reload it
-alias zshrc='vim ~/.zshrc && echo "source zshrc ing........." && source ~/.zshrc && echo "source finish"'
+alias zshrc='vim ~/.bashrc.impl && echo "source zshrc ing........." && source ~/.zshrc && echo "source finish"'
 
 # funny things : [digit matrix](http://www.commandlinefu.com/commands/view/2531/matrix-style)
 alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
@@ -149,8 +152,8 @@ cdl() {
 
 # using vim biding in conf
 # [set vi key binding in zsh](http://stackoverflow.com/questions/6839006/map-jj-to-esc-in-inputrc-readline)
-bindkey -v
-set bell-style none
+# bindkey -v
+# set bell-style none
 
 # using jj as esc 
 bindkey -M viins 'jj' vi-cmd-mode
@@ -166,7 +169,6 @@ bindkey '\C-p' history-search-backward
 bindkey '\C-n' history-search-forward
 bindkey -M vicmd '|' beginning-of-line
 
-
 # send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
 function ts {
     args=$@
@@ -177,3 +179,13 @@ function tsl {
     args=$@
     tmux send-keys -t left "$args" C-m
 }
+
+# set virtualwrapper (https://github.com/dccrazyboy/pyeco/blob/master/pyeco.rst)
+if [ `id -u` != '0' ] && [ -f '/usr/local/bin/virtualenvwrapper.sh' ]; then
+  export VIRTUALENV_USE_DISTRIBUTE=1        # <-- Always use pip/distribute
+  export WORKON_HOME=$HOME/.virtualenvs       # <-- Where all virtualenvs will be stored
+  source /usr/local/bin/virtualenvwrapper.sh
+  export PIP_VIRTUALENV_BASE=$WORKON_HOME
+  export PIP_RESPECT_VIRTUALENV=true
+fi
+
