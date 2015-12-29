@@ -43,8 +43,8 @@ endtry
 " General {{{1
 
 if has('gui_running')
-    " set background=light
-    " colorscheme delek
+    set background=light
+    colorscheme delek
 
     " set background=dark
     " colorscheme delek
@@ -52,8 +52,8 @@ if has('gui_running')
     " set background=light
     " colorscheme solarized
 
-    set background=dark
-    colorscheme solarized
+    " set background=dark
+    " colorscheme solarized
 endif
 
 " Fold method
@@ -193,9 +193,9 @@ set tags+=./tags
     " silent exec "language en_US.utf8" 
 " endif
 
-if exists('$TMUX')
-    set term=screen-256color
-endif
+" if exists('$TMUX')
+    " set term=screen-256color
+" endif
 
 " clipbord as system
 " set clipboard=unnamed
@@ -572,16 +572,16 @@ set showmode
 " }}}
 " }}}
 " NeoBundle {{{
-" settings {{{
-
 " Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
+if 0 | endif
 
 if has('vim_starting')
-   set nocompatible               " Be iMproved
+  if &compatible
+    set nocompatible               " Be iMproved
+  endif
 
-   " Required:
-   set runtimepath+=~/.vim/bundle/neobundle.vim/
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
 " Required:
@@ -591,21 +591,14 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-"My Bundles here:
+" My Bundles here:
 " Refer to |:NeoBundle-examples|.
 " Note: You don't set neobundle setting in .gvimrc!
 
-call neobundle#end()
+" plugins managed by neobundle {{{{
 
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-
-" }}}
-" plugins managed by neobundle {{{
+" html and css zen encoding
+NeoBundle 'mattn/emmet-vim'
 
 " add the zoom window ability
 NeoBundle 'ZoomWin'
@@ -713,7 +706,16 @@ NeoBundle 'terryma/vim-multiple-cursors'
 " switch tmux and vim seamlessly
 " NeoBundle 'christoomey/vim-tmux-navigator'
 
-" }}}
+" }}}}
+
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+" NeoBundleCheck
 " }}}
 " Plugins Settings {{{1
 " AuthorInfo {{{2
@@ -921,7 +923,7 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 "youcompleteme  默认tab  s-tab 和自动补全冲突
 "let g:ycm_key_list_select_completion=['<c-n>']
-" let g:ycm_key_list_select_completion = ['<Down>']
+"let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 "let g:ycm_key_list_previous_completion = ['<Up>']
 let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
@@ -943,7 +945,7 @@ let g:ycm_seed_identifiers_with_syntax = 1
 
 "nnoremap <leader>lo :lopen<CR>	"open locationlist
 "nnoremap <leader>lc :lclose<CR>	"close locationlist
-" inoremap <leader><leader> <C-x><C-o>
+"inoremap <leader><leader> <C-x><C-o>
 
 "注释输入中也能补全
 let g:ycm_complete_in_comments = 1
@@ -956,7 +958,7 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 0
 
 nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>gg :YcmCompleter GoTo<CR>
 
 " let g:ycm_error_symbol = '>>'
 " let g:ycm_warning_symbol = '>*'
@@ -1083,5 +1085,7 @@ let g:qfenter_vopen_map = ['<C-v>']
 let g:qfenter_hopen_map = ['<C-CR>', '<C-s>', '<C-x>']
 let g:qfenter_topen_map = ['<C-t>']
 " }}}
+" emmet {{{
+let g:user_emmet_leader_key = '<C-y>'
+" }}}
 "}}}
-
