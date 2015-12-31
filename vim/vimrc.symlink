@@ -43,8 +43,9 @@ endtry
 " General {{{1
 
 if has('gui_running')
-    " set background=light
-    " colorscheme delek
+    set background=light
+    colorscheme delek
+    let g:airline_theme='bubblegum'
 
     " set background=dark
     " colorscheme delek
@@ -52,8 +53,9 @@ if has('gui_running')
     " set background=light
     " colorscheme solarized
 
-    set background=dark
-    colorscheme solarized
+    " set background=dark
+    " colorscheme solarized
+    " let g:airline_theme='powerlineish'
 endif
 
 " Fold method
@@ -601,7 +603,8 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-shell'
 
 " powerline
-NeoBundle 'Lokaltog/vim-powerline'
+" NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'bling/vim-airline'
 
 " better tag list plugin
 NeoBundle 'majutsushi/tagbar'
@@ -1083,9 +1086,9 @@ let g:user_emmet_leader_key = '<C-y>'
 " }}}
 " vimux {{{
 "
-# Use exising pane or window (not used by vim) if found instead of running split-window.
+" Use exising pane or window (not used by vim) if found instead of running split-window.
 let VimuxUseNearest = 1
-let g:VimuxHeight = "40"
+let g:VimuxHeight = "30"
 let g:VimuxPromptString = "CommandForTux : "
 let g:VimuxRunnerType = "pane"
 
@@ -1113,6 +1116,38 @@ map <Leader>rz :call VimuxZoomRunner()<CR>
 " Push the repository of the currently opened file, 0 means not add file into the command line
 nnoremap <leader>gp :call VimuxRunCommandInDir("git push", 0)<CR>
 " }}}
+" vim-airline {{{
+" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_powerline_fonts=1
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+" }}}
 "}}}
-
-
