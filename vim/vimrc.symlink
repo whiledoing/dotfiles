@@ -43,8 +43,8 @@ endtry
 " General {{{1
 
 if has('gui_running')
-    set background=light
-    colorscheme delek
+    " set background=light
+    " colorscheme delek
 
     " set background=dark
     " colorscheme delek
@@ -52,8 +52,8 @@ if has('gui_running')
     " set background=light
     " colorscheme solarized
 
-    " set background=dark
-    " colorscheme solarized
+    set background=dark
+    colorscheme solarized
 endif
 
 " Fold method
@@ -354,14 +354,6 @@ nnoremap <silent> <F4> :A<CR>
 " yank ring
 nnoremap <leader>yr :YRGetElem<cr>     
 
-" Unite
-nnoremap <leader>. :Unite buffer<cr>
-nnoremap <leader>ro :Unite file_mru<cr>
-nnoremap <leader>rr :Unite file_rec<cr>
-nnoremap <leader>ra :Unite file buffer<cr>
-nnoremap <leader>rs :Unite source<cr>
-nnoremap <leader>rf :Unite file<cr>
-
 " vim-shell
 nnoremap <F11> :Fullscreen<cr>
 nnoremap <leader>ll :Open<cr>
@@ -378,10 +370,6 @@ au BufRead,BufNewFile,BufEnter *.md set ft=markdown
 
 " autoformat option for source files
 " nnoremap <leader>fo :Autoformat<cr>
-
-nnoremap <leader>gp :ConqueTermVSplit powershell.exe<cr>
-nnoremap <leader>gi :ConqueTermVSplit ipython<cr>
-nnoremap <leader>gb :ConqueTermVSplit bash<cr>
 
 " tComment extra mappings:
 " yank visual before toggle comment
@@ -458,14 +446,11 @@ imap <leader>c{ <esc>ysiWBf}a
 nmap <leader>c{ <esc>ysiWBf}
 
 " very useful for markdown writing
-imap <D-k> <esc>ysiW`f`a
-nmap <D-k> <esc>ysiW`f`
+imap <D-0> <esc>ysiW`f`a
+nmap <D-0> <esc>ysiW`f`
 
 " easy way to set filetype as markdown
 nnoremap <leader>md :set ft=markdown<cr>
-
-" run current file with python
-nnoremap <Leader>rp :!python %<cr>
 
 " Switch To Current Dir
 map <leader>cd :cd %:p:h<cr>
@@ -659,6 +644,9 @@ NeoBundle 'mhinz/vim-startify'
 
 " multiple curors 
 NeoBundle 'terryma/vim-multiple-cursors'
+
+" run tmux in vim
+NeoBundle 'benmills/vimux'
 
 " change .h and .cpp
 " NeoBundle 'a.vim'
@@ -966,7 +954,7 @@ nnoremap <leader>gg :YcmCompleter GoTo<CR>
 " nmap <F4> :YcmDiags<CR>
 
 " restart
-nnoremap <leader>r : YcmRestartServer<cr>
+nnoremap <leader>rs : YcmRestartServer<cr>
 
 " }}}
 " CtrlP {{{
@@ -1014,8 +1002,13 @@ nmap s <Plug>(easymotion-s2)
 let g:EasyMotion_smartcase = 1
 
 " JK motions: Line motions
+map <Leader>l <Plug>(easymotion-lineforward)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+
+" keep cursor column when JK motion
+let g:EasyMotion_startofline = 0
 
 " Gif config
 " map  / <Plug>(easymotion-sn)
@@ -1088,4 +1081,38 @@ let g:qfenter_topen_map = ['<C-t>']
 " emmet {{{
 let g:user_emmet_leader_key = '<C-y>'
 " }}}
+" vimux {{{
+"
+# Use exising pane or window (not used by vim) if found instead of running split-window.
+let VimuxUseNearest = 1
+let g:VimuxHeight = "40"
+let g:VimuxPromptString = "CommandForTux : "
+let g:VimuxRunnerType = "pane"
+
+" Run the current file with rspec
+map <Leader>rr :call VimuxRunCommand("clear; python " . bufname("%"))<CR>
+
+" Prompt for a command to run
+map <Leader>rp :VimuxPromptCommand<CR>
+
+" Run last command executed by VimuxRunCommand
+map <Leader>rl :VimuxRunLastCommand<CR>
+
+" Inspect runner pane
+map <Leader>ri :VimuxInspectRunner<CR>
+
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>rq :VimuxCloseRunner<CR>
+
+" Interrupt any command running in the runner pane
+map <Leader>rx :VimuxInterruptRunner<CR>
+
+" Zoom the runner pane (use <bind-key> z to restore runner pane)
+map <Leader>rz :call VimuxZoomRunner()<CR>
+
+" Push the repository of the currently opened file, 0 means not add file into the command line
+nnoremap <leader>gp :call VimuxRunCommandInDir("git push", 0)<CR>
+" }}}
 "}}}
+
+
