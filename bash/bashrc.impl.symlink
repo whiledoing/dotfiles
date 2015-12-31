@@ -111,8 +111,19 @@ alias nowdate='date +"%Y-%d-%m"'
 alias vi='vim'
 alias svi='sudo vi'
 alias edit='vim'
+
+# for mvim only (in mac os)
 if [[ "$(uname)" == "Darwin" ]]; then
     alias vim='mvim -v'
+
+    # make mvim only run in one instance (http://stackoverflow.com/questions/936501/let-gvim-always-run-a-single-instance)
+    tvim() {
+        if [[ `mvim --serverlist | head -1` == "VIM" ]]; then
+            command mvim --remote-tab-silent "$@"
+        else
+            command mvim "$@"
+        fi
+    }
 fi
 
 # stop after sending count ECHO_REQUEST packets #
