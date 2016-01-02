@@ -284,6 +284,11 @@ if has("gui_running")
     autocmd guienter * let &columns = 999 | let &columns = &columns/2 
     autocmd guienter * set lines=9999 columns=9999
 
+    " set only on macvim (ref)[http://stackoverflow.com/questions/2842078/how-do-i-detect-os-x-in-my-vimrc-file-so-certain-configurations-will-only-appl]
+    if has("gui_macvim")
+        set fullscreen
+    endif
+
     " automatically call this method after loading vimrc
     " autocmd vimenter * fullscreen
 endif
@@ -603,7 +608,6 @@ NeoBundle 'xolox/vim-misc'
 NeoBundle 'xolox/vim-shell'
 
 " powerline
-" NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'bling/vim-airline'
 
 " better tag list plugin

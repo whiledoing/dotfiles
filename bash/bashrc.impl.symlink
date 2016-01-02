@@ -22,7 +22,11 @@ PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
 else
-    export EDITOR='vim'
+    if [[ "$(uname)" == "Darwin" ]]; then
+        export EDITOR='mvim -v'
+    else
+        export EDITOR='vim'
+    fi
 fi
 
 # Compilation flags
