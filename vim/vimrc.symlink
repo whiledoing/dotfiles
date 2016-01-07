@@ -42,20 +42,10 @@ endtry
 " }}}
 " General {{{1
 
-if has('gui_running')
+if has("gui_running")
     set background=light
     colorscheme delek
     let g:airline_theme='bubblegum'
-
-    " set background=dark
-    " colorscheme delek
-
-    " set background=light
-    " colorscheme solarized
-
-    " set background=dark
-    " colorscheme solarized
-    " let g:airline_theme='powerlineish'
 endif
 
 " Fold method
@@ -266,7 +256,7 @@ if has("gui_running")
     endif
 endif
 
-" Fonts
+" fonts
 " set guifont=Microsoft_YaHei_Mono:h10:cANSI
 " set guifont=Microsoft_YaHei_Mono:h11:cANSI
 " set guifont=Inconsolata:h13
@@ -281,7 +271,7 @@ if has("gui_running")
 
     " set max size
     set lines=99999 columns=99999
-    autocmd guienter * let &columns = 999 | let &columns = &columns/2 
+    autocmd guienter * let &columns = 999 | let &columns = &columns/2
     autocmd guienter * set lines=9999 columns=9999
 
     " set only on macvim (ref)[http://stackoverflow.com/questions/2842078/how-do-i-detect-os-x-in-my-vimrc-file-so-certain-configurations-will-only-appl]
@@ -654,6 +644,9 @@ NeoBundle 'terryma/vim-multiple-cursors'
 
 " run tmux in vim
 NeoBundle 'benmills/vimux'
+
+" manager themes
+NeoBundle 'reedes/vim-thematic'
 
 " change .h and .cpp
 " NeoBundle 'a.vim'
@@ -1154,4 +1147,38 @@ let g:airline_symbols.whitespace = 'Ξ'
 " let g:airline_symbols.readonly = ''
 " let g:airline_symbols.linenr = ''
 " }}}
+" vim-themetic {{{
+
+let g:thematic#defaults = {
+\   'fullscreen-background-color-fix' : 1,
+\ }
+
+let g:thematic#themes = {
+\   'delek-light' : {
+\       'colorscheme': 'delek',
+\       'background': 'light',
+\       'airline-theme': 'bubblegum',
+\   },
+\   'solarized-light' : {
+\       'colorscheme': 'solarized',
+\       'background': 'light',
+\       'airline-theme': 'light',
+\   },
+\   'solarized-dark' : {
+\       'colorscheme': 'solarized',
+\       'background': 'dark',
+\       'airline-theme': 'behelit',
+\   },
+\   'slate-dark' : {
+\       'colorscheme': 'slate',
+\       'background': 'dark',
+\       'airline-theme': 'behelit',
+\   }
+\ }
+
+if has('gui_running')
+    let g:thematic#theme_name = 'delek-light'
+endif
+
+"}}}
 "}}}
