@@ -645,6 +645,9 @@ NeoBundle 'reedes/vim-thematic'
 " git gutter
 NeoBundle 'airblade/vim-gitgutter'
 
+" git fugitive
+NeoBundle 'tpope/vim-fugitive'
+
 " solarized colorscheme
 NeoBundle 'altercation/vim-colors-solarized'
 
@@ -1193,7 +1196,7 @@ nmap <Leader>ga <Plug>GitGutterStageHunk
 nmap <Leader>gu <Plug>GitGutterRevertHunk
 nmap <Leader>gv <Plug>GitGutterPreviewHunk
 
-" use colorscheme default sign colum config
+" use colorscheme default sign colum config [ref](https://github.com/airblade/vim-gitgutter/issues/164)
 let g:gitgutter_override_sign_column_highlight = 0
 hi clear SignColumn
 
