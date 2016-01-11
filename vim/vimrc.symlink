@@ -671,7 +671,7 @@ NeoBundle 'altercation/vim-colors-solarized'
 " NeoBundle 'jansenm/vim-cmake'
 " NeoBundle 'thinca/vim-ref'
 
-" NeoBundle 'klen/python-mode'
+NeoBundle 'klen/python-mode'
 
 " enhance syntax for python
 " NeoBundle 'python.vim--Vasiliev'
@@ -843,6 +843,25 @@ let g:session_command_aliases=1
 "}}}
 " python-mode"{{{
 let g:pymode_lint = 1
+
+" not trim for corp
+let g:pymode_trim_whitespaces = 0
+
+" enable python folding
+let g:pymode_folding = 1
+
+" enable python motion (C means Class, M means function)
+let g:pymode_motion = 1
+
+" check lint on every save
+let g:pymode_lint_on_write = 1
+
+" check lint on fly
+let g:pymode_lint_on_fly = 0
+
+" lint checker
+let g:pymode_lint_checkers = ['pylint', 'pep8', 'pyflakes']
+
 " Skip errors and warnings
 " E.g. 'E501,W002', 'E2,W' (Skip all Warnings and Errors startswith E2) and etc
 " E501 : too long line over 79 character
@@ -861,6 +880,10 @@ let g:pymode_lint_jump = 1
 
 " show the lint window
 let g:pymode_lint_cwindow = 0
+
+" py-rope for code extract
+let g:pymode_rope_extract_method_bind = '<C-c>rm'
+let g:pymode_rope_extract_variable_bind = '<C-c>rl'
 " }}}
 " powerline{{{
 let g:Powerline_symbols = 'fancy'
