@@ -89,7 +89,6 @@ alias ..4="cd ../../../.."
 alias ..5="cd ../../../../.."
 
 # misc
-alias zshconf='vim ~/.zshrc'
 alias tailf='tail -f'
 alias ip='ifconfig | grep inet'
 alias 'ps?'='ps aux | grep '
@@ -131,9 +130,6 @@ alias ping='ping -c 5'
 
 # show file without comment
 alias nocomment='grep -Ev '\''^(#|$)'\'''
-
-# editor zshrc then reload it
-alias zshrc='vim ~/.bashrc.impl && echo "source zshrc ing........." && source ~/.zshrc && echo "source finish"'
 
 # funny things : [digit matrix](http://www.commandlinefu.com/commands/view/2531/matrix-style)
 alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'

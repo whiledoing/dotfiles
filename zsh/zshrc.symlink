@@ -61,3 +61,13 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 source ~/.bashrc.impl
+
+# for zshrc only
+alias zshconf='vim ~/.zshrc'
+
+# editor zshrc then reload it
+alias zshrc='vim ~/.bashrc.impl && echo "source zshrc ing........." && source ~/.zshrc && echo "source finish"'
+
+# reload
+alias reload='source ~/.zshrc'
+
