@@ -72,14 +72,10 @@ alias ssm='svn st | grep M'
 alias slast='svn log -l 1'
 alias sci='svn ci -m '
 
-# alis for ssh
-alias h9='ssh -p 32200 h9@h9'
-alias sshtest='ssh -p 32200 hzzoujiaxin@test'
-alias sshnewtest='ssh -p 32200 hzjiangjinzheng@newtest'
-alias sshdev='ssh -p 32200 hzjiangjinzheng@dev'
-alias ssh3rd='ssh -p 32200 3rd@dev'
-alias sshvoice='ssh -p 32200 hzjiangjinzheng@voice'
-alias sshh9='ssh -p 32200 hzjiangjinzheng@h9'
+# personal local config if has one 
+if [ -f $HOME/.self.bashrc.impl ]; then
+    source $HOME/.self.bashrc.impl
+fi
 
 ## a quick way to get out of current directory ##
 alias cd..='cd ..'
