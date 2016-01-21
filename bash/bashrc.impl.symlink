@@ -5,6 +5,9 @@
 # env
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# disable ctrl-d exit shell [ref](http://superuser.com/questions/479600/how-can-i-prevent-tmux-exiting-with-ctrl-d)
+# set -o ignoreeof
+
 # some segments e.g. cwd and cvs_branch needs to find the current working
 # directory of the active pane. To achieve this we let tmux save the path each
 # time the shell prompt is displayed. Put the line below in your ~/.bashrc or

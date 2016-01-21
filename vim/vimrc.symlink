@@ -651,6 +651,9 @@ NeoBundle 'tpope/vim-fugitive'
 " solarized colorscheme
 NeoBundle 'altercation/vim-colors-solarized'
 
+" vimim for chinese input
+NeoBundle 'vim-scripts/VimIM'
+
 " change .h and .cpp
 " NeoBundle 'a.vim'
 
@@ -671,7 +674,7 @@ NeoBundle 'altercation/vim-colors-solarized'
 " NeoBundle 'jansenm/vim-cmake'
 " NeoBundle 'thinca/vim-ref'
 
-NeoBundle 'klen/python-mode'
+" NeoBundle 'klen/python-mode'
 
 " enhance syntax for python
 " NeoBundle 'python.vim--Vasiliev'
@@ -884,6 +887,8 @@ let g:pymode_lint_cwindow = 0
 " py-rope for code extract
 let g:pymode_rope_extract_method_bind = '<C-c>rm'
 let g:pymode_rope_extract_variable_bind = '<C-c>rl'
+
+let g:pymode_rope = 0
 " }}}
 " powerline{{{
 let g:Powerline_symbols = 'fancy'
@@ -1206,8 +1211,8 @@ let g:thematic#themes = {
 " in console, use default config
 if has("gui_running")
     set background=light
-    colorscheme delek
-    let g:airline_theme='bubblegum'
+    colorscheme solarized
+    let g:airline_theme='light'
 endif
 
 "}}}
@@ -1226,5 +1231,11 @@ hi clear SignColumn
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 let g:gitgutter_highlight_lines = 0
+" }}}
+" vimim {{{
+" let g:vimim_cloud='sogou'
+
+" no cloud
+let g:vimim_cloud=-1
 " }}}
 "}}}
