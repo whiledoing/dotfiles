@@ -91,9 +91,9 @@ set -g status-fg white
 set -g status-interval 5
 set -g status-left-length 90
 set -g status-right-length 60
-set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=blue]#(hostname)#[fg=white]::##[fg=yellow]#(curl ipecho.net/plain;echo)"
+set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(hostname)#[fg=white]::##[fg=blue]#(curl ipecho.net/plain;echo)#[fg=white]  "
 set -g status-justify left
-set -g status-right '#[fg=Cyan]#S #[fg=white]%a %d %b %R' 
+set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R' 
 
 # Bad Wolf by Steve Losh
 # set -g window-status-activity-attr bold
@@ -131,7 +131,11 @@ set -g @tpm_plugins "               \
   tmux-plugins/tmux-resurrect       \
   tmux-plugins/tmux-sessionist      \
   tmux-plugins/tmux-copycat         \
+  seebi/tmux-colors-solarized       \
 "
+
+" [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
+set -g @colors-solarized 'dark'
 
 # set tpm-plain-control default size
 set-option -g @pane_resize "10"
@@ -163,109 +167,3 @@ run '~/.tmux/plugins/tpm/tpm'
 
 # invoke reattach-to-user-namespace every time a new window/pane opens (defined in tmux-sensible)
 # set-option -g default-command "reattach-to-user-namespace -l zsh"
-
-##########################################################################
-# Color scheme (Solarized light)
-
-### default statusbar colors
-##set-option -g status-bg colour231 #base2
-##set-option -g status-fg colour130 #yellow
-##set-option -g status-attr default
-##
-### default window title colors
-##set-window-option -g window-status-fg colour180 #base00
-##set-window-option -g window-status-bg default
-##
-### active window title colors
-##set-window-option -g window-status-current-fg colour196 #orange
-##set-window-option -g window-status-current-bg default
-##
-### pane border
-##set-option -g pane-active-border-fg black
-##set-option -g pane-active-border-bg white
-##set-option -g pane-border-fg brightcyan
-##set-option -g pane-border-bg default
-##
-### message text
-##set-option -g message-bg colour231 #base2
-##set-option -g message-fg colour196 #orange
-##
-### pane number display
-##set-option -g display-panes-active-colour colour20 #blue
-##set-option -g display-panes-colour colour196 #orange
-##
-### clock
-##set-window-option -g clock-mode-colour colour40 #green
-
-###########################################################################
-# Color scheme (Solarized Dark)
-
-### default statusbar colors
-# set-option -g status-bg blue
-# set-option -g status-fg white
-# set-option -g status-attr default
-
-# # default window title colors
-# set-window-option -g window-status-fg brightcyan
-# set-window-option -g window-status-bg default
-# #set-window-option -g window-status-attr dim
-
-# # active window title colors
-# set-window-option -g window-status-current-fg white
-# set-window-option -g window-status-current-bg blue
-# #set-window-option -g window-status-current-attr bright
-
-# # pane border
-# set-option -g pane-border-fg brightgreen
-# set-option -g pane-active-border-fg red
-
-# # message text
-# set-option -g message-bg black
-# set-option -g message-fg red
-
-# # pane number display
-# set-option -g display-panes-active-colour red
-# set-option -g display-panes-colour white
-
-# # clock
-# set-window-option -g clock-mode-colour cyan
-
-###########################################################################
-# Color scheme (Tango Dark)
-
-## default statusbar colors
-# set-option -g status-bg blue
-# set-option -g status-fg white
-
-# # active window title colors
-# set-window-option -g window-status-current-fg yellow
-# set-window-option -g window-status-current-bg black
-
-# # pane border
-# set-option -g pane-border-fg blue
-# set-option -g pane-active-border-fg red
-
-# # pane number display
-# set-option -g display-panes-active-colour red
-# set-option -g display-panes-colour blue
-
-###########################################################################
-# Color scheme (Cobalt)
-
-## default statusbar colors
-# set-option -g status-fg white
-# set-option -g status-bg cyan
-
-# # active window title colors
-# set-window-option -g window-status-current-fg red
-# set-window-option -g window-status-current-bg white
-
-# # pane border
-# set-option -g pane-border-fg cyan
-# set-option -g pane-active-border-fg red
-
-# # pane number display
-# set-option -g display-panes-active-colour red
-# set-option -g display-panes-colour cyan
-
-###########################################################################
