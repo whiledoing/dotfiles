@@ -134,7 +134,7 @@ set -g @tpm_plugins "               \
   seebi/tmux-colors-solarized       \
 "
 
-" [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
+# [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
 set -g @colors-solarized 'dark'
 
 # set tpm-plain-control default size
