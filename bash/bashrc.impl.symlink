@@ -114,8 +114,8 @@ alias vi='vim'
 alias svi='sudo vi'
 alias edit='vim'
 
-# for mvim only (in mac os)
 if [[ "$(uname)" == "Darwin" ]]; then
+    # for mvim only (in mac os)
     alias vim='mvim -v'
 
     # make mvim only run in one instance (http://stackoverflow.com/questions/936501/let-gvim-always-run-a-single-instance)
@@ -126,6 +126,9 @@ if [[ "$(uname)" == "Darwin" ]]; then
             command mvim "$@"
         fi
     }
+
+    # copy sshkey
+    alias cpkey='cat ~/.ssh/id_rsa.pub | pbcopy'
 fi
 
 # stop after sending count ECHO_REQUEST packets #
@@ -139,9 +142,6 @@ alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS co
 
 # dirs show dir in one line with number
 alias dirs='dirs -p'
-
-# into mongo
-alias inmongo='mongo -u h9admin -p h9mongopw 127.0.0.1:30000/admin'
 
 # run specifc times of command : [refs](http://serverfault.com/questions/273238/how-to-run-a-command-multiple-times) 
 run() {
