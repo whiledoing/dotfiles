@@ -601,7 +601,6 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'Lokaltog/vim-easymotion'
 
 NeoBundle "rizzatti/dash.vim"
-nmap <silent> <leader>d <Plug>DashSearch
 
 " syntax check
 NeoBundle 'scrooloose/syntastic'
@@ -648,11 +647,16 @@ NeoBundle 'airblade/vim-gitgutter'
 " git fugitive
 NeoBundle 'tpope/vim-fugitive'
 
-" solarized colorscheme
-NeoBundle 'altercation/vim-colors-solarized'
-
 " vimim for chinese input
 NeoBundle 'vim-scripts/VimIM'
+
+" auto spacing
+NeoBundle 'hotoo/pangu.vim'
+
+" scheme
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'reedes/vim-colors-pencil'
 
 " change .h and .cpp
 " NeoBundle 'a.vim'
@@ -991,10 +995,27 @@ nnoremap <leader>rs : YcmRestartServer<cr>
 " CtrlP {{{
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_map='<Leader>f'
+let g:ctrlp_cmd='CtrlP'
+
+nmap <silent> <leader><leader> :CtrlPBuffer<cr>
+nmap <silent> <leader>. :CtrlPMRUFiles<cr>
+nmap <silent> <leader>m :CtrlPMixed<cr>
+
+let g:ctrlp_max_depth=10
+let g:ctrlp_max_files=500
 let g:ctrlp_match_window_bottom = 1
-let g:ctrlp_working_path_mode = 0
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " Linux/MacOSX
-let g:ctrlp_custom_ignore = '\v\~$|\.(o|swp|pyc|wav|mp3|ogg|blend|pyc)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])|__init__\.py|\.pyc'
+
+" `'r'` - the nearest ancestor that contains one of these directories or files: `.git` `.hg` `.svn` `.bzr` `_darcs`
+" `'a'` - like c, but only if the current working directory outside of CtrlP is not a direct ancestor of the directory of the current file.
+let g:ctrlp_working_path_mode = 'ra'
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " MacOSX/Linux
+
+let g:ctrlp_custom_ignore = {
+\ 'dir':  '\v[\/]\.(git|hg|svn)$',
+\ 'file': '\v\.(exe|so|dll|pyc)$',
+\ 'link': 'some_bad_symbolic_links',
+\ }
 
 " The Silver Searcher
 if executable('ag')
@@ -1002,19 +1023,16 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " if use ag, you need to specific ignore manaully
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g "" --ignore="*.pyc"'
 
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
+  " still use cache
+  let g:ctrlp_use_caching = 1
 endif
 
 " bind K to grep word under cursor
 nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>:set modifiable<CR>
-
-" bind \ (backward slash) to grep shortcut
-" command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-" nnoremap \ :Ag<SPACE>
 
 " }}}
 " easy motion {{{
@@ -1200,8 +1218,23 @@ let g:thematic#themes = {
 \       'background': 'dark',
 \       'airline-theme': 'behelit',
 \   },
-\   'slate-dark' : {
-\       'colorscheme': 'slate',
+\   'hybrid-dark' : {
+\       'colorscheme': 'hybrid',
+\       'background': 'dark',
+\       'airline-theme': 'behelit',
+\   },
+\   'pencil-dark' : {
+\       'colorscheme': 'pencil',
+\       'background': 'dark',
+\       'airline-theme': 'pencil',
+\   },
+\   'pencil-light' : {
+\       'colorscheme': 'pencil',
+\       'background': 'light',
+\       'airline-theme': 'pencil',
+\   },
+\   'tomorrow-night-eighties-dark' : {
+\       'colorscheme': 'Tomorrow-Night-Eighties',
 \       'background': 'dark',
 \       'airline-theme': 'behelit',
 \   }
@@ -1210,9 +1243,7 @@ let g:thematic#themes = {
 " only install theme settings on start up, so hook it only on gui version
 " in console, use default config
 if has("gui_running")
-    set background=light
-    colorscheme solarized
-    let g:airline_theme='light'
+    let g:thematic#theme_name = 'tomorrow-night-eighties-dark'
 endif
 
 "}}}
@@ -1237,5 +1268,9 @@ let g:gitgutter_highlight_lines = 0
 
 " no cloud
 let g:vimim_cloud=-1
+" }}}
+" pangu {{{
+" auto spacing for following ext
+" autocmd BufWritePre *.markdown,*.md,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
 " }}}
 "}}}
