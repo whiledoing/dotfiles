@@ -1,1 +1,15 @@
 inoremap jj <esc>
+
+let mapleader = ","
+let g:mapleader = ","
+
+nnoremap <leader>v :vsplit<cr>
+nnoremap <leader>s :split<cr>
+
+nnoremap <leader>w :w! <cr>
+nnoremap <leader>q :q!<cr>
+
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
