@@ -1243,7 +1243,7 @@ let g:thematic#themes = {
 " only install theme settings on start up, so hook it only on gui version
 " in console, use default config
 if has("gui_running")
-    let g:thematic#theme_name = 'tomorrow-night-eighties-dark'
+    let g:thematic#theme_name = 'solarized-dark'
 endif
 
 "}}}
