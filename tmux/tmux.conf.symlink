@@ -132,6 +132,9 @@ set -g @tpm_plugins "               \
   tmux-plugins/tmux-sessionist      \
   tmux-plugins/tmux-copycat         \
   seebi/tmux-colors-solarized       \
+  tmux-plugins/tmux-open            \
+  tmux-plugins/tmux-continuum       \
+  tmux-plugins/tmux-yank       \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
@@ -139,6 +142,9 @@ set -g @colors-solarized 'dark'
 
 # set tpm-plain-control default size
 set-option -g @pane_resize "10"
+
+# auto restore tmux env
+set -g @continuum-restore 'on'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
