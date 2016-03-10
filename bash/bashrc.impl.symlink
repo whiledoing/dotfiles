@@ -129,6 +129,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 
     # copy sshkey
     alias cpkey='cat ~/.ssh/id_rsa.pub | pbcopy'
+    alias cpcwd='pwd | pbcopy'
 fi
 
 # stop after sending count ECHO_REQUEST packets #
