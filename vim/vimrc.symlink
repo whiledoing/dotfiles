@@ -1107,11 +1107,7 @@ nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>:set modifiable<CR>
 " Bi-directional find motion
 " Jump to anywhere you want with minimal keystrokes, with just one key binding.
 " `s{char}{label}`
-" nmap s <Plug>(easymotion-s)
-
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-
+nmap s <Plug>(easymotion-s2)
 
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1
@@ -1162,7 +1158,7 @@ let g:syntastic_mode_map = {
 " }}}
 " startify {{{
 let g:startify_custom_footer =
-      \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
+      \ ['', "   努力是为了不想让世界交给那些我鄙视的人！", '']
 
 function! s:filter_header(lines) abort
     let longest_line   = max(map(copy(a:lines), 'len(v:val)'))
@@ -1185,7 +1181,7 @@ let g:startify_list_order = [
         \ ['   These are my bookmarks:'],
         \ 'bookmarks',
         \ ]
-let g:startify_bookmarks = ['~/.vimrc']
+let g:startify_bookmarks = ['~/.vimrc', '~/.zshrc', '~/.self.bashrc.impl', '~/work/proj/hexo-blog']
 " }}}
 " QFEnter {{{
 " [open quicklist int tab/split mood shortcut](https://github.com/yssl/QFEnter)
@@ -1200,12 +1196,17 @@ let g:user_emmet_leader_key = '<C-y>'
 "
 " Use exising pane or window (not used by vim) if found instead of running split-window.
 let VimuxUseNearest = 1
-let g:VimuxHeight = "30"
+let g:VimuxHeight = "20"
 let g:VimuxPromptString = "CommandForTux : "
 let g:VimuxRunnerType = "pane"
 
 " Run the current file with rspec
-map <Leader>rr :call VimuxRunCommand("clear; python " . bufname("%"))<CR>
+autocmd FileType python map <buffer> <Leader>rr :call VimuxRunCommandInDir("clear; python", 1)<CR>
+
+" for project dev
+map <Leader>rs :call VimuxRunCommand("clear; sreload")<CR>
+map <Leader>ru :call VimuxRunCommand("clear; sprepare")<CR>
+map <Leader>rc :call VimuxRunCommand("clear; skill; srun")<CR>
 
 " Prompt for a command to run
 map <Leader>rp :VimuxPromptCommand<CR>
@@ -1224,6 +1225,8 @@ map <Leader>rx :VimuxInterruptRunner<CR>
 
 " Zoom the runner pane (use <bind-key> z to restore runner pane)
 map <Leader>rz :call VimuxZoomRunner()<CR>
+
+map <Leader>ro :call VimuxOpenPane()<CR>
 
 " Push the repository of the currently opened file, 0 means not add file into the command line
 nnoremap <leader>gp :call VimuxRunCommandInDir("git push", 0)<CR>
