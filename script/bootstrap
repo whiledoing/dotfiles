@@ -130,12 +130,21 @@ link_file () {
 install_dotfiles () {
   info 'installing dotfiles'
 
+  info '[INSTALL_DOTFILE_STEP_ONE] link symlink files'
   local overwrite_all=false backup_all=false skip_all=false
-
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.symlink' -not -path '*.git*')
   do
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
+  done
+
+  info '[INSTALL_DOTFILE_STEP_TWO] link dirs which has TAG_LINK_CUR_DIR file'
+  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name 'TAG_LINK_CUR_DIR' -not -path '*.git*')
+  do
+    linkdir=$(dirname ${src})
+    linkdirname=$(basename ${linkdir})
+    dst="$HOME/.${linkdirname}"
+    link_file $linkdir $dst
   done
 }
 
