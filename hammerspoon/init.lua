@@ -1,4 +1,5 @@
 hs.alert.closeAll()
+
 local ignored = require 'ignored'
 
 -- key define
@@ -10,20 +11,27 @@ hs.window.animationDuration = 0
 
 -- hide window shadows
 hs.window.setShadows(false)
-
+                
 -- cli
 if not hs.ipc.cliStatus() then hs.ipc.cliInstall() end
 
 -- App shortcuts
-hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("MacVim") end)
+hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("Firefox") end)
+-- hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("Google Chrome") end)
 hs.hotkey.bind(hyper, "2", function() hs.application.launchOrFocus("iTerm") end)
-hs.hotkey.bind(hyper, "3", function() hs.application.launchOrFocus("Google Chrome") end)
-hs.hotkey.bind(hyper, "4", function() hs.application.launchOrFocus("Firefox") end)
+hs.hotkey.bind(hyper, "3", function() hs.application.launchOrFocus("Evernote") end)
+hs.hotkey.bind(hyper, "4", function() hs.application.launchOrFocus("MacVim") end)
+hs.hotkey.bind(hyper, "0", function() hs.application.launchOrFocus("PyCharm") end)
+hs.hotkey.bind(hyper, "9", function() hs.application.launchOrFocus("NeteaseMusic") end)
+hs.hotkey.bind(hyper, 'f', function() hs.window.focusedWindow():toggleFullScreen() end)
 
 -- Hints
 hs.hotkey.bind(hyper, ';', function() 
-    hs.hints.windowHints() 
+    hs.hints.windowHints()
 end)
+
+-- will show parent parent process name
+hs.hints.style = "vimperator"
 
 -- undo
 local undo = require 'undo'
@@ -202,8 +210,8 @@ function applicationWatcherCallback(name, event, app)
     end
 end
 
-local appWatcher = hs.application.watcher.new(applicationWatcherCallback)
-appWatcher:start()
+-- local appWatcher = hs.application.watcher.new(applicationWatcherCallback)
+-- appWatcher:start()
 
 -- screen change
 function screenChanged()
@@ -230,10 +238,10 @@ function screenChanged()
     end
 end
 
-screenChanged()
+-- screenChanged()
 
-local screenWatcher = hs.screen.watcher.new(screenChanged)
-screenWatcher:start()
+-- local screenWatcher = hs.screen.watcher.new(screenChanged)
+-- screenWatcher:start()
 
 -- caffeinate
 hs.hotkey.bind(hyperShift, 'c', function() 
@@ -287,7 +295,18 @@ end
 hs.hotkey.bind(hyperShift, 'c', hs.openConsole)
 
 -- reload
-hs.hotkey.bind(hyper, 'r', function() hs.reload() end )
+hs.hotkey.bind(hyper, 'escape', function() hs.reload() end )
+
+-- Auto-reload config
+function reloadConfig(files)
+    for _, file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            return hs.reload()
+        end
+    end
+end
+
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 
 -- reload success alert
-hs.alert('Hammerspoon reload success', 0.8)
+hs.alert('Hammerspoon reload success', 0.6)
