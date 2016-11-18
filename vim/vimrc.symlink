@@ -1,4 +1,4 @@
-" Environment {{{1
+" env {{{1
 set nocompatible
 
 function! MySys()
@@ -22,7 +22,12 @@ else
     let $V = $HOME.'/.vimrc'
 endif
 " }}}
-" Files, backups and undo {{{1
+" conf {{{1
+" vim conf {{{2
+" With a map leader it's possible to do extra key combinations
+let mapleader = ","
+let g:mapleader = ","
+
 " Turn backup off, since most stuff is in SVN, git anyway...
 set nobackup
 set nowb
@@ -39,15 +44,13 @@ try
     set undolevel=1000
 catch
 endtry
-" }}}
-" General {{{1
 
 " Fold method
 set fdm=marker
 
 " Sets how many lines of history VIM has to remember
 set history=1000
- 
+
 " Enable filetype plugin
 filetype plugin indent on
 
@@ -56,54 +59,11 @@ if exists("&autoread")
     set autoread
 endif
 
-" With a map leader it's possible to do extra key combinations
-let mapleader = ","
-let g:mapleader = ","
-
-"Make Open vimrc file in a new tab window
-function! SwitchToBuf(filename)
-    " find in current tab
-    let bufwinnr = bufwinnr(a:filename)
-    if bufwinnr != -1
-        exec bufwinnr . "wincmd w"
-        return
-    else
-        " find in each tab
-        tabfirst
-        let tab = 1
-        while tab <= tabpagenr("$")
-            let bufwinnr = bufwinnr(a:filename)
-            if bufwinnr != -1
-                exec "normal " . tab . "gt"
-                exec bufwinnr . "wincmd w"
-                return
-            endif
-            tabnext
-            let tab = tab + 1
-        endwhile
-        " not exist, new tab
-        exec "tabnew " . a:filename
-    endif
-endfunction
-
-"Fast reloading of the .vimrc
-map <silent> <leader>ss :source $V<cr>
-"Fast editing of .vimrc
-map <silent> <leader>ee :call SwitchToBuf($V)<cr>
-
-if MySys() == "windows"
-    " When _vimrc is edited, reload it
-    autocmd! bufwritepost vimrc source $V
-else
-    "When .vimrc is edited, reload it
-    autocmd! bufwritepost .vimrc source ~/.vimrc 
-end
-
 " 显示状态栏
 set ruler
 
 " 允许使用空格
-set backspace=indent,eol,start whichwrap+=<,>,[,] 
+set backspace=indent,eol,start whichwrap+=<,>,[,]
 
 " Set 7 lines to the curors - when moving vertical..
 set so=7
@@ -142,9 +102,6 @@ set showmatch
 " How many tenths of a second to blink
 set mat=4
 
-" set vim has default clipboard with the system
-" set go+=a
-
 " Session options
 set sessionoptions-=curdir
 set sessionoptions+=sesdir
@@ -156,42 +113,131 @@ set sessionoptions+=winpos
 
 " set tags file
 set tags=tags
-set tags+=./tags    
-
-" set path file
-" set path+=$BOOST_ROOT
+set tags+=./tags
 
 " 交换 g<c-]> 和 <c-]>
-" nnoremap <c-]> g<c-]>
-" vnoremap <c-]> g<c-]>
-" nnoremap g<c-]> <c-]>
-" vnoremap g<c-]> <c-]>
-
-" always use English menu
-" set langmenu=none 
-
-" always use english for anaything in vim-editor. 
-" if has ("win32")
-    " silent exec "language english" 
-" elseif has ("mac")
-    " silent exec "language en_US.utf8" 
-" else
-    " silent exec "language en_US.utf8" 
-" endif
+nnoremap <c-]> g<c-]>
+vnoremap <c-]> g<c-]>
+nnoremap g<c-]> <c-]>
+vnoremap g<c-]> <c-]>
 
 " if exists('$TMUX')
     " set term=screen-256color
 " endif
 
-" clipbord as system
-" set clipboard=unnamed
+" [copy-config-from-blog](http://www.wklken.me/posts/2016/02/03/some-vim-configs.html)
+" http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <Leader>z :ZoomToggle<CR>
 
+" Map ; to : and save a million keystrokes 用于快速进入命令行
+nnoremap ; :
+
+" Go to home and end using capitalized directions
+noremap H ^
+noremap L $
+
+" 命令行模式增强，ctrl - a到行首， -e 到行尾
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+
+" Keep search pattern at the center of the screen.
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+
+" 去掉搜索高亮
+noremap <silent><leader>/ :nohls<CR>
+
+" for # indent, python文件中输入新行时#号注释不切回行首
+autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
+
+" y$ -> Y Make Y behave like other capitals
+map Y y$
+
+" w!! to sudo & write a file
+" [quick method](http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
+cmap w!! w !sudo tee >/dev/null %
+
+" remap U to <C-r> for easier redo
+nnoremap U <C-r>
+
+" 设置可以高亮的关键字
+if has("autocmd")
+  " Highlight TODO, FIXME, NOTE, etc.
+  if v:version > 701
+    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
+  endif
+endif
+
+" 启动的时候不显示那个援助索马里儿童的提示
+set shortmess=atI
+
+" 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
+" 好处：误删什么的，如果以前屏幕打开，可以找回
+set t_ti= t_te=
 " }}}
-" Mac Specific {{{1
+"  operate vimrc {{{2
+"Make Open vimrc file in a new tab window
+function! SwitchToBuf(filename)
+    " find in current tab
+    let bufwinnr = bufwinnr(a:filename)
+    if bufwinnr != -1
+        exec bufwinnr . "wincmd w"
+        return
+    else
+        " find in each tab
+        tabfirst
+        let tab = 1
+        while tab <= tabpagenr("$")
+            let bufwinnr = bufwinnr(a:filename)
+            if bufwinnr != -1
+                exec "normal " . tab . "gt"
+                exec bufwinnr . "wincmd w"
+                return
+            endif
+            tabnext
+            let tab = tab + 1
+        endwhile
+        " not exist, new tab
+        exec "tabnew " . a:filename
+    endif
+endfunction
+
+"Fast reloading of the .vimrc
+map <silent> <leader>ss :source $V<cr>
+
+"Fast editing of .vimrc
+map <silent> <leader>ee :call SwitchToBuf($V)<cr>
+
+if MySys() == "windows"
+    " When _vimrc is edited, reload it
+    autocmd! bufwritepost vimrc source $V
+else
+    "When .vimrc is edited, reload it
+    autocmd! bufwritepost .vimrc source ~/.vimrc
+end
+" }}}
+" mac related {{{2
 
 " [switch tabs in macvim](http://superuser.com/questions/382060/shortcut-to-switch-tabs-in-macvim)
 if has("gui_macvim")
-    " Press Ctrl-Tab to switch between open tabs (like browser tabs) to 
+    " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
     " the right side. Ctrl-Shift-Tab goes the other way.
     noremap <C-Tab> :tabnext<CR>
     noremap <C-S-Tab> :tabprev<CR>
@@ -216,9 +262,8 @@ if has("gui_macvim")
     noremap <D-j> :cn<CR>
     noremap <D-k> :cp<CR>
 endif
-
 " }}}
-" Colors and Font {{{1
+" style {{{2
 " enable syntax
 syntax on
 
@@ -255,13 +300,12 @@ endif
 " set guifont=Microsoft_YaHei_Mono:h11:cANSI
 " set guifont=Inconsolata:h13
 " set guifont=Monaco:h11
-" set guifont=Comic\ Sans\ MS:h11
-set guifont=Monaco\ for\ Powerline:h12
+set guifont=Monaco\ for\ Powerline:h10
 
 " set gvim startup size, remember to put this after set font
 if has("gui_running")
     " set the default vim size
-    winpos 0 0
+    " winpos 0 0
 
     " set max size
     set lines=99999 columns=99999
@@ -269,21 +313,22 @@ if has("gui_running")
     autocmd guienter * set lines=9999 columns=9999
 
     " set only on macvim (ref)[http://stackoverflow.com/questions/2842078/how-do-i-detect-os-x-in-my-vimrc-file-so-certain-configurations-will-only-appl]
-    if has("gui_macvim")
-        set fullscreen
-    endif
+    " if has("gui_macvim")
+        " set fullscreen
+    " endif
 
     " automatically call this method after loading vimrc
     " autocmd vimenter * fullscreen
 endif
-
 " }}}
-" Statusline {{{1
+" statusline {{{2
 set laststatus=2
+
 " Format the statusline
 set statusline=
 set statusline +=%4*\ %<%F%*            " full path
 set statusline +=%3*\ [%{getcwd()}]     " current dir
+
 " set statusline +=%1*\ %n\ %*            " buffer number
 set statusline +=%5*\ %{&ff}%*            " file format
 set statusline +=%3*\ %y%*                " file type
@@ -293,7 +338,7 @@ set statusline +=%2*/%L%*               " total lines
 set statusline +=%1*%4v\ %*             " virtual column number
 set statusline +=%2*0x%04B\ %*          " character under cursor
 " }}}
-" Text tab and indent related {{{1
+" indentation {{{2
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
@@ -305,7 +350,7 @@ set nowrap
 set autoindent "Auto indent
 set smartindent "Smart indet
 
-" auto check python file indent {{{
+" auto check python file indent {{{3
 " [ref](http://vim.wikia.com/wiki/Set_indent_parameters_for_Python_files)
 " Set options if using spaces for indents (default).
 function PySpacesCfg()
@@ -358,7 +403,8 @@ au BufEnter *.py call PyIndentAutoCfg()
 
 " }}}
  " }}}
-" My Definition {{{
+" }}}
+" util {{{
 " move line up and down {{{
 nnoremap <A-j> :m+<CR>==
 nnoremap <A-k> :m-2<CR>==
@@ -388,14 +434,14 @@ map <leader>tc :tabclose<cr>
 nnoremap <leader>gu :GundoToggle<cr>
 
 " mark browser
-nnoremap <silent> <leader>mb :MarksBrowser<cr> 
+nnoremap <silent> <leader>mb :MarksBrowser<cr>
 
 " change .h and .cpp
 inoremap <silent> <F4> :A<CR>
 nnoremap <silent> <F4> :A<CR>
 
 " yank ring
-nnoremap <leader>yr :YRGetElem<cr>     
+nnoremap <leader>yr :YRGetElem<cr>
 
 " vim-shell
 nnoremap <F11> :Fullscreen<cr>
@@ -404,9 +450,6 @@ nnoremap <leader>ll :Open<cr>
 " txt browser
 nnoremap <leader>g :TGoto<cr>
 au BufRead,BufNewFile *.txt let  Tlist_Sort_Type = "order" "make the tlist type to order when txt fileformat"
-
-"buf explorer
-nnoremap <leader>be :BufExplorer<cr>
 
 " set md as markdown file
 au BufRead,BufNewFile,BufEnter *.md set ft=markdown
@@ -452,23 +495,20 @@ imap jj <esc>
 " window operation
 nnoremap <leader>v :vsplit<cr>
 nnoremap <leader>s :split<cr>
-nmap <leader>o :ZoomWin<cr>
+" nmap <leader>o :ZoomWin<cr>
 
 " force operation
 nnoremap <leader>w :w! <cr>
 nnoremap <leader>q :q!<cr>
 
 " normal mode operation for modify
-nnoremap <space> i<space><esc> 
+nnoremap <space> i<space><esc>
 nnoremap <cr> A<cr><esc>
 nnoremap <bs> x<esc>
 
 " get to the first word and last word
 inoremap <c-a> <esc>^i
 inoremap <c-e> <esc>$a
-
-" some easy task for input
-map! <c-b> \
 
 " build ctags
 map <silent> <leader>ct :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
@@ -522,7 +562,7 @@ endif
 "<unique> means in later command never changes this key binding
 "autocmd FileType cmake nmap <buffer> <silent> <unique> K <Plug>CMakeCompleteHelp
 au BufEnter *.cmake,CMakeLists.txt setf cmake
-au BufRead,BufNewFile *.cmake,CMakeLists.txt,*.cmake.in runtime! indent/cmake.vim 
+au BufRead,BufNewFile *.cmake,CMakeLists.txt,*.cmake.in runtime! indent/cmake.vim
 au BufRead,BufNewFile *.cmake,CMakeLists.txt,*.cmake.in setf cmake
 au BufRead,BufNewFile *.ctest,*.ctest.in setf cmake
 au FileType cmake set omnifunc=cmakecomplete#Complete
@@ -547,58 +587,74 @@ nnoremap <leader>e :ccl<cr>
 "endif
 "}}}2
 " add python header info {{{
-let g:python_author = 'whiledoing'
-let g:python_email = 'lovingwhile@gmail.com'
+" let g:python_author = 'whiledoing'
+" let g:python_email = 'lovingwhile@gmail.com'
 
-function! InsertPythonComment()
-    return
-    exe 'normal'.1.'G'
-    let line = getline('.')
-    if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
-        return
+" function! InsertPythonComment()
+    " return
+    " exe 'normal'.1.'G'
+    " let line = getline('.')
+    " if line =~ '^#!.*$' || line =~ '^#.*coding:.*$'
+        " return
+    " endif
+    " normal O
+    " call setline('.', '#!/usr/bin/env python')
+    " normal o
+    " call setline('.', '# -*- coding:utf-8 -*-')
+    " normal o
+    " call setline('.', '"""')
+    " normal o
+    " call setline('.', 'Author   :   '.g:python_author)
+    " normal o
+    " call setline('.', 'E-mail   :   '.g:python_email)
+    " normal o
+    " call setline('.', 'Create   :   '.strftime("%y/%m/%d %H:%M:%S"))
+    " normal o
+    " call setline('.', 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
+    " normal o
+    " call setline('.', 'Desc     :   ')
+    " normal o
+    " call setline('.', '"""')
+    " normal o
+    " call cursor(8, 17)
+" endfunction
+" function! InsertCommentWhenOpen()
+    " if a:lastline == 1 && !getline('.')
+        " call InsertPythonComment()
+    " end
+" endfunc
+
+" " function! DateInsert()
+" " call cursor(7,1)
+" " if search('Modified') != 0
+	" " let line = line('.')
+	" " call setline(line, 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
+" " endif
+" " endfunction
+
+" au FileType python :%call InsertCommentWhenOpen()
+" au FileType python map <F4> :call InsertPythonComment()<cr>
+" autocmd FileWritePre,BufWritePre *.py ks|call DateInsert()|'s
+
+" 定义函数AutoSetFileHead，自动插入文件头
+autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
+function! AutoSetFileHead()
+    "如果文件类型为.sh文件
+    if &filetype == 'sh'
+        call setline(1, "\#!/bin/bash")
     endif
-    normal O
-    call setline('.', '#!/usr/bin/env python')
+
+    "如果文件类型为python
+    if &filetype == 'python'
+        call setline(1, "\#!/usr/bin/env python")
+        call append(1, "\# encoding: utf-8")
+    endif
+
+    normal G
     normal o
-    call setline('.', '# -*- coding:utf-8 -*-')
     normal o
-    call setline('.', '"""')
-    normal o
-    call setline('.', 'Author   :   '.g:python_author)
-    normal o
-    call setline('.', 'E-mail   :   '.g:python_email)
-    normal o
-    call setline('.', 'Create   :   '.strftime("%y/%m/%d %H:%M:%S"))
-    normal o
-    call setline('.', 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
-    normal o
-    call setline('.', 'Desc     :   ')
-    normal o
-    call setline('.', '"""')
-    normal o
-    call cursor(8, 17)
-endfunction
-function! InsertCommentWhenOpen()
-    if a:lastline == 1 && !getline('.')
-        call InsertPythonComment()
-    end
 endfunc
 
-" function! DateInsert()
-" call cursor(7,1)
-" if search('Modified') != 0
-	" let line = line('.')
-	" call setline(line, 'Modified :   '.strftime("%y/%m/%d %H:%M:%S"))
-" endif
-" endfunction
-
-au FileType python :%call InsertCommentWhenOpen()
-au FileType python map <F4> :call InsertPythonComment()<cr>
-" autocmd FileWritePre,BufWritePre *.py ks|call DateInsert()|'s
-" }}}
-" quick write file with sudo {{{
-" [quick method](http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
-cmap w!! w !sudo tee % > /dev/null
 " }}}
 " toggle paste mode {{{
 " [ref](http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste)
@@ -607,253 +663,124 @@ set pastetoggle=<F2>
 set showmode
 " }}}
 " }}}
-" NeoBundle {{{
-" Note: Skip initialization for vim-tiny or vim-small.
-if 0 | endif
+" plugin {{{
+" plugin list {{{2
+" [vim-plugin manager](https://github.com/junegunn/vim-plug)
+call plug#begin('~/.vim/plugged')
 
-if has('vim_starting')
-  if &compatible
-    set nocompatible               " Be iMproved
-  endif
-
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" My Bundles here:
-" Refer to |:NeoBundle-examples|.
-" Note: You don't set neobundle setting in .gvimrc!
-
-" plugins managed by neobundle {{{{
-
+" @note must use single quote
 " html and css zen encoding
-NeoBundle 'mattn/emmet-vim'
-
-" add the zoom window ability
-NeoBundle 'ZoomWin'
+Plug 'mattn/emmet-vim'
 
 " auto get the file encoding
-NeoBundle 'FencView.vim'
+Plug 'FencView.vim'
 
 " auto generate dir when using :w foo/a/test.txt"
-NeoBundle 'auto_mkdir'
-
-" manager the session file
-NeoBundle 'xolox/vim-misc'
-
-" add fullscree and :Open Command in vim
-NeoBundle 'xolox/vim-shell'
-
-" powerline
-NeoBundle 'bling/vim-airline'
+Plug 'auto_mkdir'
 
 " better tag list plugin
-NeoBundle 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 " easy move
-NeoBundle 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 
-NeoBundle "rizzatti/dash.vim"
+" dash search
+Plug 'rizzatti/dash.vim'
 
 " syntax check
-NeoBundle 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 
 " omni auto complete
-NeoBundle 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --tern-completer'}
+
+" distraction-free writing in vim
+Plug 'junegunn/goyo.vim'
+
+" hyperfocus-writing in vim
+Plug 'junegunn/limelight.vim'
 
 " search file
-NeoBundle 'ctrlp'
-
-" undo history
-NeoBundle 'sjl/gundo.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " surround
-NeoBundle 'tpope/vim-surround'
-
-" repeat for surround
-NeoBundle 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 
 " add some common key short
-NeoBundle 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 
 " help to make commenter
-NeoBundle 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 " the nerd file exploreer
-NeoBundle 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
 " fucking great start-up sceen
-NeoBundle 'mhinz/vim-startify'
-
-" multiple curors 
-NeoBundle 'terryma/vim-multiple-cursors'
+Plug 'mhinz/vim-startify'
 
 " run tmux in vim
-NeoBundle 'benmills/vimux'
+Plug 'benmills/vimux'
 
 " manager themes
-NeoBundle 'reedes/vim-thematic'
-
-" git gutter
-NeoBundle 'airblade/vim-gitgutter'
-
-" git fugitive
-NeoBundle 'tpope/vim-fugitive'
-
-" vimim for chinese input
-NeoBundle 'vim-scripts/VimIM'
-
-" auto spacing
-NeoBundle 'hotoo/pangu.vim'
+Plug 'reedes/vim-thematic'
 
 " scheme
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'reedes/vim-colors-pencil'
+Plug 'altercation/vim-colors-solarized'
+Plug 'w0ng/vim-hybrid'
+Plug 'reedes/vim-colors-pencil'
+
+" git gutter
+" Plug 'airblade/vim-gitgutter'
+
+" git fugitive
+" Plug 'tpope/vim-fugitive'
+
+" vimim for chinese input
+" Plug 'vim-scripts/VimIM'
+
+" auto spacing
+" Plug 'hotoo/pangu.vim'
+
+" powerline
+" Plug 'vim-airline/vim-airline'
 
 " indentline
-NeoBundle 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 
 " auto check tab/space
-NeoBundle 'tpope/vim-sleuth'
+" Plug 'tpope/vim-sleuth'
 
-" change .h and .cpp
-" NeoBundle 'a.vim'
-
-" add author info in the source code
-" NeoBundle 'AuthorInfo'
-
-" yankring of the recent used yank
-" NeoBundle 'YankRing.vim'
-
-" doxygen toolkit
-" NeoBundle 'DoxygenToolkit.vim'
-" NeoBundle 'doxygen-support.vim'
+" draw it
+" Plug 'vim-scripts/DrawIt'
 
 " add the foldmarker based outliner
-" NeoBundle 'VOoM'
-
-" make the completion of cmake files in neocomplete
-" NeoBundle 'jansenm/vim-cmake'
-" NeoBundle 'thinca/vim-ref'
-
-" NeoBundle 'klen/python-mode'
+" Plug 'VOoM'
 
 " enhance syntax for python
-" NeoBundle 'python.vim--Vasiliev'
+" Plug 'python.vim--Vasiliev'
 
 " automatically add bracket
-" NeoBundle 'Raimondi/delimitMate'
-
-" NeoBundle 'Townk/vim-autoclose'
-
-" NeoBundle 'Valloric/MatchTagAlways'
-
-" ipython
-" NeoBundle 'ivanov/vim-ipython'
-
-" [open quicklist in tab/split mood](https://github.com/yssl/QFEnter)
-" NeoBundle 'yssl/QFEnter'
-
-" [toggle quick fix list](https://github.com/milkypostman/vim-togglelist)
-" NeoBundle 'milkypostman/vim-togglelist'
-" nmap <script> <silent> <leader>l :call ToggleLocationList()<CR>
-" nmap <script> <silent> <leader>e :call ToggleQuickfixList()<CR>
+" Plug 'Raimondi/delimitMate'
 
 " switch tmux and vim seamlessly
-" NeoBundle 'christoomey/vim-tmux-navigator'
+" Plug 'christoomey/vim-tmux-navigator'
 
-" }}}}
-
-call neobundle#end()
-
-" Required:
-filetype plugin indent on
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-" NeoBundleCheck
+" Add plugins to &runtimepath
+call plug#end()
 " }}}
-" Plugins Settings {{{1
-" AuthorInfo {{{2
-let g:vimrc_author='whiledoing' 
-let g:vimrc_email='whiledoing@sina.com'
-let g:vimrc_homepage=''
-"}}}
-" DoxygenToolkit {{{2
-let g:load_doxygen_syntax=1
-let g:DoxygenToolkit_paramTag_pre="@param " 
-let g:DoxygenToolkit_returnTag="@return " 
-let g:DoxygenToolkit_briefTag_funcName="yes"
-"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
-"let g:DoxygenToolkit_blockFooter="--------------------------------------------------------------------------"
-let g:DoxygenToolkit_authorName="whiledoing (lovingwhile@gmail.com)"
-"}}}
-" Echofunc {{{2
-let g:EchoFuncAutoStartBalloonDeclaration=1 "automatic show the ballon
-let g:EchoFuncKeyNext='<ctrl>j'
-let g:EchoFuncKeyPrev='<ctrl>k'
-" }}}
-" Gundo {{{2
-" automatic preview
-let g:gundo_auto_preview=1
-" show the help info
-let g:gundo_help=0 
-" let preview in the bottom
-let g:gundo_preview_bottom=1
-let g:gundo_width=45
-let g:gundo_preview_height=30
-"}}}
-" Mark Browser setting {{{2
-" close the MarkBrowser when selected 
-let marksCloseWhenSelected = 1 
-" }}}
-" NerdComment {{{2
+" plugin settings {{{2
+" NerdComment {{{3
 " add space after comment
 let NERDSpaceDelims = 1
 " }}}
-" Showmarks Setting {{{2
-" ShowMarks {
-let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-" Don't leave on by default, use :ShowMarksOn to enable
-let g:showmarks_enable = 0
-" For marks a-z
-highlight ShowMarksHLl gui=bold guibg=LightBlue guifg=Blue
-" For marks A-Z
-highlight ShowMarksHLu gui=bold guibg=LightRed guifg=DarkRed
-" For all other marks
-highlight ShowMarksHLo gui=bold guibg=LightYellow guifg=DarkYellow
-" For multiple marks on the same line.
-highlight ShowMarksHLm gui=bold guibg=LightGreen guifg=DarkGreen
-
-" Show which marks
-let showmarks_include = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-" Ignore help, quickfix, non-modifiable buffers
-"let showmarks_ignore_type = "hqm"
-
-" Hilight lower & upper marks
-let showmarks_hlline_lower = 1
-let showmarks_hlline_upper = 1 
-
-" Ignore help, quickfix, non-modifiable buffers
-let showmarks_ignore_type = "hqm"
-" }}}
-" tagbar {{{2
+" tagbar {{{3
 let g:tagbar_left = 1
 let g:tagbar_width = 40
 let g:tagbar_autofocus = 1
 let g:tagbar_autoshowtag = 1
 
-noremap <leader>b :Tagbar<cr>
+noremap <leader>tb :Tagbar<cr>
 " }}}
-" Unite {{{2
+" Unite {{{3
 " start insert when open
 let g:unite_enable_start_insert=1
 
@@ -870,12 +797,12 @@ let g:unite_enable_short_source_names = 1
 let g:unite_split_rule='topleft'
 
 "  }}}
-" VOom {{{2
-let g:voom_tree_width=40 
+" VOom {{{3
+let g:voom_tree_width=40
 let g:voom_return_key='<Return>'
 let g:voom_tab_key='<Tab>'
 "}}}
- " nerdtree  {{{2
+ " nerdtree  {{{3
 let g:netrw_winsize = 40
 let NERDTreeMapOpenVSplit = "v"
 let NERDTreeMapOpenSplit = "s"
@@ -889,16 +816,16 @@ let NERDTreeQuitOnOpen =  0
 let NERDTreeIgnore=['\.pyc$']
 
 " }}}
-" yank_ring {{{2
-let g:yankring_window_height=20 
+" yank_ring {{{3
+let g:yankring_window_height=20
 let g:yankring_min_element_length = 2
-let g:yankring_max_history=500 
+let g:yankring_max_history=500
 " }}}
-" fencview {{{2
+" fencview {{{3
 let g:fencview_autodetect=0
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.ini'
 "}}}
-" session.vim {{{2
+" session.vim {{{3
 " save the session files
 let g:session_directory='~/sessions'
 
@@ -914,7 +841,7 @@ let g:session_default_to_last=1
 "add SessionSave etc alias as SaveSession
 let g:session_command_aliases=1
 "}}}
-" python-mode"{{{
+" python-mode"{{{3
 let g:pymode_lint = 1
 
 " not trim for corp
@@ -960,49 +887,16 @@ let g:pymode_rope_extract_variable_bind = '<C-c>rl'
 
 let g:pymode_rope = 0
 " }}}
-" powerline{{{
-let g:Powerline_symbols = 'fancy'
-"}}}
-" Conque {{{
-" fast mode : disable color display
-let g:ConqueTerm_FastMode = 0
-
-" update even when buffer is not focused
-let g:ConqueTerm_ReadUnfocused = 1
-
-" insert mode when enter
-let g:ConqueTerm_InsertOnEnter = 0
-
-" pasue terminal input and output display.
-let g:ConqueTerm_ToggleKey = ''
-
-" 0 : set ctrl+w to the console itself 
-" 1 : set ctrl+w to be normal gvim cmd
-let g:ConqueTerm_CWInsert = 0
-
-" running current file in the buffer
-" equal ConqueTermVSplit current_file
-let g:ConqueTerm_ExecFileKey = ''
-
-" running most recnently opened buffer to keyboard input
-let g:ConqueTerm_SendFileKey = ''
-
-" running current selected line
-let g:ConqueTerm_SendVisKey = ''
-
-" set python path
-let g:ConqueTerm_PyExe = 'E:\pro_soft\python27\python.exe'
-"}}}
-" ycm {{{
+" ycm {{{3
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
-set completeopt=longest,menu	
+set completeopt=longest,menu
 
 "离开插入模式后自动关闭预览窗口
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif	
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 "回车即选中当前项
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"	
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
 "上下左右键的行为 会显示其他信息
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -1018,19 +912,19 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
 
 " 开启 YCM 基于标签引擎
-let g:ycm_collect_identifiers_from_tags_files=1	
+let g:ycm_collect_identifiers_from_tags_files=1
 
 " 从第3个键入字符就开始罗列匹配项
-let g:ycm_min_num_of_chars_for_completion=3	
+let g:ycm_min_num_of_chars_for_completion=3
 
 " 禁止缓存匹配项,每次都重新生成匹配项
-let g:ycm_cache_omnifunc=0	
+let g:ycm_cache_omnifunc=0
 
-"开启语义补全  
-let g:ycm_seed_identifiers_with_syntax = 1  
+"开启语义补全
+let g:ycm_seed_identifiers_with_syntax = 1
 
 "force recomile with syntastic
-" nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>	
+" nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 
 "nnoremap <leader>lo :lopen<CR>	"open locationlist
 "nnoremap <leader>lc :lclose<CR>	"close locationlist
@@ -1058,16 +952,14 @@ nnoremap <leader>gg :YcmCompleter GoTo<CR>
 nnoremap <leader>rs : YcmRestartServer<cr>
 
 " }}}
-" CtrlP {{{
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+" CtrlP {{{3
 let g:ctrlp_map='<Leader>f'
 let g:ctrlp_cmd='CtrlP'
 
-nmap <silent> <leader><leader> :CtrlPBuffer<cr>
+nmap <silent> <leader>b :CtrlPBuffer<cr>
 nmap <silent> <leader>. :CtrlPMRUFiles<cr>
-nmap <silent> <leader>m :CtrlPMixed<cr>
 
-let g:ctrlp_max_depth=10
+let g:ctrlp_max_depth=5
 let g:ctrlp_max_files=500
 let g:ctrlp_match_window_bottom = 1
 
@@ -1097,11 +989,10 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap K :grep "\b<C-R><C-W>\b"<CR>:cw<CR>:set modifiable<CR>
 
 " }}}
-" easy motion {{{
+" easy motion {{{3
 " let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
 " Bi-directional find motion
@@ -1134,8 +1025,7 @@ let g:EasyMotion_startofline = 0
 silent! call repeat#set("\<Plug>(easymotion-repeat)", 1)
 
 " }}}
-" syntastic {{{
-
+" syntastic {{{3
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -1154,7 +1044,6 @@ let g:syntastic_mode_map = {
     \ "active_filetypes": ["ruby", "php"],
     \ "passive_filetypes": ["python"]
 \}
-
 " }}}
 " startify {{{
 let g:startify_custom_footer =
@@ -1183,16 +1072,10 @@ let g:startify_list_order = [
         \ ]
 let g:startify_bookmarks = ['~/.vimrc', '~/.zshrc', '~/.self.bashrc.impl', '~/work/proj/hexo-blog']
 " }}}
-" QFEnter {{{
-" [open quicklist int tab/split mood shortcut](https://github.com/yssl/QFEnter)
-let g:qfenter_vopen_map = ['<C-v>']
-let g:qfenter_hopen_map = ['<C-CR>', '<C-s>', '<C-x>']
-let g:qfenter_topen_map = ['<C-t>']
-" }}}
-" emmet {{{
+" emmet {{{3
 let g:user_emmet_leader_key = '<C-y>'
 " }}}
-" vimux {{{
+" vimux {{{3
 "
 " Use exising pane or window (not used by vim) if found instead of running split-window.
 let VimuxUseNearest = 1
@@ -1231,30 +1114,30 @@ map <Leader>ro :call VimuxOpenPane()<CR>
 " Push the repository of the currently opened file, 0 means not add file into the command line
 nnoremap <leader>gp :call VimuxRunCommandInDir("git push", 0)<CR>
 " }}}
-" vim-airline {{{
+" vim-airline {{{3
 " let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline_powerline_fonts=1
+" let g:airline#extensions#syntastic#enabled = 1
+" let g:airline#extensions#tagbar#enabled = 1
+" let g:airline_powerline_fonts=1
 
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
+" if !exists('g:airline_symbols')
+    " let g:airline_symbols = {}
+" endif
 
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.crypt = '🔒'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
+" " unicode symbols
+" let g:airline_left_sep = '»'
+" let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+" let g:airline_right_sep = '◀'
+" let g:airline_symbols.crypt = '🔒'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+" let g:airline_symbols.branch = '⎇'
+" let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+" let g:airline_symbols.whitespace = 'Ξ'
 
 " powerline symbols
 " let g:airline_left_sep = ''
@@ -1265,8 +1148,7 @@ let g:airline_symbols.whitespace = 'Ξ'
 " let g:airline_symbols.readonly = ''
 " let g:airline_symbols.linenr = ''
 " }}}
-" vim-themetic {{{
-
+" vim-themetic {{{3
 let g:thematic#defaults = {
 \   'fullscreen-background-color-fix' : 1,
 \ }
@@ -1314,9 +1196,8 @@ let g:thematic#themes = {
 if has("gui_running")
     let g:thematic#theme_name = 'tomorrow-night-eighties-dark'
 endif
-
 "}}}
-" vim-gitgutter {{{
+" vim-gitgutter {{{3
 " change update time for gitgutter take effect
 set updatetime=250
 
@@ -1331,12 +1212,6 @@ hi clear SignColumn
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 let g:gitgutter_highlight_lines = 0
-" }}}
-" vimim {{{
-" let g:vimim_cloud='sogou'
-
-" no cloud
-let g:vimim_cloud=-1
 " }}}
 " pangu {{{
 " auto spacing for following ext
@@ -1354,4 +1229,9 @@ nmap <leader>tl :LeadingSpaceToggle<cr>
 set list
 set listchars=tab:\|\ "@note space here
 " }}}
+" limelight {{{3
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+" }}}
 "}}}
+" }}}
