@@ -15,15 +15,22 @@ hs.window.setShadows(false)
 -- cli
 if not hs.ipc.cliStatus() then hs.ipc.cliInstall() end
 
+-- call evernote switch to menu
+function focusEvernoteAndSwitchTo() 
+    hs.application.launchOrFocus("Evernote")
+    hs.eventtap.keyStroke({"cmd"}, "j")
+end
+
 -- App shortcuts
-hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("Firefox") end)
--- hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("Google Chrome") end)
+-- hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("Firefox") end)
+hs.hotkey.bind(hyper, "1", function() hs.application.launchOrFocus("Google Chrome") end)
 hs.hotkey.bind(hyper, "2", function() hs.application.launchOrFocus("iTerm") end)
 hs.hotkey.bind(hyper, "3", function() hs.application.launchOrFocus("Evernote") end)
 hs.hotkey.bind(hyper, "4", function() hs.application.launchOrFocus("MacVim") end)
 hs.hotkey.bind(hyper, "0", function() hs.application.launchOrFocus("PyCharm") end)
 hs.hotkey.bind(hyper, "9", function() hs.application.launchOrFocus("NeteaseMusic") end)
-hs.hotkey.bind(hyper, 'f', function() hs.window.focusedWindow():toggleFullScreen() end)
+hs.hotkey.bind(hyper, "/", focusEvernoteAndSwitchTo)
+-- hs.hotkey.bind(hyper, 'f', function() hs.window.focusedWindow():toggleFullScreen() end)
 
 -- Hints
 hs.hotkey.bind(hyper, ';', function() 
@@ -31,7 +38,7 @@ hs.hotkey.bind(hyper, ';', function()
 end)
 
 -- will show parent parent process name
-hs.hints.style = "vimperator"
+-- hs.hints.style = "vimperator"
 
 -- undo
 local undo = require 'undo'

@@ -93,6 +93,9 @@ set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(hostname)#[fg
 set -g status-justify left
 set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R' 
 
+# set -g window-style 'fg=colour247,bg=colour236'
+# set -g window-active-style 'fg=colour250,bg=black'
+
 # Bad Wolf by Steve Losh
 # set -g window-status-activity-attr bold
 # set -g pane-border-fg colour245

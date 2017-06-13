@@ -300,7 +300,7 @@ endif
 " set guifont=Microsoft_YaHei_Mono:h11:cANSI
 " set guifont=Inconsolata:h13
 " set guifont=Monaco:h11
-set guifont=Monaco\ for\ Powerline:h10
+set guifont=Monaco\ for\ Powerline:h11
 
 " set gvim startup size, remember to put this after set font
 if has("gui_running")
@@ -485,7 +485,7 @@ nnoremap <F3>c A<tab>/**< */<Left><Left>
 
 " for surround for markdown code, ys whole word with `, and then goto end of the word
 nmap gs ysiw`E
-
+nmap gS ysiW`E
 "}}}
 " others {{{2
 
@@ -728,6 +728,10 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'w0ng/vim-hybrid'
 Plug 'reedes/vim-colors-pencil'
 
+" markdown editing
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
 " git gutter
 " Plug 'airblade/vim-gitgutter'
 
@@ -909,7 +913,9 @@ inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 "let g:ycm_key_list_select_completion = ['<Down>']
 "let g:ycm_key_list_previous_completion=['<c-p>']
 "let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示
+
+"关闭加载.ycm_extra_conf.py提示
+let g:ycm_confirm_extra_conf=0
 
 " 开启 YCM 基于标签引擎
 let g:ycm_collect_identifiers_from_tags_files=1
@@ -922,13 +928,6 @@ let g:ycm_cache_omnifunc=0
 
 "开启语义补全
 let g:ycm_seed_identifiers_with_syntax = 1
-
-"force recomile with syntastic
-" nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
-
-"nnoremap <leader>lo :lopen<CR>	"open locationlist
-"nnoremap <leader>lc :lclose<CR>	"close locationlist
-"inoremap <leader><leader> <C-x><C-o>
 
 "注释输入中也能补全
 let g:ycm_complete_in_comments = 1
@@ -943,14 +942,11 @@ nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
 nnoremap <leader>gg :YcmCompleter GoTo<CR>
 
-" let g:ycm_error_symbol = '>>'
-" let g:ycm_warning_symbol = '>*'
+" let g:ycm_semantic_triggers = {
+   " \   'css': [ 're!^\s{4}', 're!:\s+' ],
+   " \ }
 
-" nmap <F4> :YcmDiags<CR>
-
-" restart
-nnoremap <leader>rs : YcmRestartServer<cr>
-
+map <C-]> :YcmCompleter GoToImprecise<CR>
 " }}}
 " CtrlP {{{3
 let g:ctrlp_map='<Leader>f'
@@ -965,7 +961,7 @@ let g:ctrlp_match_window_bottom = 1
 
 " `'r'` - the nearest ancestor that contains one of these directories or files: `.git` `.hg` `.svn` `.bzr` `_darcs`
 " `'a'` - like c, but only if the current working directory outside of CtrlP is not a direct ancestor of the directory of the current file.
-let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 'r'
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc     " MacOSX/Linux
 
@@ -1232,6 +1228,7 @@ set listchars=tab:\|\ "@note space here
 " limelight {{{3
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
+let goyo_width=120
 " }}}
 "}}}
 " }}}
