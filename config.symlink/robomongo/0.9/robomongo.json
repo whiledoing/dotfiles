@@ -1,0 +1,68 @@
+{
+ "autoExec" : false,
+ "autoExpand" : true,
+ "autocompletionMode" : 1,
+ "batchSize" : 50,
+ "connections" : [
+  {
+   "connectionName" : "dm60",
+   "credentials" : [
+    {
+     "databaseName" : "whiledoing",
+     "enabled" : true,
+     "mechanism" : "SCRAM-SHA-1",
+     "userName" : "dm60",
+     "userPassword" : "dm60passwd"
+    }
+   ],
+   "defaultDatabase" : "",
+   "serverHost" : "localhost",
+   "serverPort" : 30000,
+   "ssh" : {
+    "askPassword" : false,
+    "enabled" : true,
+    "host" : "10.246.46.135",
+    "method" : "publickey",
+    "passphrase" : "",
+    "port" : 32200,
+    "privateKeyFile" : "/Users/whiledoing/.ssh/id_rsa",
+    "publicKeyFile" : "",
+    "userName" : "hzjiangjinzheng",
+    "userPassword" : ""
+   },
+   "ssl" : {
+    "allowInvalidCertificates" : false,
+    "allowInvalidHostnames" : false,
+    "askPassphrase" : false,
+    "caFile" : "",
+    "crlFile" : "",
+    "pemKeyFile" : "",
+    "pemPassPhrase" : "",
+    "sslEnabled" : false,
+    "useAdvancedOptions" : false,
+    "usePemFile" : false
+   }
+  }
+ ],
+ "disableConnectionShortcuts" : false,
+ "imported" : true,
+ "lineNumbers" : true,
+ "loadMongoRcJs" : true,
+ "minimizeToTray" : false,
+ "mongoTimeoutSec" : 10,
+ "shellTimeoutSec" : 15,
+ "style" : "Macintosh",
+ "textFontFamily" : "",
+ "textFontPointSize" : -1,
+ "timeZone" : 1,
+ "toolbars" : {
+  "connect" : true,
+  "exec" : true,
+  "explorer" : true,
+  "logs" : false,
+  "open_save" : true
+ },
+ "uuidEncoding" : 3,
+ "version" : "2.0",
+ "viewMode" : 1
+}

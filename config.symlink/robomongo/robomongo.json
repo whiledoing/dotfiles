@@ -1,0 +1,61 @@
+{
+ "autoExpand" : false,
+ "batchSize" : 50,
+ "connections" : [
+  {
+   "connectionName" : "dev",
+   "credentials" : [
+    {
+     "databaseName" : "admin",
+     "enabled" : true,
+     "userName" : "h9admin",
+     "userPassword" : "h9mongopw"
+    }
+   ],
+   "defaultDatabase" : "",
+   "serverHost" : "10.246.14.105",
+   "serverPort" : 30000,
+   "sshAuthMethod" : 0,
+   "sshHost" : "",
+   "sshPassphrase" : "",
+   "sshPort" : 22,
+   "sshPrivateKey" : "",
+   "sshPublicKey" : "",
+   "sshUserName" : "",
+   "sshUserPassword" : "",
+   "sslEnabled" : false,
+   "sslPemKeyFile" : ""
+  },
+  {
+   "connectionName" : "h42-dev",
+   "credentials" : [
+    {
+     "databaseName" : "db_109",
+     "enabled" : true,
+     "userName" : "h42",
+     "userPassword" : "h42entitydb"
+    }
+   ],
+   "defaultDatabase" : "db_109",
+   "serverHost" : "10.246.46.109",
+   "serverPort" : 30000,
+   "sshAuthMethod" : 1,
+   "sshHost" : "",
+   "sshPassphrase" : "",
+   "sshPort" : 22,
+   "sshPrivateKey" : "",
+   "sshPublicKey" : "",
+   "sshUserName" : "",
+   "sshUserPassword" : "",
+   "sslEnabled" : false,
+   "sslPemKeyFile" : ""
+  }
+ ],
+ "disableConnectionShortcuts" : false,
+ "loadMongoRcJs" : false,
+ "style" : "Native",
+ "timeZone" : 0,
+ "uuidEncoding" : 0,
+ "version" : "1.0",
+ "viewMode" : 1
+}
