@@ -6,7 +6,7 @@ unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
 
--# quick pane cycling
+# quick pane cycling
 unbind ^A
 bind ^A last-window
 
@@ -16,9 +16,14 @@ set -g set-titles-string '#(whoami)::#h::#(curl ipecho.net/plain;echo)'
 
 # swap window (http://superuser.com/questions/343572/how-do-i-reorder-tmux-windows)
 bind-key m command-prompt -p "move window to:"  "swap-window -t '%%'"#  
+bind-key < swap-window -t -1
+bind-key > swap-window -t +1
 
 # remove paste time, need to set on tmux 2.1 [ref](https://github.com/Homebrew/homebrew/issues/45413)
-# set -g assume-paste-time 0
+set -g assume-paste-time 0
+
+# reload tmux config file (defined in tmux-sensible)
+bind R source-file ~/.tmux.conf
 
 # set window and pane index to 1 (0 by default)
 set-option -g base-index 1
@@ -31,9 +36,15 @@ set-option -g allow-rename off
 # update to tmux 2.1 use this one setting for mouse mode
 set -g mouse on
 
+# @deprecated since tmux 2.0
+# set -g mode-mouse on
+# set -g mouse-resize-pane on
+# set -g mouse-select-pane on
+# set -g mouse-select-window on
+
 # scroll wheel auto set into copy-mode and exit when not need [ref](http://joehanchoi.com/quick-fixes-for-tmux-2-1-on-osx/)
-# bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"  
-# bind -n WheelDownPane select-pane -t= \; send-keys -M  
+bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"  
+bind -n WheelDownPane select-pane -t= \; send-keys -M  
 
 # highlight window has message
 setw -g monitor-activity on
@@ -53,10 +64,13 @@ setw -g mode-keys vi
 set -g status-keys vi
 
 # start selecting text typing 'v' key (once you are in copy mode)
-bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -t vi-copy v begin-selection
 
 # Begin selection in copy mode.
-# bind-key -t vi-copy 'C-v' rectangle-toggle
+bind-key -t vi-copy 'C-v' rectangle-toggle
+
+# copy selected text to the system's clipboard
+bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 
 # Smart pane switching with awareness of vim splits
 # is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
@@ -103,19 +117,25 @@ set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R'
 # set-option -g status-right "#(~/work/github-proj/tmux-powerline/powerline.sh right)"
 # set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
 
+# bind C-[ run '~/work/github-proj/tmux-powerline/mute_powerline.sh left'      # Mute left statusbar.
+# bind C-] run '~/work/github-proj/tmux-powerline/mute_powerline.sh right'     # Mute right statusbar.
+
 ###########################################################################
 # tpm 
 
 # [tpm](https://github.com/tmux-plugins/tpm)
-set -g @tpm_plugins "                   \
-  tmux-plugins/tpm                      \
-  tmux-plugins/tmux-pain-control        \
-  tmux-plugins/tmux-sensible            \
-  tmux-plugins/tmux-resurrect           \
-  tmux-plugins/tmux-sessionist          \
-  seebi/tmux-colors-solarized           \
-  tmux-plugins/tmux-continuum           \
-  tmux-plugins/tmux-yank                \
+set -g @tpm_plugins "               \
+  tmux-plugins/tpm                  \
+  tmux-plugins/tmux-pain-control    \
+  tmux-plugins/tmux-sensible        \
+  tmux-plugins/vim-tmux             \
+  tmux-plugins/tmux-resurrect       \
+  tmux-plugins/tmux-sessionist      \
+  tmux-plugins/tmux-copycat         \
+  seebi/tmux-colors-solarized       \
+  tmux-plugins/tmux-open            \
+  tmux-plugins/tmux-continuum       \
+  tmux-plugins/tmux-yank       \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
@@ -126,9 +146,6 @@ set-option -g @pane_resize "10"
 
 # auto restore tmux env
 set -g @continuum-restore 'on'
-
-# auto saving and restoring tmux pane contents.
-set -g @resurrect-capture-pane-contents 'on'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'

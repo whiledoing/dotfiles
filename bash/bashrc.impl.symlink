@@ -115,6 +115,7 @@ alias nowdate='date +"%Y-%d-%m"'
 # for vim
 alias vi='vim'
 alias svi='sudo vi'
+alias edit='vim'
 
 if [[ "$(uname)" == "Darwin" ]]; then
     # for mvim only (in mac os)
@@ -203,6 +204,3 @@ if [ `id -u` != '0' ] && [ -f '/usr/local/bin/virtualenvwrapper.sh' ]; then
 fi
 
 export SSLKEYLOGFILE=~/sslkeylog.log
-
-alias top='vtop --theme wizard'
-alias oldtop='/usr/bin/top'
