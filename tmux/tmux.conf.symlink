@@ -12,7 +12,7 @@ bind ^A last-window
 
 # Rename your terminals
 set -g set-titles on
-set -g set-titles-string '#(whoami)::#h::#(curl ipecho.net/plain;echo)'
+set -g set-titles-string '#(whoami)::#(curl ipecho.net/plain;echo)'
 
 # swap window (http://superuser.com/questions/343572/how-do-i-reorder-tmux-windows)
 bind-key m command-prompt -p "move window to:"  "swap-window -t '%%'"#  
@@ -64,13 +64,13 @@ setw -g mode-keys vi
 set -g status-keys vi
 
 # start selecting text typing 'v' key (once you are in copy mode)
-bind-key -t vi-copy v begin-selection
+# bind-key -t vi-copy v begin-selection
 
 # Begin selection in copy mode.
-bind-key -t vi-copy 'C-v' rectangle-toggle
+# bind-key -t vi-copy 'C-v' rectangle-toggle
 
 # copy selected text to the system's clipboard
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+# bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 
 # Smart pane switching with awareness of vim splits
 # is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
