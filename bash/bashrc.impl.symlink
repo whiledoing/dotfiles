@@ -1,9 +1,34 @@
 # user specific bashrc config
-# can be used in any bash env
-# whiledoing@163.com
 
 # env
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
+
+# for cuda
+export PATH=$PATH:/Developer/NVIDIA/CUDA-9.1/bin
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-9.1/lib
+
+# for opencv
+export LDFLAGS=-L/usr/local/opt/opencv@2/lib
+export CPPFLAGS=-I/usr/local/opt/opencv@2/include
+export PKG_CONFIG_PATH=/usr/local/opt/opencv@2/lib/pkgconfig
+
+# for apache spark
+# if which java > /dev/null; then export JAVA_HOME=$(/usr/libexec/java_home); fi
+export JAVA_HOME="/Library/Java/Home"
+
+# for pyspark
+if which pyspark > /dev/null; then
+  export SPARK_HOME="/usr/local/Cellar/apache-spark/2.3.0/libexec"
+  export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+  export PYTHONPATH=$SPARK_HOME/python/lib/py4j-0.10.6-src.zip:$PYTHONPATH
+fi
+
+# pyspark with use jupyter instead of interactive shell
+export PYSPARK_DRIVER_PYTHON=jupyter pyspark
+export PYSPARK_DRIVER_PYTHON_OPTS=notebook
+
+# for scala path in IntelliJ
+export SCALA_HOME="/usr/local/opt/scala/idea"
 
 # disable ctrl-d exit shell [ref](http://superuser.com/questions/479600/how-can-i-prevent-tmux-exiting-with-ctrl-d)
 # set -o ignoreeof
@@ -15,8 +40,6 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # may change PS1 to PROMPT (but that's not necessary).
 # [refs](https://github.com/erikw/tmux-powerline)
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
-
-# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -56,20 +79,24 @@ alias la='ls -Alh'
 alias lt='ls -Alhtr'
 alias javac="javac -J-Dfile.encoding=utf8"
 alias grep="grep --color=auto"
-alias pp="pbpaste"
-alias pc="pbcopy"
 
-alias -s html=mate   # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开
-alias -s rb=mate     # 在命令行直接输入 ruby 文件，会在 TextMate 中打开
-alias -s py=vi       # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似
-alias -s js=vi
-alias -s c=vi
-alias -s java=vi
-alias -s txt=vi
-alias -s gz='tar -xzvf'
-alias -s tgz='tar -xzvf'
-alias -s zip='unzip'
-alias -s bz2='tar -xjvf'
+# mac alias
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias pp="pbpaste"
+    alias pc="pbcopy"
+
+    alias -s html=node   # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开
+    alias -s rb=node     # 在命令行直接输入 ruby 文件，会在 TextMate 中打开
+    alias -s py=vi       # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似
+    alias -s js=vi
+    alias -s c=vi
+    alias -s java=vi
+    alias -s txt=vi
+    alias -s gz='tar -xzvf'
+    alias -s tgz='tar -xzvf'
+    alias -s zip='unzip'
+    alias -s bz2='tar -xjvf'
+fi
 
 # svn alias
 alias ss='svn st'
@@ -83,11 +110,11 @@ if [ -f $HOME/.self.bashrc.impl ]; then
     source $HOME/.self.bashrc.impl
 fi
 
-## a quick way to get out of current directory ##
+# a quick way to get out of current directory ##
 alias cd..='cd ..'
 alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 alias .....='cd ../../../../'
 alias ..2="cd ../.."
 alias ..3="cd ../../.."
@@ -184,11 +211,12 @@ bindkey '\C-n' history-search-forward
 bindkey -M vicmd '|' beginning-of-line
 
 # send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
-function ts {
+function tsr {
     args=$@
     tmux send-keys -t right "$args" C-m
 }
 
+# send cmd to left tmux pane
 function tsl {
     args=$@
     tmux send-keys -t left "$args" C-m
@@ -203,4 +231,11 @@ if [ `id -u` != '0' ] && [ -f '/usr/local/bin/virtualenvwrapper.sh' ]; then
   export PIP_RESPECT_VIRTUALENV=true
 fi
 
-export SSLKEYLOGFILE=~/sslkeylog.log
+# auto autoenv 
+[ -f /usr/local/opt/autoenv/activate.sh ] && source /usr/local/opt/autoenv/activate.sh
+
+# make thefuck alias workable
+eval $(thefuck --alias)
+
+# use fzf for search
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
