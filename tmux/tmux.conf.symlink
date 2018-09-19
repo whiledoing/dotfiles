@@ -64,13 +64,13 @@ setw -g mode-keys vi
 set -g status-keys vi
 
 # start selecting text typing 'v' key (once you are in copy mode)
-bind-key -t vi-copy v begin-selection
+# bind-key -t vi-copy v begin-selection
 
 # Begin selection in copy mode.
-bind-key -t vi-copy 'C-v' rectangle-toggle
+# bind-key -t vi-copy 'C-v' rectangle-toggle
 
 # copy selected text to the system's clipboard
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
+# bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 
 # Smart pane switching with awareness of vim splits
 # is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
@@ -84,14 +84,14 @@ bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 # color
 
 # status bar customization
-set -g status-bg black
-set -g status-fg white
-set -g status-interval 5
-set -g status-left-length 90
-set -g status-right-length 60
-set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(hostname)#[fg=white]::##[fg=blue]#(curl ipecho.net/plain;echo)#[fg=white]  "
-set -g status-justify left
-set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R' 
+# set -g status-bg black
+# set -g status-fg white
+# set -g status-interval 5
+# set -g status-left-length 90
+# set -g status-right-length 60
+# set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(hostname)#[fg=white]::##[fg=blue]#(curl ipecho.net/plain;echo)#[fg=white]  "
+# set -g status-justify left
+# set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R' 
 
 # set -g window-style 'fg=colour247,bg=colour236'
 # set -g window-active-style 'fg=colour250,bg=black'
@@ -107,18 +107,17 @@ set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R'
 # set -g window-status-current-format "#[fg=colour234,bg=colour39]#[fg=colour16,bg=colour39,noreverse,bold] #I ❭ #W #[fg=colour39,bg=colour234,nobold]"
 
 # status bar from tmux-powerline (https://github.com/erikw/tmux-powerline)
-# set-option -g status on
-# set-option -g status-interval 2
-# set-option -g status-utf8 on
-# set-option -g status-justify "centre"
-# set-option -g status-left-length 60
-# set-option -g status-right-length 90
-# set-option -g status-left "#(~/work/github-proj/tmux-powerline/powerline.sh left)"
-# set-option -g status-right "#(~/work/github-proj/tmux-powerline/powerline.sh right)"
-# set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
+set-option -g status on
+set-option -g status-interval 2
+set-option -g status-justify "centre"
+set-option -g status-left-length 60
+set-option -g status-right-length 90
+set-option -g status-left "#(~/.tmux/tmux-powerline/powerline.sh left)"
+set-option -g status-right "#(~/.tmux/tmux-powerline/powerline.sh right)"
+set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
 
-# bind C-[ run '~/work/github-proj/tmux-powerline/mute_powerline.sh left'      # Mute left statusbar.
-# bind C-] run '~/work/github-proj/tmux-powerline/mute_powerline.sh right'     # Mute right statusbar.
+bind C-[ run '~/.tmux/tmux-powerline/mute_powerline.sh left'      # Mute left statusbar.
+bind C-] run '~/.tmux/tmux-powerline/mute_powerline.sh right'     # Mute right statusbar.
 
 ###########################################################################
 # tpm 
@@ -136,10 +135,13 @@ set -g @tpm_plugins "               \
   tmux-plugins/tmux-open            \
   tmux-plugins/tmux-continuum       \
   tmux-plugins/tmux-yank       \
+  jimeh/tmux-themepack \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
-set -g @colors-solarized 'dark'
+# set -g @colors-solarized 'dark'
+
+# set -g @themepack 'powerline/block/cyan'
 
 # set tpm-plain-control default size
 set-option -g @pane_resize "10"
