@@ -12,7 +12,7 @@ bind ^A last-window
 
 # Rename your terminals
 set -g set-titles on
-set -g set-titles-string '#(whoami)::#h::#(curl ipecho.net/plain;echo)'
+set -g set-titles-string '#(whoami)::#(curl ipecho.net/plain;echo)'
 
 # swap window (http://superuser.com/questions/343572/how-do-i-reorder-tmux-windows)
 bind-key m command-prompt -p "move window to:"  "swap-window -t '%%'"#  

@@ -12,7 +12,17 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 # ZSH_THEME="amuse"
 # ZSH_THEME="agnoster"
 # ZSH_THEME="apple"
-ZSH_THEME="ys"
+# ZSH_THEME="ys"
+# ZSH_THEME="bullet-train"
+ZSH_THEME="spaceship"
+
+# for bullet-train theme
+export BULLETTRAIN_PROMPT_ORDER=(time dir git virtualenv nvm)
+export BULLETTRAIN_DIR_EXTENDED=2
+
+# for space-ship theme config https://github.com/denysdovhan/spaceship-prompt
+export SPACESHIP_TIME_SHOW=true
+export SPACESHIP_DIR_TRUNC_REPO=false
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -30,15 +40,15 @@ ZSH_THEME="ys"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -54,14 +64,10 @@ ZSH_THEME="ys"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git autojump copyfile copydir 
 python pip svn command-not-found osx web-search
-sublime brew extract
-zsh-autosuggestions
-zsh-syntax-highlighting)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-source ~/.bashrc.impl
+sublime extract
+zsh-syntax-highlighting
+sudo tmux
+)
 
 # for zshrc only
 alias zshconf='vim ~/.zshrc'
@@ -71,5 +77,9 @@ alias zshrc='vim ~/.bashrc.impl && echo "source zshrc ing........." && source ~/
 
 # reload
 alias reload='source ~/.zshrc'
+
+# User configuration
+source $ZSH/oh-my-zsh.sh
+source ~/.bashrc.impl
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
