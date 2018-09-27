@@ -74,11 +74,22 @@ fi
 # my part
 alias cls='clear'
 alias ls='ls -h'
-alias ll='ls -lh'
-alias la='ls -Alh'
-alias lt='ls -Alhtr'
+alias l='ls -lFh'
+alias la='ls -lAFh'
+alias lr='ls -tRFh'
+alias lt='ls -ltFh'
+alias lrt='ls -ltFhr'
+alias ll='ls -lFh'
+alias ldot='ls -lFhd .*'
 alias javac="javac -J-Dfile.encoding=utf8"
 alias grep="grep --color=auto"
+alias p='ps -f'
+alias H='| head'
+alias T='| tail'
+alias G='| grep'
+alias L='| less'
+alias LL='2>&1 | less'
+alias NE='2>/dev/null'
 
 # mac alias
 if [[ "$(uname)" == "Darwin" ]]; then

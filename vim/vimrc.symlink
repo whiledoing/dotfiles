@@ -300,7 +300,8 @@ endif
 " set guifont=Microsoft_YaHei_Mono:h11:cANSI
 " set guifont=Inconsolata:h13
 " set guifont=Monaco:h11
-set guifont=Monaco\ for\ Powerline:h11
+" set guifont=Monaco\ for\ Powerline:h12
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
 
 " set gvim startup size, remember to put this after set font
 if has("gui_running")
@@ -672,12 +673,6 @@ call plug#begin('~/.vim/plugged')
 " html and css zen encoding
 Plug 'mattn/emmet-vim'
 
-" auto get the file encoding
-Plug 'FencView.vim'
-
-" auto generate dir when using :w foo/a/test.txt"
-Plug 'auto_mkdir'
-
 " better tag list plugin
 Plug 'majutsushi/tagbar'
 
@@ -691,7 +686,7 @@ Plug 'rizzatti/dash.vim'
 Plug 'scrooloose/syntastic'
 
 " omni auto complete
-Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --tern-completer'}
+" Plug 'Valloric/YouCompleteMe', {'do': 'python install.py --tern-completer'}
 
 " distraction-free writing in vim
 Plug 'junegunn/goyo.vim'
@@ -727,6 +722,7 @@ Plug 'reedes/vim-thematic'
 Plug 'altercation/vim-colors-solarized'
 Plug 'w0ng/vim-hybrid'
 Plug 'reedes/vim-colors-pencil'
+Plug 'chriskempson/base16-vim'
 
 " markdown editing
 Plug 'godlygeek/tabular'
@@ -1184,13 +1180,19 @@ let g:thematic#themes = {
 \       'colorscheme': 'Tomorrow-Night-Eighties',
 \       'background': 'dark',
 \       'airline-theme': 'behelit',
-\   }
+\   },
+\   'base16-default-dark' : {
+\       'colorscheme': 'base16-default-dark',
+\       'background': 'dark',
+\       'airline-theme': 'behelit',
+\   },
 \ }
 
 " only install theme settings on start up, so hook it only on gui version
 " in console, use default config
 if has("gui_running")
-    let g:thematic#theme_name = 'tomorrow-night-eighties-dark'
+    let g:thematic#theme_name = 'base16-default-dark'
+    let base16colorspace = 256
 endif
 "}}}
 " vim-gitgutter {{{3
