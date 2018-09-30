@@ -56,13 +56,12 @@ update_cask_module evernote
 alias vim="mvim -v"
 fi
 
-# update vim plugins
-# vim +PlugInstall +qall
-
 # install vim plugin manager
 if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
     echo "installing vim plug manager ..."
     curl -fsSLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    # update vim plugins
+    vim +PlugInstall +qall
 fi
 
 # install oh-my-sh
