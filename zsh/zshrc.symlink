@@ -43,6 +43,9 @@ alias zshrc='vim ~/.bashrc.impl && echo "source zshrc ing........." && source ~/
 # reload
 alias reload='source ~/.zshrc'
 
+# disable autocorrect in zsh
+unsetopt correct_all
+
 # User configuration
 source $ZSH/oh-my-zsh.sh
 [ -f ~/.zshrc.impl ] && source ~/.zshrc.impl

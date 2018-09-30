@@ -84,12 +84,6 @@ alias ldot='ls -lFhd .*'
 alias javac="javac -J-Dfile.encoding=utf8"
 alias grep="grep --color=auto"
 alias p='ps -f'
-alias H='| head'
-alias T='| tail'
-alias G='| grep'
-alias L='| less'
-alias LL='2>&1 | less'
-alias NE='2>/dev/null'
 
 # mac alias
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -135,7 +129,10 @@ alias ..5="cd ../../../../.."
 # misc
 alias tailf='tail -f'
 alias ip='ifconfig | grep inet'
-alias 'ps?'='ps aux | grep '
+alias 'psg'='pgrep -lf'
+function psgg {
+    ps aux | grep -i $1 | grep -v grep
+}
 
 # with math suport
 alias bc='bc -l'
@@ -199,7 +196,7 @@ run() {
 # [refs](http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html)
 cdl() {
     cd "$@";
-    ls -al;
+    ls -lFh;
 }
 
 # using vim biding in conf
@@ -208,18 +205,18 @@ cdl() {
 # set bell-style none
 
 # using jj as esc 
-bindkey -M viins 'jj' vi-cmd-mode
+# bindkey -M viins 'jj' vi-cmd-mode
 
 # using ctrl-r in vi mode
-bindkey '^R' history-incremental-search-backward
+# bindkey '^R' history-incremental-search-backward
 
 # bindkey 'gg' beginning-of-history
 # bindkey 'G' end-of-history
 
-bindkey '\C-w' backward-kill-word
-bindkey '\C-p' history-search-backward
-bindkey '\C-n' history-search-forward
-bindkey -M vicmd '|' beginning-of-line
+# bindkey '\C-w' backward-kill-word
+# bindkey '\C-p' history-search-backward
+# bindkey '\C-n' history-search-forward
+# bindkey -M vicmd '|' beginning-of-line
 
 # send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
 function tsr {
@@ -231,6 +228,10 @@ function tsr {
 function tsl {
     args=$@
     tmux send-keys -t left "$args" C-m
+}
+
+function killjava {
+    jps | grep -i $@ | awk '{print $1}' | xargs kill -9
 }
 
 # set virtualwrapper (https://github.com/dccrazyboy/pyeco/blob/master/pyeco.rst)

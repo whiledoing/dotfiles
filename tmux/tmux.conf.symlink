@@ -4,11 +4,6 @@
 # remap prefix to ctrl-a
 unbind C-b
 set -g prefix C-a
-bind C-a send-prefix
-
-# quick pane cycling
-unbind ^A
-bind ^A last-window
 
 # Rename your terminals
 set -g set-titles on
@@ -35,12 +30,6 @@ set-option -g allow-rename off
 
 # update to tmux 2.1 use this one setting for mouse mode
 set -g mouse on
-
-# @deprecated since tmux 2.0
-# set -g mode-mouse on
-# set -g mouse-resize-pane on
-# set -g mouse-select-pane on
-# set -g mouse-select-window on
 
 # scroll wheel auto set into copy-mode and exit when not need [ref](http://joehanchoi.com/quick-fixes-for-tmux-2-1-on-osx/)
 bind -n WheelUpPane if-shell -F -t = "#{mouse_any_flag}" "send-keys -M" "if -Ft= '#{pane_in_mode}' 'send-keys -M' 'select-pane -t=; copy-mode -e; send-keys -M'"  
@@ -81,45 +70,6 @@ set -g status-keys vi
 # bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
 ###########################################################################
-# color
-
-# status bar customization
-# set -g status-bg black
-# set -g status-fg white
-# set -g status-interval 5
-# set -g status-left-length 90
-# set -g status-right-length 60
-# set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(hostname)#[fg=white]::##[fg=blue]#(curl ipecho.net/plain;echo)#[fg=white]  "
-# set -g status-justify left
-# set -g status-right '#[fg=Cyan]#S #I:#P #[fg=white]%a %d %b %R' 
-
-# set -g window-style 'fg=colour247,bg=colour236'
-# set -g window-active-style 'fg=colour250,bg=black'
-
-# Bad Wolf by Steve Losh
-# set -g window-status-activity-attr bold
-# set -g pane-border-fg colour245
-# set -g pane-active-border-fg colour39
-# set -g message-fg colour16
-# set -g message-bg colour221
-# set -g message-attr bold
-# set -g window-status-format "#[fg=white,bg=colour234] #I #W "
-# set -g window-status-current-format "#[fg=colour234,bg=colour39]#[fg=colour16,bg=colour39,noreverse,bold] #I ❭ #W #[fg=colour39,bg=colour234,nobold]"
-
-# status bar from tmux-powerline (https://github.com/erikw/tmux-powerline)
-set-option -g status on
-set-option -g status-interval 2
-set-option -g status-justify "centre"
-set-option -g status-left-length 60
-set-option -g status-right-length 90
-set-option -g status-left "#(~/.tmux/tmux-powerline/powerline.sh left)"
-set-option -g status-right "#(~/.tmux/tmux-powerline/powerline.sh right)"
-set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
-
-bind C-[ run '~/.tmux/tmux-powerline/mute_powerline.sh left'      # Mute left statusbar.
-bind C-] run '~/.tmux/tmux-powerline/mute_powerline.sh right'     # Mute right statusbar.
-
-###########################################################################
 # tpm 
 
 # [tpm](https://github.com/tmux-plugins/tpm)
@@ -131,17 +81,14 @@ set -g @tpm_plugins "               \
   tmux-plugins/tmux-resurrect       \
   tmux-plugins/tmux-sessionist      \
   tmux-plugins/tmux-copycat         \
-  seebi/tmux-colors-solarized       \
   tmux-plugins/tmux-open            \
   tmux-plugins/tmux-continuum       \
-  tmux-plugins/tmux-yank       \
-  jimeh/tmux-themepack \
+  tmux-plugins/tmux-yank            \
+  jimeh/tmux-themepack              \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
-# set -g @colors-solarized 'dark'
-
-# set -g @themepack 'powerline/block/cyan'
+set -g @themepack 'powerline/double/yellow'
 
 # set tpm-plain-control default size
 set-option -g @pane_resize "10"
@@ -151,28 +98,3 @@ set -g @continuum-restore 'on'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
-
-# Remap window navigation to vim (defined in tpm-plain-control)
-# unbind-key j 
-# bind-key j select-pane -D 
-# unbind-key k
-# bind-key k select-pane -U 
-# unbind-key h 
-# bind-key h select-pane -L 
-# unbind-key l
-# bind-key l select-pane -R
-
-# resize panes using PREFIX H, J, K, L (defined in tpm-plain-control)
-# bind H resize-pane -L 5
-# bind J resize-pane -D 5
-# bind K resize-pane -U 5
-# bind L resize-pane -R 5
-
-# make tmux display things in 256 colors (defined in tmux-sensible)
-# set -g default-terminal "screen-256color"
-
-# set scrollback history to 10000 (10k) (defined in tmux-sensible)
-# set -g history-limit 10000
-
-# invoke reattach-to-user-namespace every time a new window/pane opens (defined in tmux-sensible)
-# set-option -g default-command "reattach-to-user-namespace -l zsh"
