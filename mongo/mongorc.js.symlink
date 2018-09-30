@@ -66,3 +66,11 @@ var find_attr = function(query, field, col_name, find_one) {
         return db[col_name].find(query, field);
     }
 }
+
+var prompt = function() {
+    var res = (new Date().toLocaleString()) + ':';
+    if (typeof db == 'undefined') {
+        return res + '(nodb)> ';
+    }
+    return res + db + '> ';
+}
