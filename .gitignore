@@ -11,3 +11,4 @@ git/gitconfig.symlink
 
 config.symlink/htop
 config.symlink/configstore
+.DS_Store
