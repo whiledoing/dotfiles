@@ -2,9 +2,10 @@
 #!/bin/sh
 
 if [ `uname -s` = "Darwin" ]; then
-# install brew if not exists
-if ! type brew > /dev/null; then
-    /usr/bin/ruby -e `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`
+    # install brew if not exists
+    if [ ! `command -v brew` ]; then
+        /usr/bin/ruby -e `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`
+    fi
 fi
 
 # update brew only on not exists
@@ -45,15 +46,21 @@ update_module maven
 update_module most
 update_module wget
 update_module node
+update_module fd
 
 # update_cask_module visual-studio-code
 update_cask_module hammerspoon
 update_cask_module iterm2
 update_cask_module google-chrome
 update_cask_module evernote
+update_cask_module fluor
 
 # set vim cmd
 alias vim="mvim -v"
+
+# for visual studio vim plugin auto switch im
+if [ ! `command -v im-select` ]; then
+    curl -Ls https://raw.githubusercontent.com/daipeihust/im-select/master/install_mac.sh | sh
 fi
 
 # install vim plugin manager
