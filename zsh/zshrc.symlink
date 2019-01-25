@@ -50,3 +50,4 @@ unsetopt correct_all
 source $ZSH/oh-my-zsh.sh
 [ -f ~/.zshrc.impl ] && source ~/.zshrc.impl
 [ -f ~/.bashrc.impl ] && source ~/.bashrc.impl
+[ -f ~/.bash_profile ] && source ~/.bash_profile
