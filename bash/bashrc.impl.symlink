@@ -250,4 +250,10 @@ fi
 eval $(thefuck --alias)
 
 # use fzf for search
+# use fd for search files if exists
+if [[ `command -v fd` ]]; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --color=always'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_DEFAULT_OPTS="--ansi"
+fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
