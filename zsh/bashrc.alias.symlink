@@ -1,0 +1,164 @@
+# user specific alias/function/some fixed part config
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    if [[ "$(uname)" == "Darwin" ]]; then
+        export EDITOR='mvim -v'
+    else
+        export EDITOR='vim'
+    fi
+fi
+
+# my part
+alias cls='clear'
+alias ls='ls -h'
+alias l='ls -lFh'
+alias la='ls -lAFh'
+alias lr='ls -tRFh'
+alias lt='ls -ltFh'
+alias lrt='ls -ltFhr'
+alias ll='ls -lFh'
+alias ldot='ls -lFhd .*'
+alias javac="javac -J-Dfile.encoding=utf8"
+alias grep="grep --color=auto"
+alias p='ps -f'
+
+# mac alias
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias pp="pbpaste"
+    alias pc="pbcopy"
+
+    alias -s html=node   # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开
+    alias -s rb=node     # 在命令行直接输入 ruby 文件，会在 TextMate 中打开
+    alias -s py=vi       # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似
+    alias -s js=vi
+    alias -s c=vi
+    alias -s java=vi
+    alias -s txt=vi
+    alias -s gz='tar -xzvf'
+    alias -s tgz='tar -xzvf'
+    alias -s zip='unzip'
+    alias -s bz2='tar -xjvf'
+fi
+
+# personal local config if has one
+if [ -f $HOME/.self.bashrc.impl ]; then
+    source $HOME/.self.bashrc.impl
+fi
+
+# a quick way to get out of current directory ##
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+
+# misc
+alias tailf='tail -f'
+alias ip='ifconfig | grep inet'
+alias psg='pgrep -lf'
+function psgg {
+    ps aux | grep -i $1 | grep -v grep
+}
+
+# with math suport
+alias bc='bc -l'
+
+# make parent directory
+alias mkdir='mkdir -pv'
+
+# show path in seperator lines
+alias path='echo -e ${PATH//:/\\n}'
+
+# for time
+alias now='date +"%T"'
+alias nowdate='date +"%Y-%d-%m"'
+
+# for vim
+alias vi='vim'
+alias svi='sudo vi'
+alias edit='vim'
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    # for mvim only (in mac os)
+    alias vim='mvim -v'
+
+    # make mvim only run in one instance (http://stackoverflow.com/questions/936501/let-gvim-always-run-a-single-instance)
+    tvim() {
+        if [[ `mvim --serverlist | head -1` == "VIM" ]]; then
+            command mvim --remote-tab-silent "$@"
+        else
+            command mvim "$@"
+        fi
+    }
+
+    # copy sshkey
+    alias cpkey='cat ~/.ssh/id_rsa.pub | pbcopy'
+    alias cpcwd='pwd | pbcopy'
+fi
+
+# stop after sending count ECHO_REQUEST packets #
+alias ping='ping -c 5'
+
+# show file without comment
+alias nocomment='grep -Ev '\''^(#|$)'\'''
+
+# funny things : [digit matrix](http://www.commandlinefu.com/commands/view/2531/matrix-style)
+alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
+
+# dirs show dir in one line with number
+alias dirs='dirs -p'
+
+# run specifc times of command : [refs](http://serverfault.com/questions/273238/how-to-run-a-command-multiple-times)
+run() {
+    number=$1
+    shift
+
+    for i in `seq $number`; do
+        $@
+    done
+}
+
+# cd and ls it immediately
+# [refs](http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html)
+cdl() {
+    cd "$@";
+    ls -lFh;
+}
+
+# send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
+function tsr {
+    args=$@
+    tmux send-keys -t right "$args" C-m
+}
+
+# send cmd to left tmux pane
+function tsl {
+    args=$@
+    tmux send-keys -t left "$args" C-m
+}
+
+function killjava {
+    jps | grep -i $@ | awk '{print $1}' | xargs kill -9
+}
+
+# set proxy for mac CLI
+# https://tech.jandou.com/to-accelerate-the-terminal.html
+function proxy_off(){
+    unset http_proxy
+    unset https_proxy
+    echo -e "已关闭代理"
+}
+
+function proxy_on() {
+    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    export http_proxy="http://127.0.0.1:1087"
+    export https_proxy=$http_proxy
+    echo -e "已开启代理"
+}

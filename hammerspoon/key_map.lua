@@ -8,11 +8,11 @@ local key_map = {
     ["1"] = "Google Chrome",
     ["2"] = "iTerm",
     ["3"] = "Visual Studio Code",
-    ["4"] = "Wiznote",
+    ["4"] = "Evernote",
     ["0"] = "MacVim",
-    ["9"] = "Safari",
+    ["s"] = "Safari",
     ["8"] = "Cmd Markdown",
-    ["c"] = "Wechat",
+    ["c"] = "Wechat"
     -- ["m"] = "NeteaseMusic",
 }
 
@@ -21,7 +21,7 @@ function toggleFullSreen()
 end
 
 local key_func_map = {
-    -- ["/"] = focusEvernoteAndSwitchTo,
+    ["/"] = focusEvernoteAndSwitchTo,
     ["space"] = toggleFullSreen
 }
 

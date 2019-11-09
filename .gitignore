@@ -11,4 +11,7 @@ git/gitconfig.symlink
 
 config.symlink/htop
 config.symlink/configstore
+config.symlink/gcloud
+config.symlink/clash
 .DS_Store
+.vscode/

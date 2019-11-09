@@ -21,17 +21,16 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-git 
-autojump 
-copyfile 
-copydir 
-python 
-pip 
-osx 
+git
+copyfile
+copydir
+python
+osx
 extract
 zsh-syntax-highlighting
-sudo 
+sudo
 tmux
+zsh-completions
 )
 
 # for zshrc only
@@ -48,6 +47,8 @@ unsetopt correct_all
 
 # User configuration
 source $ZSH/oh-my-zsh.sh
-[ -f ~/.zshrc.impl ] && source ~/.zshrc.impl
+
 [ -f ~/.bashrc.impl ] && source ~/.bashrc.impl
+[ -f ~/.bashrc.alias ] && source ~/.bashrc.alias
 [ -f ~/.bash_profile ] && source ~/.bash_profile
+[ -f ~/.zshrc.impl ] && source ~/.zshrc.impl
