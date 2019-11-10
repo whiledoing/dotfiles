@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-read -p "switch brew mirror site, please enter switch to origin(Y) or ustc(N): " yn
+read -p "switch brew mirror site, please enter switch to ustc(Y) or origin(N): " yn
 
 function switch_to_ustc() {
     # brew
@@ -32,6 +32,6 @@ function switch_to_origin() {
 
 case $yn in
     [Yy]* ) switch_to_ustc; echo "Switch to ustc done!";;
-    [Nn]* ) switch_ro_origin; echo "Switch to origin done!";;
+    [Nn]* ) switch_to_origin; echo "Switch to origin done!";;
     * ) echo "Nothing changed!"; exit;;
 esac
