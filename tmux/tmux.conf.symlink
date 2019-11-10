@@ -90,6 +90,8 @@ set -g @tpm_plugins "               \
   tmux-plugins/tmux-continuum       \
   tmux-plugins/tmux-yank            \
   jimeh/tmux-themepack              \
+  laktak/extrakto                   \
+  tmux-plugins/tmux-sidebar         \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
@@ -100,6 +102,15 @@ set-option -g @pane_resize "10"
 
 # auto restore tmux env
 set -g @continuum-restore 'on'
+
+# extrakto increase split size
+set -g @extrakto_split_size "15"
+
+# trigger sidebar-tree
+set -g @sidebar-tree 't'
+
+# tree with color
+set -g @sidebar-tree-command 'tree -C'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'

@@ -47,6 +47,7 @@ update_module most
 update_module wget
 update_module node
 update_module fd
+update_cask_module tldr
 
 # update_cask_module visual-studio-code
 update_cask_module hammerspoon
@@ -54,6 +55,8 @@ update_cask_module iterm2
 update_cask_module google-chrome
 update_cask_module evernote
 update_cask_module fluor
+update_cask_module code
+update_cask_module open-in-code
 
 # set vim cmd
 alias vim="mvim -v"
