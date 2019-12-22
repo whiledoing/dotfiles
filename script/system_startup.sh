@@ -48,6 +48,8 @@ update_module wget
 update_module node
 update_module fd
 update_module tldr
+update_module node
+update_module fpp
 
 update_cask_module hammerspoon
 update_cask_module iterm2
@@ -90,3 +92,12 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     tmux run-shell "$HOME/.tmux/plugins/tpm/bindings/update_plugins"
 fi
 
+# install cnpm
+if [ `command -v npm` ]; then
+    npm i -g cnpm
+fi
+
+# install npm modules
+if [ `command -v cnpm` ]; then
+    cnpm i -g typescript
+fi
