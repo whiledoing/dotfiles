@@ -92,6 +92,8 @@ set -g @tpm_plugins "               \
   jimeh/tmux-themepack              \
   laktak/extrakto                   \
   tmux-plugins/tmux-sidebar         \
+  jbnicolai/tmux-fpp                \
+  tmux-plugins/tmux-urlview         \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
@@ -111,6 +113,9 @@ set -g @sidebar-tree 't'
 
 # tree with color
 set -g @sidebar-tree-command 'tree -C'
+
+# increase tree sidebar width
+set -g @sidebar-tree-width '80'
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
 run '~/.tmux/plugins/tpm/tpm'
