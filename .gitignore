@@ -13,5 +13,9 @@ config.symlink/htop
 config.symlink/configstore
 config.symlink/gcloud
 config.symlink/clash
+config.symlink/thefuck
+config.symlink/dask
+config.symlink/biolab.si
+
 .DS_Store
 .vscode/
