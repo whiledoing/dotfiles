@@ -147,12 +147,11 @@ hs.hotkey.bind(hyperShift, 'l', function()
 end)
 
 -- split view
-SplitModal = require 'split_modal'
-local splitModal = SplitModal.new(hyper, 's', undo)
-
-function splitModal:hotkeysToDisable()
-    return {hyperUp, hyperRight, hyperLeft}
-end
+-- SplitModal = require 'split_modal'
+-- local splitModal = SplitModal.new(hyper, 's', undo)
+-- function splitModal:hotkeysToDisable()
+    -- return {hyperUp, hyperRight, hyperLeft}
+-- end
 
 -- console
 hs.hotkey.bind(hyperShift, 'c', hs.openConsole)
