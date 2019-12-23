@@ -5,6 +5,7 @@ local ignored = require 'ignored'
 -- key define
 local hyper = {'cmd', 'shift'}
 local hyperShift = {'cmd', 'shift', 'ctrl'}
+local altCtrl = {'alt', 'ctrl'}
 
 -- disable animation
 hs.window.animationDuration = 0
@@ -16,12 +17,15 @@ hs.window.setShadows(false)
 if not hs.ipc.cliStatus() then hs.ipc.cliInstall() end
 
 -- App shortcuts
-local key_map, key_func_map = require 'key_map' ()
+local key_map, key_func_map, alt_ctrl_key_map = require 'key_map' ()
 for key, app_name in pairs(key_map) do
     hs.hotkey.bind(hyper, key, function() hs.application.launchOrFocus(app_name) end)
 end
 for key, func in pairs(key_func_map) do
     hs.hotkey.bind(hyper, key, func)
+end
+for key, app_name in pairs(alt_ctrl_key_map) do
+    hs.hotkey.bind(altCtrl, key, function() hs.application.launchOrFocus(app_name) end)
 end
 
 -- Hints
