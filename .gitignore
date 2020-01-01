@@ -16,6 +16,7 @@ config.symlink/clash
 config.symlink/thefuck
 config.symlink/dask
 config.symlink/biolab.si
+config.symlink/karabiner
 
 .DS_Store
 .vscode/

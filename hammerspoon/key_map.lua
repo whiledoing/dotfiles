@@ -11,7 +11,8 @@ local hyper_key_map = {
 
     -- editor
     ["3"] = "Visual Studio Code",
-    ["4"] = "MacVim",
+    ["4"] = "Evernote",
+    ["8"] = "MacVim",
 
     -- browser
     ["9"] = "Firefox",

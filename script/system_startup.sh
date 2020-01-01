@@ -50,6 +50,7 @@ update_module fd
 update_module tldr
 update_module node
 update_module fpp
+update_module urlview
 
 update_cask_module hammerspoon
 update_cask_module iterm2
