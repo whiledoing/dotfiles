@@ -26,6 +26,10 @@ if [ -f '/opt/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/opt/local/g
 # autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
+# for go proxy: https://github.com/goproxy/goproxy.cn
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
+
 # for cuda
 # export PATH=$PATH:/Developer/NVIDIA/CUDA-9.1/bin
 # export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-9.1/lib
