@@ -12,10 +12,10 @@ local hyper_key_map = {
     -- editor
     ["3"] = "Visual Studio Code",
     ["4"] = "Evernote",
-    ["8"] = "MacVim",
+    ["8"] = "Microsoft OneNote",
 
     -- browser
-    ["9"] = "Firefox",
+    ["9"] = "Lark",
     ["0"] = "Safari",
 }
 
