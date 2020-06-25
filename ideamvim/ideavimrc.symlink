@@ -14,9 +14,15 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+map <leader>f :action ReformatCode<CR>
+map <leader>d :action Debug<CR>
+map <leader>b :action ToggleLineBreakpoint<CR>
+
 set incsearch
 set surround
 
 " use english in normal mode, and restore back input source back in insert
 " mode, [ref](https://plugins.jetbrains.com/plugin/9615-ideavimextension)
 set keep-english-in-normal-and-restore-in-insert
+set ideajoin
+set nu
