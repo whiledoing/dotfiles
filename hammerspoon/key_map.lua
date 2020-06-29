@@ -29,12 +29,12 @@ local hyper_key_func_map = {
 }
 
 local alt_ctrl_key_map = {
-    ["1"] = "Wechat",
-    ["2"] = "Dingtalk",
+}
 
-    -- ide
-    ["0"] = "IntelliJ IDEA",
+local cmd_ctrl_key_map = {
+    ["1"] = "GoLand",
+    ["2"] = "PyCharm Professional",
 }
 
 -- return multipy result [ref](https://stackoverflow.com/questions/9470498/can-luas-require-function-return-multiple-results)
-return function() return hyper_key_map, hyper_key_func_map, alt_ctrl_key_map end
+return function() return hyper_key_map, hyper_key_func_map, alt_ctrl_key_map, cmd_ctrl_key_map end
