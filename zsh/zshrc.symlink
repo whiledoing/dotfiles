@@ -24,7 +24,6 @@ plugins=(
 git
 copyfile
 copydir
-python
 osx
 extract
 zsh-syntax-highlighting
@@ -52,3 +51,4 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/.bashrc.alias ] && source ~/.bashrc.alias
 [ -f ~/.bash_profile ] && source ~/.bash_profile
 [ -f ~/.zshrc.impl ] && source ~/.zshrc.impl
+[ -f ~/.self.bashrc.impl ] && source ~/.self.bashrc.impl
