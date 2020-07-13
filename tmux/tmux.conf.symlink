@@ -19,6 +19,9 @@ bind-key m command-prompt -p "move window to:"  "swap-window -t '%%'"#
 bind-key < swap-window -t -1
 bind-key > swap-window -t +1
 
+# renumber windows when a window is closed
+set -g renumber-windows on
+
 # remove paste time, need to set on tmux 2.1 [ref](https://github.com/Homebrew/homebrew/issues/45413)
 set -g assume-paste-time 0
 
@@ -33,6 +36,11 @@ setw -g pane-base-index 1
 set-window-option -g automatic-rename off
 set-option -g allow-rename off
 
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
+# client connected to *that window*. Much more reasonable.
+setw -g aggressive-resize on
+
 # update to tmux 2.1 use this one setting for mouse mode
 set -g mouse on
 
@@ -42,7 +50,7 @@ bind -n WheelDownPane select-pane -t= \; send-keys -M
 
 # highlight window has message
 setw -g monitor-activity on
-set -g visual-activity on
+set -g visual-activity off
 
 # highlight window color
 set-window-option -g window-status-current-style bg=yellow
