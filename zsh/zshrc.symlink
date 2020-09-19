@@ -30,6 +30,16 @@ zsh-syntax-highlighting
 sudo
 tmux
 zsh-completions
+kubectl
+docker
+fd
+fzf
+gcloud
+golang
+helm
+httpie
+pip
+gitignore
 )
 
 # for zshrc only

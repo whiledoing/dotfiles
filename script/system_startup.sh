@@ -1,11 +1,11 @@
-# start up system
-#!/bin/sh
+#!/usr/bin/env bash
 
-if [ `uname -s` = "Darwin" ]; then
-    # install brew if not exists
-    if [ ! `command -v brew` ]; then
-        /usr/bin/ruby -e `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`
-    fi
+# only works on mac
+[[ `uname -s` = "Darwin" ]] || exit
+
+# install brew if not exists
+if [ ! `command -v brew` ]; then
+    /usr/bin/ruby -e `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`
 fi
 
 # update brew only on not exists
@@ -51,6 +51,9 @@ update_module tldr
 update_module node
 update_module fpp
 update_module urlview
+update_module hub
+update_module direnv
+update_module npm
 
 update_cask_module hammerspoon
 update_cask_module iterm2

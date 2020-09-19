@@ -34,8 +34,15 @@ end
 
 -- Hints
 hs.hotkey.bind(hyper, ';', function() hs.hints.windowHints() end)
+
 -- will show parent parent process name
 -- hs.hints.style = "vimperator"
+
+-- show tilte window thresh
+hs.hints.showTitleThresh = 20
+
+-- title max size
+-- hs.hints.titleMaxSize = 50
 
 -- undo
 local undo = require 'undo'

@@ -157,3 +157,7 @@ function proxy_on() {
     export https_proxy=$http_proxy
     echo -e "已开启代理"
 }
+
+if [[ `command -v npm` ]] || [[ `command -v cnpm` ]]; then
+    alias npm=cnpm
+fi

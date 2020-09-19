@@ -27,8 +27,23 @@ if [ -f '/opt/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/opt/local/g
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 # for go proxy: https://github.com/goproxy/goproxy.cn
-export GO111MODULE=on
+export GO111MODULE=auto
 export GOPROXY=https://goproxy.cn
+export PATH="$HOME/go/bin:$PATH"
+
+# hub https://github.com/github/hub
+if [[ `command -v hub` ]]; then
+    eval "$(hub alias -s)"
+fi
+
+# direnv https://direnv.net/docs/hook.html
+if [[ `command -v direnv` ]]; then
+    if [[ -n "$ZSH_VERSION" ]]; then
+        eval "$(direnv hook zsh)"
+    elif [[ -n "$BASH_VERSION" ]]; then
+        eval "$(direnv hook bash)"
+    fi
+fi
 
 # for cuda
 # export PATH=$PATH:/Developer/NVIDIA/CUDA-9.1/bin
