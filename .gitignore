@@ -20,3 +20,5 @@ config.symlink/karabiner
 
 .DS_Store
 .vscode/
+config.symlink/hub
+config.symlink/gh/hosts.yml
