@@ -161,3 +161,6 @@ function proxy_on() {
 if [[ `command -v npm` ]] || [[ `command -v cnpm` ]]; then
     alias npm=cnpm
 fi
+
+## kubectl
+alias kdelforce="kubectl delete --force --grace-period 0 "

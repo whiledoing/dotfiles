@@ -45,6 +45,11 @@ if [[ `command -v direnv` ]]; then
     fi
 fi
 
+# https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+if [[ -d "$HOME/.krew" ]]; then
+    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+fi
+
 # for cuda
 # export PATH=$PATH:/Developer/NVIDIA/CUDA-9.1/bin
 # export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-9.1/lib
