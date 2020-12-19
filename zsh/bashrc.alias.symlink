@@ -158,7 +158,7 @@ function proxy_on() {
     echo -e "已开启代理"
 }
 
-if [[ `command -v npm` ]] || [[ `command -v cnpm` ]]; then
+if [[ `command -v npm` ]] && [[ `command -v cnpm` ]]; then
     alias npm=cnpm
 fi
 

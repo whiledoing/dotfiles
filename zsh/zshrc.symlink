@@ -55,6 +55,7 @@ alias reload='source ~/.zshrc'
 unsetopt correct_all
 
 # User configuration
+export ZSH_DISABLE_COMPFIX="true"
 source $ZSH/oh-my-zsh.sh
 
 [ -f ~/.bashrc.impl ] && source ~/.bashrc.impl

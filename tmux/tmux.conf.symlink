@@ -53,8 +53,8 @@ setw -g monitor-activity on
 set -g visual-activity off
 
 # highlight window color
-set-window-option -g window-status-current-style bg=yellow
-set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
+# set-window-option -g window-status-current-style bg=yellow
+# set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
 
 ###########################################################################
 # vim

@@ -34,6 +34,7 @@ local alt_ctrl_key_map = {
 local cmd_ctrl_key_map = {
     ["1"] = "GoLand",
     ["2"] = "PyCharm Professional",
+    ["0"] = "Firefox",
 }
 
 -- return multipy result [ref](https://stackoverflow.com/questions/9470498/can-luas-require-function-return-multiple-results)
