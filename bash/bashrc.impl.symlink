@@ -1,16 +1,13 @@
 # user specific bashrc config
 
-# add Homebrew's sbin path
-export PATH="/usr/local/sbin:$PATH"
-
 # make thefuck alias workable
-if [[ `command -v thefuck` ]]; then
+if [[ $(command -v thefuck) ]]; then
     eval $(thefuck --alias)
 fi
 
 # use fzf for search
 # use fd for search files if exists
-if [[ `command -v fd` ]]; then
+if [[ $(command -v fd) ]]; then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --color=always'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     export FZF_DEFAULT_OPTS="--ansi"
@@ -31,13 +28,8 @@ export GO111MODULE=auto
 export GOPROXY=https://goproxy.cn
 export PATH="$HOME/go/bin:$PATH"
 
-# hub https://github.com/github/hub
-if [[ `command -v hub` ]]; then
-    eval "$(hub alias -s)"
-fi
-
 # direnv https://direnv.net/docs/hook.html
-if [[ `command -v direnv` ]]; then
+if [[ $(command -v direnv) ]]; then
     if [[ -n "$ZSH_VERSION" ]]; then
         eval "$(direnv hook zsh)"
     elif [[ -n "$BASH_VERSION" ]]; then
@@ -48,6 +40,13 @@ fi
 # https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 if [[ -d "$HOME/.krew" ]]; then
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+fi
+
+# add Homebrew's path
+if [[ -d '/opt/homebrew/' ]]; then
+    export PATH="/opt/homebrew/sbin:/opt/homebrew/bin:$PATH"
+else
+    export PATH="/opt/local/sbin:$PATH"
 fi
 
 # for cuda

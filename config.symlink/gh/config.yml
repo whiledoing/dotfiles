@@ -5,3 +5,4 @@ editor: !!null code --wait
 # Aliases allow you to create nicknames for gh commands
 aliases:
     co: pr checkout
+    fork: repo fork --clone

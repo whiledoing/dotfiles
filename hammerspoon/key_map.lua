@@ -33,7 +33,8 @@ local alt_ctrl_key_map = {
 
 local cmd_ctrl_key_map = {
     ["1"] = "GoLand",
-    ["2"] = "PyCharm Professional",
+    ["2"] = "PyCharm",
+    ["3"] = "Intellij IDEA",
     ["0"] = "Firefox",
 }
 

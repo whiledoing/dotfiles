@@ -21,25 +21,24 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-git
-copyfile
-copydir
-osx
-extract
-zsh-syntax-highlighting
-sudo
-tmux
-zsh-completions
-kubectl
-docker
-fd
-fzf
-gcloud
-golang
-helm
-httpie
-pip
-gitignore
+    git
+    copyfile
+    copydir
+    osx
+    extract
+    zsh-syntax-highlighting
+    sudo
+    tmux
+    zsh-completions
+    kubectl
+    docker
+    fd
+    fzf
+    gcloud
+    helm
+    httpie
+    pip
+    gitignore
 )
 
 # for zshrc only

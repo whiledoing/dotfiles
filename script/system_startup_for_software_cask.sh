@@ -28,3 +28,7 @@ update_cask_module karabiner-elements
 update_cask_module IINA
 update_cask_module sourcetree
 update_cask_module tinypng4mac
+
+# https://github.com/tonsky/FiraCode
+brew tap homebrew/cask-fonts
+update_cask_module font-fira-code

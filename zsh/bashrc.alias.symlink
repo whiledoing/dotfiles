@@ -164,3 +164,8 @@ fi
 
 ## kubectl
 alias kdelforce="kubectl delete --force --grace-period 0 "
+
+# gh repo fork
+if [[ `command -v gh` ]]; then
+    alias fork="gh repo fork --clone"
+fi
