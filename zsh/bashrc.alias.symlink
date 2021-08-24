@@ -30,9 +30,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
     alias pp="pbpaste"
     alias pc="pbcopy"
 
-    alias -s html=node   # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开
-    alias -s rb=node     # 在命令行直接输入 ruby 文件，会在 TextMate 中打开
-    alias -s py=vi       # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似
+    alias -s html=code # 在命令行直接输入后缀为 html 的文件名，会在 TextMate 中打开
+    alias -s py=vi     # 在命令行直接输入 python 文件，会用 vim 中打开，以下类似
     alias -s js=vi
     alias -s c=vi
     alias -s java=vi
@@ -73,7 +72,7 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # for time
 alias now='date +"%T"'
-alias nowdate='date +"%Y-%d-%m"'
+alias nowdate='date +"%Y-%m-%d"'
 
 # for vim
 alias vi='vim'
@@ -86,7 +85,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 
     # make mvim only run in one instance (http://stackoverflow.com/questions/936501/let-gvim-always-run-a-single-instance)
     tvim() {
-        if [[ `mvim --serverlist | head -1` == "VIM" ]]; then
+        if [[ $(mvim --serverlist | head -1) == "VIM" ]]; then
             command mvim --remote-tab-silent "$@"
         else
             command mvim "$@"
@@ -115,7 +114,7 @@ run() {
     number=$1
     shift
 
-    for i in `seq $number`; do
+    for i in $(seq $number); do
         $@
     done
 }
@@ -123,8 +122,8 @@ run() {
 # cd and ls it immediately
 # [refs](http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html)
 cdl() {
-    cd "$@";
-    ls -lFh;
+    cd "$@"
+    ls -lFh
 }
 
 # send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
@@ -145,7 +144,7 @@ function killjava {
 
 # set proxy for mac CLI
 # https://tech.jandou.com/to-accelerate-the-terminal.html
-function proxy_off(){
+function proxy_off() {
     unset http_proxy
     unset https_proxy
     echo -e "已关闭代理"
@@ -158,7 +157,7 @@ function proxy_on() {
     echo -e "已开启代理"
 }
 
-if [[ `command -v npm` ]] && [[ `command -v cnpm` ]]; then
+if [[ $(command -v npm) ]] && [[ $(command -v cnpm) ]]; then
     alias npm=cnpm
 fi
 
@@ -166,6 +165,25 @@ fi
 alias kdelforce="kubectl delete --force --grace-period 0 "
 
 # gh repo fork
-if [[ `command -v gh` ]]; then
+if [[ $(command -v gh) ]]; then
     alias fork="gh repo fork --clone"
+fi
+
+if [[ $(command -v python3) ]]; then
+    alias py="python3"
+    alias ipy="ipython3"
+fi
+
+alias gupm='git fetch --all --prune --jobs=10 && git rebase $(git_main_branch)'
+
+if [[ $(command -v bat) ]]; then
+    alias cat="bat"
+fi
+
+if [[ $(command -v ncdu) ]]; then
+    alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+fi
+
+if [[ $(command -v preview) ]] && [[ $(command -v bat) ]]; then
+    alias preview="fzf --preview 'bat --color \"always\" {}'"
 fi

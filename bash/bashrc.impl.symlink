@@ -9,8 +9,15 @@ fi
 # use fd for search files if exists
 if [[ $(command -v fd) ]]; then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --color=always'
+    export FZF_COMMAND_FOR_DIR='fd --type d --hidden --follow --exclude .git --color=always'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-    export FZF_DEFAULT_OPTS="--ansi"
+
+    # copyed from https://github.com/junegunn/fzf
+    # ctrl-d search dir only
+    # ctrl-f search files only
+    # ctrl-y copy
+    # ctrl-o open with vscode
+    export FZF_DEFAULT_OPTS="--ansi --bind='ctrl-o:execute(code {})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort,ctrl-d:reload($FZF_COMMAND_FOR_DIR),ctrl-f:reload($FZF_DEFAULT_COMMAND)'"
 fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -39,13 +46,6 @@ if [[ -d "$HOME/.krew" ]]; then
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
 
-# add Homebrew's path
-if [[ -d '/opt/homebrew/' ]]; then
-    export PATH="/opt/homebrew/sbin:/opt/homebrew/bin:$PATH"
-else
-    export PATH="/opt/local/sbin:$PATH"
-fi
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/jiangjinzheng/mambaforge/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -59,6 +59,8 @@ else
     fi
 fi
 unset __conda_setup
+export PATH="/Users/jiangjinzheng/mambaforge/bin:$PATH"
+conda activate py38
 # <<< conda initialize <<<
 
 # for cuda

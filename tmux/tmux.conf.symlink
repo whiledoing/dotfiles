@@ -91,8 +91,8 @@ set -g @tpm_plugins "               \
   jimeh/tmux-themepack              \
   laktak/extrakto                   \
   tmux-plugins/tmux-sidebar         \
-  jbnicolai/tmux-fpp                \
   tmux-plugins/tmux-urlview         \
+  tmux-plugins/tmux-fpp             \
 "
 
 # [dark solarized color scheme](https://github.com/seebi/tmux-colors-solarized)
