@@ -1,5 +1,3 @@
-# user specific alias/function/some fixed part config
-
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
@@ -109,37 +107,39 @@ alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS co
 # dirs show dir in one line with number
 alias dirs='dirs -p'
 
+alias gupm='git fetch --all --prune --jobs=10 && git rebase $(git_main_branch)'
+
+alias t='type'
+
 # run specifc times of command : [refs](http://serverfault.com/questions/273238/how-to-run-a-command-multiple-times)
 run() {
     number=$1
     shift
 
-    for i in $(seq $number); do
-        $@
+    for _ in $(seq "$number"); do
+        "$@"
     done
 }
 
 # cd and ls it immediately
 # [refs](http://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html)
 cdl() {
-    cd "$@"
+    cd "$@" || { echo "cd fail"; exit 1; }
     ls -lFh
 }
 
 # send cmd to right tmux pane (http://minimul.com/increased-developer-productivity-with-tmux-part-5.html)
 function tsr {
-    args=$@
-    tmux send-keys -t right "$args" C-m
+    tmux send-keys -t right "$@" C-m
 }
 
 # send cmd to left tmux pane
 function tsl {
-    args=$@
-    tmux send-keys -t left "$args" C-m
+    tmux send-keys -t left "$@" C-m
 }
 
 function killjava {
-    jps | grep -i $@ | awk '{print $1}' | xargs kill -9
+    jps | grep -i "$@" | awk "{print $1}" | xargs kill -9
 }
 
 # set proxy for mac CLI
@@ -162,7 +162,9 @@ if [[ $(command -v npm) ]] && [[ $(command -v cnpm) ]]; then
 fi
 
 ## kubectl
-alias kdelforce="kubectl delete --force --grace-period 0 "
+if [[ $(command -v kubectl) ]]; then
+    alias kdelforce="kubectl delete --force --grace-period 0 "
+fi
 
 # gh repo fork
 if [[ $(command -v gh) ]]; then
@@ -174,8 +176,6 @@ if [[ $(command -v python3) ]]; then
     alias ipy="ipython3"
 fi
 
-alias gupm='git fetch --all --prune --jobs=10 && git rebase $(git_main_branch)'
-
 if [[ $(command -v bat) ]]; then
     alias cat="bat"
 fi
@@ -184,6 +184,6 @@ if [[ $(command -v ncdu) ]]; then
     alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 fi
 
-if [[ $(command -v preview) ]] && [[ $(command -v bat) ]]; then
+if [[ $(command -v fzf) ]] && [[ $(command -v bat) ]]; then
     alias preview="fzf --preview 'bat --color \"always\" {}'"
 fi

@@ -17,6 +17,10 @@ config.symlink/thefuck
 config.symlink/dask
 config.symlink/biolab.si
 config.symlink/karabiner
+config.symlink/wireshark
+config.symlink/micro
+config.symlink/item2
+config.symlink/Battle.net
 
 .DS_Store
 .vscode/
