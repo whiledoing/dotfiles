@@ -29,8 +29,8 @@ fi
 plugins=(
     git
     copyfile
-    copydir
-    osx
+    copypath
+    macos
     extract
     zsh-syntax-highlighting
     sudo
@@ -47,6 +47,7 @@ plugins=(
     pip
     gitignore
     autojump
+    dirhistory
 )
 
 # for zshrc only
