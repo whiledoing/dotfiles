@@ -74,6 +74,16 @@ if [[ $(command -v go) ]]; then
     fi
 fi
 
+# source xmake profile
+[[ -f "$HOME/.xmake/profile" ]] && source "$HOME/.xmake/profile"
+
+# llvm
+# if [[ -d "/opt/homebrew/opt/llvm/" ]]; then
+#     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+#     export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+#     export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+# fi
+
 # <<< conda initialize <<<
 
 # for cuda

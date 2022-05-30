@@ -47,3 +47,6 @@ fi
 if [ `command -v cnpm` ]; then
     cnpm i -g typescript
 fi
+
+# install xmake
+[[ ! $(command -v xmake) ]] && bash <(curl -fsSL https://xmake.io/shget.text)
