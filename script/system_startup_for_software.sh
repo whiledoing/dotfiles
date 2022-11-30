@@ -40,3 +40,4 @@ update_module urlview
 update_module hub
 update_module direnv
 update_module npm
+update_module git-delta
