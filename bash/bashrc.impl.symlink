@@ -50,7 +50,7 @@ fi
 if [[ $(command -v go) ]]; then
     GOPATH=$(go env GOPATH)
     function powerline_precmd() {
-        PS1="$($GOPATH/bin/powerline-go -error $? -jobs ${${(%):%j}:-0} -hostname-only-if-ssh)"
+        PS1="$("$GOPATH"/bin/powerline-go -error $? -jobs ${${(%):%j}:-0} -hostname-only-if-ssh)"
 
         # Uncomment the following line to automatically clear errors after showing
         # them once. This not only clears the error for powerline-go, but also for
@@ -77,10 +77,6 @@ fi
 # source xmake profile
 [[ -f "$HOME/.xmake/profile" ]] && source "$HOME/.xmake/profile"
 
-# >>> xmake >>>
-[[ -s "$HOME/.xmake/profile" ]] && source "$HOME/.xmake/profile" # load xmake profile
-# <<< xmake <<<
-
 # enable hugo suggesion
 if [[ $(command -v hugo) ]]; then
     if [[ ! -f "/usr/local/share/zsh/site-functions/_hugo" ]]; then
@@ -94,17 +90,6 @@ fi
 #     export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 #     export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 # fi
-
-# <<< conda initialize <<<
-
-# for cuda
-# export PATH=$PATH:/Developer/NVIDIA/CUDA-9.1/bin
-# export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-9.1/lib
-
-# for opencv
-# export LDFLAGS=-L/usr/local/opt/opencv@2/lib
-# export CPPFLAGS=-I/usr/local/opt/opencv@2/include
-# export PKG_CONFIG_PATH=/usr/local/opt/opencv@2/lib/pkgconfig
 
 # for apache spark
 # if which java > /dev/null; then export JAVA_HOME=$(/usr/libexec/java_home); fi
