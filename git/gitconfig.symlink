@@ -48,3 +48,7 @@
 [merge]
     conflictstyle = diff3
 
+# personal
+[user]
+    name = whiledoing
+    email = whiledoing@163.com
