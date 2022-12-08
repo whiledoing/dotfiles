@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
@@ -11,7 +13,12 @@ fi
 
 # my part
 alias cls='clear'
-alias ls='ls -h'
+
+# use lsd
+if [[ $(command -v lsd) ]]; then
+    alias ls=lsd
+fi
+
 alias l='ls -lFh'
 alias la='ls -lAFh'
 alias lr='ls -tRFh'

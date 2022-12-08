@@ -1,8 +1,11 @@
+#!/bin/bash
+
 # user specific bashrc config
+#########################################################################################################################
 
 # make thefuck alias workable
 if [[ $(command -v thefuck) ]]; then
-    eval $(thefuck --alias)
+    eval "$(thefuck --alias)"
 fi
 
 # use fzf for search
