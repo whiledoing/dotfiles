@@ -114,10 +114,10 @@ alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS co
 # dirs show dir in one line with number
 alias dirs='dirs -p'
 
+alias gup='git pull --rebase -v'
 alias gupm='git fetch --all --prune --jobs=10 && git rebase $(git_main_branch)'
 
-alias t='type'
-
+alias t='type -a'
 # run specifc times of command : [refs](http://serverfault.com/questions/273238/how-to-run-a-command-multiple-times)
 run() {
     number=$1
