@@ -1,21 +1,23 @@
+#!/usr/bin/bash
+
 # only works on mac
-[[ `uname -s` = "Darwin" ]] || exit
+[[ $(uname -s) = "Darwin" ]] || exit
 
 # install brew if not exists
-if [ ! `command -v brew` ]; then
-    /usr/bin/ruby -e `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install`
+if [ ! $(command -v brew) ]; then
+    /usr/bin/ruby -e $(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)
 fi
 
 # update brew only on not exists
-brew_list=`brew list`
+brew_list=$(brew list)
 function update_module {
     for name in $brew_list; do
-        if [ $name = "$1" ]; then
-            echo "[INFO] - `date +%T` - already exists brew module [$1]."
+        if [ "$name" = "$1" ]; then
+            echo "[INFO] - $(date +%T) - already exists brew module [$1]."
             return
         fi
     done
-    brew install $1
+    brew install "$1"
 }
 
 update_module git
@@ -42,3 +44,4 @@ update_module direnv
 update_module npm
 update_module git-delta
 update_module asdf
+update_module difftastic
