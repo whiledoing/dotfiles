@@ -11,8 +11,9 @@ local hyper_key_map = {
 
     -- editor
     ["3"] = "Visual Studio Code",
-    ["4"] = "youdao-note",
+    ["4"] = "yuque",
     ["5"] = "印象笔记",
+    ["6"] = "youdao-note",
     ["8"] = "Microsoft OneNote",
 
     -- browser

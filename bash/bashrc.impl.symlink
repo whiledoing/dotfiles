@@ -66,6 +66,13 @@ if [[ $(command -v difft) ]]; then
     fi
 fi
 
+# https://github.com/bufbuild/buf
+if [[ $(command -v buf) ]]; then
+    if [[ ! -f "/usr/local/share/zsh/site-functions/_buf" ]]; then
+        buf completion zsh > /usr/local/share/zsh/site-functions/_buf
+    fi
+fi
+
 # llvm
 # if [[ -d "/opt/homebrew/opt/llvm/" ]]; then
 #     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
