@@ -56,7 +56,7 @@ fi
 # enable hugo suggesion
 if [[ $(command -v hugo) ]]; then
     if [[ ! -f "/usr/local/share/zsh/site-functions/_hugo" ]]; then
-        hugo completion zsh > /usr/local/share/zsh/site-functions/_hugo
+        hugo completion zsh >/usr/local/share/zsh/site-functions/_hugo
     fi
 fi
 
@@ -69,9 +69,37 @@ fi
 # https://github.com/bufbuild/buf
 if [[ $(command -v buf) ]]; then
     if [[ ! -f "/usr/local/share/zsh/site-functions/_buf" ]]; then
-        buf completion zsh > /usr/local/share/zsh/site-functions/_buf
+        buf completion zsh >/usr/local/share/zsh/site-functions/_buf
     fi
 fi
+
+
+# ssh-tunnel
+# http://notepad2.blogspot.com/2012/11/run-ssh-tunnel-in-background.html
+ssh_tunnel() {
+    ssh -fN -L "$1" "$2" -M -S "/tmp/ssh-tunnel-$2.sock"
+}
+
+ssh_tunnel_check() {
+    ssh -S "/tmp/ssh-tunnel-$1.sock" -O check $1
+}
+
+ssh_tunnel_exit() {
+    ssh -S "/tmp/ssh-tunnel-$1.sock" -O exit $1
+}
+
+ssh_reverse_tunnel() {
+    # http://notepad2.blogspot.com/2012/11/run-ssh-tunnel-in-background.html
+    ssh -fN -R "$1" "$2" -M -S "/tmp/ssh-reverse-tunnel-$2.sock"
+}
+
+ssh_reverse_tunnel_check() {
+    ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O check $1
+}
+
+ssh_reverse_tunnel_exit() {
+    ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O exit $1
+}
 
 # llvm
 # if [[ -d "/opt/homebrew/opt/llvm/" ]]; then
