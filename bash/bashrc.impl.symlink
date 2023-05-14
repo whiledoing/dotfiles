@@ -73,7 +73,6 @@ if [[ $(command -v buf) ]]; then
     fi
 fi
 
-
 # ssh-tunnel
 # http://notepad2.blogspot.com/2012/11/run-ssh-tunnel-in-background.html
 ssh_tunnel() {
@@ -100,6 +99,12 @@ ssh_reverse_tunnel_check() {
 ssh_reverse_tunnel_exit() {
     ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O exit $1
 }
+
+# volc command line
+if [[ -r "$HOME/.volc/.profile" ]]; then
+    source ~/.volc/.profile #[volc installer]
+    export PATH="$HOME/.local/bin":$PATH
+fi
 
 # llvm
 # if [[ -d "/opt/homebrew/opt/llvm/" ]]; then

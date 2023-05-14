@@ -47,6 +47,7 @@ plugins=(
     zsh-completions
     zsh-autosuggestions
     kubectl
+    minikube
     docker
     fd
     fzf

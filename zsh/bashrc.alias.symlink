@@ -168,9 +168,13 @@ if [[ $(command -v npm) ]] && [[ $(command -v cnpm) ]]; then
     alias npm=cnpm
 fi
 
-## kubectl
+# kubectl
 if [[ $(command -v kubectl) ]]; then
     alias kdelforce="kubectl delete --force --grace-period 0 "
+fi
+
+if [[ $(command -v minikube) ]]; then
+    alias mk="minikube"
 fi
 
 # gh repo fork
