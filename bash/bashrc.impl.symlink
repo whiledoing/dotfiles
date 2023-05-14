@@ -106,6 +106,33 @@ if [[ -r "$HOME/.volc/.profile" ]]; then
     export PATH="$HOME/.local/bin":$PATH
 fi
 
+# use multiple kubeconfig files
+# refs: https://woile.dev/posts/multiple-configurations-in-kubernetes/
+if [[ $(command -v kubectl) ]]; then
+    set_kubeconfig() {
+        # init config-files dir
+        [[ ! -d "$HOME/.kube/config-files" ]] && mkdir -p "$HOME/.kube/config-files"
+
+        # search all yaml files
+        for entry in "$HOME/.kube/config-files"/*; do
+            if [[ -f "$entry" ]] && [[ $entry != *"skip"* ]]; then
+                kubeconfigs="$kubeconfigs:$entry"
+            fi
+        done
+
+        # init KUBECONFIG env
+        DEFAULT_KUBECONFIG_FILE="$HOME/.kube/config"
+        [[ -f ${DEFAULT_KUBECONFIG_FILE} ]] && export KUBECONFIG=${DEFAULT_KUBECONFIG_FILE}
+
+        # clean first colons and append
+        kubeconfigs=${kubeconfigs#":"}
+        export KUBECONFIG="${KUBECONFIG}:${kubeconfigs}"
+    }
+
+    # Execute the function
+    set_kubeconfig
+fi
+
 # llvm
 # if [[ -d "/opt/homebrew/opt/llvm/" ]]; then
 #     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
