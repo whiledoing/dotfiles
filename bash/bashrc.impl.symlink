@@ -80,11 +80,11 @@ ssh_tunnel() {
 }
 
 ssh_tunnel_check() {
-    ssh -S "/tmp/ssh-tunnel-$1.sock" -O check $1
+    ssh -S "/tmp/ssh-tunnel-$1.sock" -O check "$1"
 }
 
 ssh_tunnel_exit() {
-    ssh -S "/tmp/ssh-tunnel-$1.sock" -O exit $1
+    ssh -S "/tmp/ssh-tunnel-$1.sock" -O exit "$1"
 }
 
 ssh_reverse_tunnel() {
@@ -93,11 +93,11 @@ ssh_reverse_tunnel() {
 }
 
 ssh_reverse_tunnel_check() {
-    ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O check $1
+    ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O check "$1"
 }
 
 ssh_reverse_tunnel_exit() {
-    ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O exit $1
+    ssh -S "/tmp/ssh-reverse-tunnel-$1.sock" -O exit "$1"
 }
 
 # volc command line
@@ -132,6 +132,18 @@ if [[ $(command -v kubectl) ]]; then
     # Execute the function
     set_kubeconfig
 fi
+
+eph() {
+    ark-cli endpoint api chat "$1" hello "${@:2}"
+}
+
+epv() {
+    ark-cli endpoint view --enable-scheduler-view "$1" "${@:2}" | less
+}
+
+eps() {
+    ark-cli service view --enable-scheduler-view "$1" "${@:2}" | less
+}
 
 # llvm
 # if [[ -d "/opt/homebrew/opt/llvm/" ]]; then

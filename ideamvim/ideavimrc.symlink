@@ -24,6 +24,6 @@ set surround
 
 " use english in normal mode, and restore back input source back in insert
 " mode, [ref](https://plugins.jetbrains.com/plugin/9615-ideavimextension)
-set keep-english-in-normal-and-restore-in-insert
+"set keep-english-in-normal-and-restore-in-insert
 set ideajoin
 set nu
