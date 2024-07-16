@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # only works on mac
 [[ $(uname -s) = "Darwin" ]] || exit
@@ -45,4 +45,4 @@ update_module npm
 update_module git-delta
 update_module asdf
 update_module difftastic
-update_module bufbuild/buf/buf
+update_module micromamba

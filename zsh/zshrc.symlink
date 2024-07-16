@@ -45,7 +45,6 @@ plugins=(
     sudo
     tmux
     zsh-completions
-    zsh-autosuggestions
     kubectl
     minikube
     docker
@@ -62,7 +61,8 @@ plugins=(
     asdf
     z
     python
-  golang)
+    golang
+)
 
 # for zshrc only
 alias zshconf='vim ~/.zshrc'

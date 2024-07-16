@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-[[ `uname -s` = "Darwin" ]] || exit
+[[ $(uname -s) = "Darwin" ]] || exit
 
 # set vim cmd
 alias vim="mvim -v"
 
 # for visual studio vim plugin auto switch im
-if [ ! `command -v im-select` ]; then
+if [ ! "$(command -v im-select)" ]; then
     curl -Ls https://raw.githubusercontent.com/daipeihust/im-select/master/install_mac.sh | sh
 fi
 
 # install vim plugin manager
 if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
     echo "installing vim plug manager ..."
-    curl -fsSLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -fsSLo "$HOME"/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # update vim plugins
     vim +PlugInstall +qall
 fi
@@ -39,14 +39,14 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
 fi
 
 # install cnpm
-if [ `command -v npm` ]; then
+if [ "$(command -v npm)" ]; then
     npm i -g cnpm
 fi
 
 # install npm modules
-if [ `command -v cnpm` ]; then
+if [[ "$(command -v cnpm)" ]]; then
     cnpm i -g typescript
 fi
 
 # install xmake
-[[ ! $(command -v xmake) ]] && bash <(curl -fsSL https://xmake.io/shget.text)
+[[ ! "$(command -v xmake)" ]] && bash <(curl -fsSL https://xmake.io/shget.text)
