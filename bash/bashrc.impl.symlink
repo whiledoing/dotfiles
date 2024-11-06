@@ -106,6 +106,9 @@ if [[ $(command -v kubectl) ]]; then
         # init config-files dir
         [[ ! -d "$HOME/.kube/config-files" ]] && mkdir -p "$HOME/.kube/config-files"
 
+        # no files
+        [[ -z "$(ls $HOME/.kube/config-files)" ]] && return
+
         # search all yaml files
         for entry in "$HOME/.kube/config-files"/*; do
             if [[ -f "$entry" ]] && [[ $entry != *"skip"* ]]; then
@@ -124,6 +127,16 @@ if [[ $(command -v kubectl) ]]; then
 
     # Execute the function
     set_kubeconfig
+
+    # get zsh complete kubectl
+    source <(kubectl completion zsh)
+
+    # use kubecolor for color output
+    if [[ $(command -v kubecolor) ]]; then
+        alias kubectl=kubecolor
+        # make completion work with kubecolor
+        compdef kubecolor=kubectl
+    fi
 fi
 
 eph() {

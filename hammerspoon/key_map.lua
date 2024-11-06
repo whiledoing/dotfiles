@@ -12,7 +12,7 @@ local hyper_key_map = {
     -- editor
     ["3"] = "Visual Studio Code",
     ["4"] = "yuque",
-    ["5"] = "印象笔记",
+    ["5"] = "Evernote",
     ["6"] = "youdao-note",
     ["8"] = "Microsoft OneNote",
 
@@ -35,7 +35,7 @@ local alt_ctrl_key_map = {
 
 local cmd_ctrl_key_map = {
     ["1"] = "GoLand",
-    ["2"] = "http",
+    ["2"] = "Evernote",
     -- ["3"] = "Intellij IDEA",
     ["0"] = "Firefox",
     ["9"] = "Microsoft To Do",
