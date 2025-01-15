@@ -15,12 +15,18 @@ if [[ $(command -v fd) ]]; then
     export FZF_COMMAND_FOR_DIR='fd --type d --hidden --follow --exclude .git --color=always'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+    # Preview file content using bat (https://github.com/sharkdp/bat)
+    export FZF_CTRL_T_OPTS=" --walker-skip .git,node_modules,target --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+
+    # Print tree structure in the preview window
+    export FZF_ALT_C_OPTS=" --walker-skip .git,node_modules,target --preview 'tree -C {}'"
+
     # copyed from https://github.com/junegunn/fzf
     # ctrl-d search dir only
     # ctrl-f search files only
     # ctrl-y copy
     # ctrl-o open with vscode
-    export FZF_DEFAULT_OPTS="--ansi --bind='ctrl-o:execute(code {})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort,ctrl-d:reload($FZF_COMMAND_FOR_DIR),ctrl-f:reload($FZF_DEFAULT_COMMAND)'"
+    export FZF_DEFAULT_OPTS="--ansi --bind='ctrl-o:execute(code {})+abort,ctrl-e:execute(vim {})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort,ctrl-d:reload($FZF_COMMAND_FOR_DIR),ctrl-f:reload($FZF_DEFAULT_COMMAND)'"
 fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
