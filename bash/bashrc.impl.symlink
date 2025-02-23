@@ -157,6 +157,8 @@ eps() {
     ark-cli service view --enable-scheduler-view "$1" "${@:2}" | less
 }
 
+export HF_ENDPOINT=https://hf-mirror.com
+
 # llvm
 # if [[ -d "/opt/homebrew/opt/llvm/" ]]; then
 #     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
