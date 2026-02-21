@@ -169,6 +169,11 @@ function proxy_on() {
 
 if [[ $(command -v npm) ]] && [[ $(command -v cnpm) ]]; then
     alias npm=cnpm
+
+    if [[ $(command -v bun) ]]; then
+        alias npm=bun
+        alias npx="bun x"
+    fi
 fi
 
 # kubectl
@@ -233,3 +238,7 @@ deactivate() {
         unset -f deactivate
     fi
 }
+
+if [[ $(command -v eza) ]]; then
+    alias tree="eza --tree"
+fi

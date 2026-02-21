@@ -40,33 +40,21 @@ plugins=(
     copyfile
     copypath
     macos
-    extract
     zsh-syntax-highlighting
     sudo
     tmux
     zsh-completions
     kubectl
     minikube
-    poetry
-    poetry-env
     python
     docker
     fzf
-    tldr
-    gcloud
-    helm
-    httpie
-    pip
     gitignore
-    autojump
-    dirhistory
-    web-search
     asdf
     z
-    python
     golang
-    rust
     direnv
+    uv
 )
 
 # for zshrc only
@@ -90,7 +78,6 @@ source "$ZSH"/oh-my-zsh.sh
 [ -f ~/.bash_profile ] && source ~/.bash_profile
 [ -f ~/.zshrc.impl ] && source ~/.zshrc.impl
 [ -f ~/.self.bashrc.impl ] && source ~/.self.bashrc.impl
-[ -f ~/.cargo/env ] && source ~/.cargo/env
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
@@ -100,4 +87,3 @@ if [[ -d "/opt/homebrew/opt/zplug" ]]; then
   export ZPLUG_HOME=/opt/homebrew/opt/zplug
   source "$ZPLUG_HOME/init.zsh"
 fi
-export PATH=/Users/jiangjinzheng/.local/bin:$PATH
