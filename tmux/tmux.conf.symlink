@@ -57,6 +57,29 @@ set -g visual-activity off
 # set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27] #I ⮁ #W #[fg=colour27, bg=colour235]⮀"
 
 ###########################################################################
+# for ghostty
+# 1. 开启 24-bit 真彩支持 (非常重要，否则 Ghostty 的配色会失真)
+set -g default-terminal "xterm-ghostty"
+
+# 2. 开启鼠标支持 (点击切换 pane, 滚轮滚动)
+set -g mouse on
+
+# 3. 解决转义序列延迟 (Neovim 用户必设置)
+set -sg escape-time 0
+
+# 4. 剪贴板同步 (使用 Ghostty 的原生能力)
+set -g set-clipboard on
+
+# 5. 状态栏美化 (配合 Ghostty 的极简风格)
+set -g status-style bg=default
+set -g status-left-length 20
+set -g status-right-length 150
+set -g window-status-current-style "fg=#89b4fa,bold"
+
+# 6. 图片预览与渲染
+set -g allow-passthrough on
+
+###########################################################################
 # vim
 
 # vim binding

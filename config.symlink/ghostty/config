@@ -1,0 +1,53 @@
+# 1. 终端定义 (关键：让 tmux 识别 Ghostty 特性)
+term = xterm-ghostty
+command = zsh -l -c "tmux attach || tmux"
+
+# 2. 将 macOS 的 Command 键映射为 tmux 的操作
+# 这样你就可以用 Cmd+T 开新窗口，Cmd+W 关窗口，体感像 Chrome
+keybind = super+t=text:\x01c
+keybind = super+w=text:\x01&
+keybind = super+n=text:\x01%
+keybind = super+shift+n=text:\x01"
+
+# 3. 快速切换 tmux 窗口 (Cmd + 数字)
+keybind = super+digit_1=text:\x011
+keybind = super+digit_2=text:\x012
+keybind = super+digit_3=text:\x013
+keybind = super+digit_4=text:\x014
+keybind = super+digit_5=text:\x015
+keybind = super+digit_6=text:\x016
+keybind = super+digit_7=text:\x017
+keybind = super+digit_8=text:\x018
+keybind = super+digit_9=text:\x019
+keybind = super+digit_0=text:\x010
+keybind = ctrl+1=text:\x01h
+keybind = ctrl+2=text:\x01l
+
+# tmux integration - send save-buffer command
+keybind = cmd+s=text:\x01\x13
+
+# tmux prefix to toggle zoom on current pane
+keybind = cmd+b=text:\x01\x7a
+
+# 禁用原生垂直分屏 (Cmd+D)
+keybind = super+d=unbind
+# keybind = super+d=text:\x01%
+
+# 禁用原生水平分屏 (Cmd+Shift+D)
+keybind = super+shift+d=unbind
+
+# 允许所有的按键尽可能透传给 tmux
+macos-option-as-alt = left
+
+# 4. 视觉优化
+theme = Catppuccin Mocha
+font-size=12
+font-thicken=true
+font-thicken-strength=1
+adjust-cell-height=1
+
+window-padding-x = 4
+window-padding-y = 4
+background-opacity = 0.80
+background-blur=16
+macos-titlebar-style = hidden
